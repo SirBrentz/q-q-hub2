@@ -843,85 +843,150 @@ body.sticky-cta-active{padding-bottom:72px}
 .footer-contact a:hover{color:#fff}
 
 /* ============ HELP CENTER ============ */
-.hc-hero{padding:128px 0 72px;position:relative;background:linear-gradient(180deg,var(--surface-alt) 0%,var(--surface) 100%);border-bottom:1px solid var(--border-lt);text-align:center}
-.hc-hero-inner{max-width:640px;margin:0 auto}
-.hc-hero h1{font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-.025em;line-height:1.1;margin-bottom:14px}
-.hc-hero-sub{font-size:17px;color:var(--text-mid);line-height:1.55;margin-bottom:28px;max-width:460px;margin-left:auto;margin-right:auto}
-.hc-search{max-width:520px;margin:0 auto;position:relative}
-.hc-search input{width:100%;padding:16px 22px 16px 50px;border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--paper);color:var(--text);font-family:var(--font-b);font-size:15px;outline:none;transition:all .2s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.02)}
+/* Page-level background: subtle gradient so cards have something to sit against */
+body:has(.hc-hero){background:var(--paper)}
+.hc-page{background:linear-gradient(180deg,var(--surface-alt) 0%,var(--surface-alt) 280px,var(--paper) 600px,var(--paper) 100%);position:relative}
+.hc-page::before{content:'';position:absolute;top:0;left:0;right:0;height:640px;background-image:radial-gradient(ellipse 900px 320px at 50% 0%,rgba(206,200,254,.25) 0%,transparent 70%),radial-gradient(ellipse 600px 200px at 15% 400px,rgba(77,61,113,.05) 0%,transparent 70%),radial-gradient(ellipse 600px 200px at 85% 400px,rgba(206,200,254,.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+.hc-page > *{position:relative;z-index:1}
+
+/* Hero — lighter, no strong divider so it blends into page gradient */
+.hc-hero{padding:124px 0 48px;position:relative;text-align:center;overflow:hidden}
+.hc-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(77,61,113,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(77,61,113,.03) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center top,black 5%,transparent 65%);-webkit-mask-image:radial-gradient(ellipse at center top,black 5%,transparent 65%);pointer-events:none}
+.hc-hero-inner{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.hc-hero h1{font-size:clamp(2.25rem,5vw,3.25rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:14px;font-weight:800}
+.hc-hero-sub{font-size:17.5px;color:var(--text-mid);line-height:1.55;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
+
+/* Search */
+.hc-search{max-width:560px;margin:0 auto;position:relative}
+.hc-search input{width:100%;padding:18px 24px 18px 54px;border-radius:var(--r-md);border:1.5px solid var(--border);background:#fff;color:var(--text);font-family:var(--font-b);font-size:15.5px;outline:none;transition:all .2s var(--ease);box-shadow:0 4px 24px rgba(20,18,22,.05),0 1px 3px rgba(20,18,22,.03)}
 .hc-search input::placeholder{color:var(--text-lt)}
-.hc-search input:focus{border-color:var(--indigo);background:#fff;box-shadow:0 0 0 4px rgba(77,61,113,.08)}
-.hc-search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text-lt);width:18px;height:18px;pointer-events:none}
+.hc-search input:focus{border-color:var(--indigo);box-shadow:0 0 0 4px rgba(77,61,113,.08),0 4px 24px rgba(77,61,113,.1)}
+.hc-search svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--text-lt);width:19px;height:19px;pointer-events:none;transition:color .2s}
+.hc-search input:focus ~ svg,.hc-search:focus-within svg{color:var(--indigo)}
+.hc-search-hint{font-family:var(--font-m);font-size:11.5px;color:var(--text-lt);margin-top:14px;display:flex;align-items:center;gap:6px;justify-content:center}
+.hc-search-hint kbd{font-family:var(--font-m);background:#fff;border:1px solid var(--border);padding:1px 7px;border-radius:4px;font-size:10.5px;color:var(--text-mid);box-shadow:0 1px 0 rgba(0,0,0,.04)}
 
-.hc-body{max-width:880px;margin:0 auto;padding:48px clamp(1.25rem,4vw,2.5rem) 72px}
+/* Body */
+.hc-body{max-width:960px;margin:0 auto;padding:40px clamp(1.25rem,4vw,2.5rem) 80px}
 
-.hc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.hc-card{background:var(--paper);border:1px solid var(--border-lt);border-radius:var(--r-md);padding:28px 26px;cursor:pointer;transition:all .2s var(--ease);position:relative;overflow:hidden;text-align:left;font-family:inherit}
-.hc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--indigo);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
-.hc-card:hover{border-color:var(--indigo);box-shadow:0 8px 24px rgba(77,61,113,.08);transform:translateY(-2px)}
-.hc-card:hover::before{transform:scaleX(1)}
-.hc-card-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.hc-card-icon svg{width:22px;height:22px}
-.hc-card-icon.setup{background:rgba(77,61,113,.08);color:var(--indigo)}
-.hc-card-icon.settings{background:rgba(34,197,94,.1);color:#15803d}
-.hc-card-icon.trouble{background:rgba(245,158,11,.12);color:#b45309}
-.hc-card-icon.faq{background:rgba(37,99,235,.08);color:#2563eb}
-.hc-card h3{font-size:16px;letter-spacing:-.005em;margin-bottom:4px;line-height:1.3;color:var(--text)}
-.hc-card p{font-size:13.5px;color:var(--text-mid);margin:0 0 16px;line-height:1.5}
-.hc-card-count{font-family:var(--font-m);font-size:12px;color:var(--text-lt);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+/* Home grid */
+.hc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:48px}
+.hc-card{background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:28px 28px 24px;cursor:pointer;transition:all .25s var(--ease);position:relative;overflow:hidden;text-align:left;font-family:inherit;color:var(--text);display:flex;flex-direction:column;min-height:200px}
+.hc-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,transparent 0%,transparent 50%,rgba(206,200,254,.1) 100%);opacity:0;transition:opacity .3s var(--ease);pointer-events:none;border-radius:inherit}
+.hc-card:hover{border-color:var(--indigo);box-shadow:0 12px 36px rgba(77,61,113,.12),0 2px 6px rgba(77,61,113,.06);transform:translateY(-3px)}
+.hc-card:hover::before{opacity:1}
 
-.hc-crumb{display:flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:12.5px;color:var(--text-lt);margin-bottom:20px;flex-wrap:wrap}
-.hc-crumb a,.hc-crumb button{color:var(--indigo);font-weight:500;cursor:pointer;text-decoration:none;background:none;border:none;padding:0;font-family:inherit;font-size:inherit;transition:color .15s}
-.hc-crumb a:hover,.hc-crumb button:hover{color:var(--text)}
+/* Icon: explicit size + flex:none so it NEVER grows in grid/flex contexts */
+.hc-card-icon{position:relative;width:48px;height:48px;border-radius:12px;display:block;margin:0 0 18px;flex:0 0 48px;align-self:flex-start;transition:transform .25s var(--ease);box-sizing:border-box;overflow:hidden}
+.hc-card-icon > svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;stroke-width:1.8;pointer-events:none}
+.hc-card:hover .hc-card-icon{transform:scale(1.06) rotate(-4deg)}
+.hc-card-icon.hc-setup{background:linear-gradient(135deg,rgba(77,61,113,.14),rgba(77,61,113,.06));color:var(--indigo);box-shadow:inset 0 0 0 1px rgba(77,61,113,.1)}
+.hc-card-icon.hc-settings{background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(34,197,94,.06));color:#15803d;box-shadow:inset 0 0 0 1px rgba(34,197,94,.12)}
+.hc-card-icon.hc-trouble{background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(245,158,11,.06));color:#b45309;box-shadow:inset 0 0 0 1px rgba(245,158,11,.14)}
+.hc-card-icon.hc-faq{background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(37,99,235,.06));color:#2563eb;box-shadow:inset 0 0 0 1px rgba(37,99,235,.12)}
+
+.hc-card h3{font-family:var(--font-h);font-size:17.5px;letter-spacing:-.01em;margin-bottom:6px;line-height:1.3;color:var(--text);font-weight:700}
+.hc-card p{font-size:14px;color:var(--text-mid);margin:0 0 auto;line-height:1.55;padding-bottom:16px}
+.hc-card-count{font-family:var(--font-m);font-size:11.5px;color:var(--text-lt);font-weight:500;display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.06em;padding-top:14px;border-top:1px solid var(--border-lt);margin-top:auto}
+.hc-card-count svg{transition:transform .25s var(--ease);color:var(--indigo);width:14px;height:14px}
+.hc-card:hover .hc-card-count{color:var(--indigo)}
+.hc-card:hover .hc-card-count svg{transform:translateX(4px)}
+
+/* Popular section — sits on white paper panel for contrast against gradient bg */
+.hc-popular{background:#fff;border-radius:var(--r-lg);padding:26px 30px;border:1px solid var(--border-lt);box-shadow:0 4px 20px rgba(20,18,22,.03)}
+.hc-popular-h{display:flex;align-items:center;gap:8px;font-family:var(--font-h);font-size:12px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border-lt)}
+.hc-popular-h svg{width:14px;height:14px;color:var(--indigo);flex:none}
+.hc-popular-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0 24px}
+.hc-popular-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border-lt);cursor:pointer;color:var(--text);font-family:var(--font-h);font-weight:500;font-size:14px;transition:color .15s,padding-left .15s var(--ease);background:none;border-top:none;border-left:none;border-right:none;text-align:left;width:100%;font-family:inherit}
+.hc-popular-item:nth-last-child(-n+2){border-bottom:none}
+.hc-popular-item:hover{color:var(--indigo);padding-left:6px}
+.hc-popular-item-dot{width:6px;height:6px;border-radius:50%;background:var(--lavender);flex:none;transition:background .15s,transform .15s}
+.hc-popular-item:hover .hc-popular-item-dot{background:var(--indigo);transform:scale(1.3)}
+
+/* Crumb */
+.hc-crumb{display:flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:12px;color:var(--text-lt);margin-bottom:24px;flex-wrap:wrap}
+.hc-crumb button,.hc-crumb a{color:var(--indigo);font-weight:500;cursor:pointer;text-decoration:none;background:none;border:none;padding:0;font-family:inherit;font-size:inherit;transition:color .15s}
+.hc-crumb button:hover,.hc-crumb a:hover{color:var(--text)}
 .hc-crumb-sep{color:var(--border)}
+.hc-crumb-current{color:var(--text);font-weight:500}
 
-.hc-view-h{font-family:var(--font-h);font-size:28px;font-weight:700;letter-spacing:-.015em;line-height:1.2;margin-bottom:6px;color:var(--text)}
-.hc-view-sub{font-size:15px;color:var(--text-mid);margin-bottom:28px;line-height:1.55}
+/* Category view header */
+.hc-cat-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-lt)}
+.hc-cat-icon{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.hc-cat-icon > svg{width:26px;height:26px;stroke-width:1.8;display:block;flex:none}
+.hc-cat-icon.hc-setup{background:linear-gradient(135deg,rgba(77,61,113,.14),rgba(77,61,113,.06));color:var(--indigo);box-shadow:inset 0 0 0 1px rgba(77,61,113,.1)}
+.hc-cat-icon.hc-settings{background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(34,197,94,.06));color:#15803d;box-shadow:inset 0 0 0 1px rgba(34,197,94,.12)}
+.hc-cat-icon.hc-trouble{background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(245,158,11,.06));color:#b45309;box-shadow:inset 0 0 0 1px rgba(245,158,11,.14)}
+.hc-cat-icon.hc-faq{background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(37,99,235,.06));color:#2563eb;box-shadow:inset 0 0 0 1px rgba(37,99,235,.12)}
+.hc-view-h{font-family:var(--font-h);font-size:26px;font-weight:700;letter-spacing:-.015em;line-height:1.2;margin-bottom:4px;color:var(--text)}
+.hc-view-sub{font-size:14.5px;color:var(--text-mid);margin:0;line-height:1.55}
 
-.hc-articles{border:1px solid var(--border-lt);border-radius:var(--r-md);overflow:hidden;background:var(--paper)}
-.hc-art-link{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px;border-bottom:1px solid var(--border-lt);cursor:pointer;transition:background .15s,color .15s;text-decoration:none;color:var(--text);font-family:var(--font-h);font-weight:500;font-size:14.5px;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left}
+/* Article list */
+.hc-articles{background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-md);overflow:hidden;box-shadow:0 2px 8px rgba(20,18,22,.02)}
+.hc-art-link{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--border-lt);cursor:pointer;transition:background .15s,color .15s,padding-left .2s var(--ease);text-decoration:none;color:var(--text);font-family:var(--font-h);font-weight:500;font-size:14.5px;background:none;border-left:3px solid transparent;border-right:none;border-top:none;width:100%;text-align:left}
 .hc-art-link:last-child{border-bottom:none}
-.hc-art-link:hover{background:var(--surface-alt);color:var(--indigo)}
+.hc-art-link:hover{background:var(--surface-alt);border-left-color:var(--indigo);padding-left:26px;color:var(--indigo)}
 .hc-art-link-body{flex:1;min-width:0}
 .hc-art-link-cat{font-family:var(--font-m);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--indigo);margin-bottom:2px;display:block}
-.hc-art-link svg{width:14px;height:14px;color:var(--text-lt);flex-shrink:0;transition:transform .15s,color .15s}
-.hc-art-link:hover svg{transform:translateX(3px);color:var(--indigo)}
+.hc-art-link svg{width:14px;height:14px;color:var(--text-lt);flex:none;transition:transform .2s var(--ease),color .15s}
+.hc-art-link:hover svg{transform:translateX(4px);color:var(--indigo)}
 
-.hc-art-title{font-family:var(--font-h);font-size:26px;font-weight:700;letter-spacing:-.015em;line-height:1.25;margin-bottom:20px;color:var(--text)}
-.hc-art-body{font-size:15.5px;color:var(--text-mid);line-height:1.75}
-.hc-art-body p{margin-bottom:14px}
+/* Article detail */
+.hc-art-wrap{background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:36px 40px;box-shadow:0 4px 24px rgba(20,18,22,.04)}
+.hc-art-title{font-family:var(--font-h);font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:22px;color:var(--text)}
+.hc-art-body{font-size:16px;color:var(--text-mid);line-height:1.75;max-width:680px}
+.hc-art-body p{margin-bottom:16px}
 .hc-art-body p:last-child{margin-bottom:0}
-.hc-art-body code{font-family:var(--font-m);font-size:13px;background:var(--surface-alt);padding:3px 7px;border-radius:5px;color:var(--text);border:1px solid var(--border-lt)}
+.hc-art-body code{font-family:var(--font-m);font-size:13px;background:var(--surface-alt);padding:3px 8px;border-radius:5px;color:var(--text);border:1px solid var(--border-lt);white-space:nowrap}
 .hc-art-body strong{color:var(--text);font-weight:600}
 .hc-art-body a{color:var(--indigo);font-weight:500;border-bottom:1px solid rgba(77,61,113,.25);text-decoration:none;transition:border-color .15s}
 .hc-art-body a:hover{border-color:var(--indigo)}
-.hc-fix{padding:14px 18px;background:var(--surface-alt);border-left:3px solid #b45309;border-radius:0 var(--r-sm) var(--r-sm) 0;margin:10px 0}
-.hc-fix strong{display:block;font-family:var(--font-h);font-size:13px;color:#b45309;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
-.hc-fix span{font-size:14px;color:var(--text-mid);line-height:1.55;display:block}
+.hc-fix{padding:14px 18px;background:var(--surface-alt);border-left:3px solid #b45309;border-radius:0 var(--r-sm) var(--r-sm) 0;margin:12px 0}
+.hc-fix strong{display:block;font-family:var(--font-h);font-size:12px;color:#b45309;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.hc-fix span{font-size:14.5px;color:var(--text-mid);line-height:1.6;display:block}
 
-.hc-art-nav{display:flex;justify-content:space-between;gap:12px;margin-top:36px;padding-top:22px;border-top:1px solid var(--border-lt);font-family:var(--font-h);font-size:13.5px;font-weight:500}
-.hc-art-nav button,.hc-art-nav span{flex:1}
-.hc-art-nav button{color:var(--indigo);background:none;border:none;padding:0;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;text-align:left;transition:color .15s}
-.hc-art-nav button:hover{color:var(--text)}
+.hc-art-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border-lt)}
+.hc-art-nav button,.hc-art-nav a{background:var(--surface-alt);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:14px 16px;font-family:var(--font-h);font-size:13.5px;font-weight:500;color:var(--text);cursor:pointer;text-decoration:none;transition:all .2s var(--ease);line-height:1.3;display:block;text-align:left;width:100%}
 .hc-art-nav button.next{text-align:right}
-.hc-art-nav span{}
+.hc-art-nav button:hover,.hc-art-nav a:hover{border-color:var(--indigo);background:#fff;color:var(--indigo);transform:translateY(-1px);box-shadow:0 4px 12px rgba(77,61,113,.08)}
+.hc-art-nav-label{font-family:var(--font-m);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-lt);display:block;margin-bottom:4px}
+.hc-art-nav-empty{}
 
-.hc-contact{margin-top:56px;padding:26px 30px;background:var(--surface-alt);border:1px dashed var(--border);border-radius:var(--r-md);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.hc-contact-text h3{font-family:var(--font-h);font-size:16px;letter-spacing:-.005em;margin-bottom:4px;color:var(--text)}
-.hc-contact-text p{font-size:13.5px;color:var(--text-mid);margin:0;line-height:1.5}
-.hc-contact-text a{color:var(--indigo);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(77,61,113,.25)}
-.hc-contact-text a:hover{border-color:var(--indigo)}
+/* Contact bar — sits outside article card for breathing room */
+.hc-contact{margin-top:32px;padding:26px 30px;background:linear-gradient(135deg,var(--indigo) 0%,#3a2d5a 100%);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(77,61,113,.18)}
+.hc-contact::before{content:'';position:absolute;top:-100px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(206,200,254,.18) 0%,transparent 70%);pointer-events:none}
+.hc-contact-text{position:relative;z-index:1}
+.hc-contact-text h3{font-family:var(--font-h);font-size:17px;letter-spacing:-.01em;margin-bottom:4px;color:#fff;font-weight:700}
+.hc-contact-text p{font-size:13.5px;color:rgba(255,255,255,.7);margin:0;line-height:1.5}
+.hc-contact-text a{color:var(--lavender);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(206,200,254,.4);transition:border-color .15s,color .15s}
+.hc-contact-text a:hover{border-color:var(--lavender);color:#fff}
+.hc-contact-actions{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.hc-contact .btn-primary{background:#fff;color:var(--indigo);border-color:#fff}
+.hc-contact .btn-primary:hover{background:var(--lavender);border-color:var(--lavender);color:var(--indigo);transform:translateY(-1px)}
+.hc-contact .btn-outline{background:transparent;border-color:rgba(255,255,255,.25);color:#fff}
+.hc-contact .btn-outline:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.5);color:#fff}
 
-.hc-empty{padding:40px 20px;text-align:center;color:var(--text-lt);font-size:14px}
+.hc-empty{padding:40px 24px;text-align:center;color:var(--text-lt);font-size:14.5px;background:#fff;border:1px dashed var(--border);border-radius:var(--r-md)}
 .hc-empty a{color:var(--indigo);font-weight:500;text-decoration:none;border-bottom:1px solid rgba(77,61,113,.25)}
 
-@media (max-width:640px){
-  .hc-hero{padding:104px 0 56px}
-  .hc-body{padding:40px 20px 56px}
-  .hc-grid{grid-template-columns:1fr}
-  .hc-contact{flex-direction:column;align-items:flex-start;text-align:left}
-  .hc-view-h{font-size:24px}
+@media (max-width:720px){
+  .hc-hero{padding:100px 0 40px}
+  .hc-body{padding:32px 20px 56px}
+  .hc-grid{grid-template-columns:1fr;gap:12px;margin-bottom:32px}
+  .hc-card{min-height:0;padding:22px}
+  .hc-popular{padding:20px 22px}
+  .hc-popular-list{grid-template-columns:1fr;gap:0}
+  .hc-popular-item:nth-last-child(2){border-bottom:1px solid var(--border-lt)}
+  .hc-cat-head{gap:14px}
+  .hc-view-h{font-size:22px}
+  .hc-art-wrap{padding:24px}
+  .hc-art-title{font-size:22px}
+  .hc-art-nav{grid-template-columns:1fr}
+  .hc-contact{flex-direction:column;align-items:flex-start;padding:22px 24px}
+  .hc-contact-actions{width:100%}
+  .hc-contact-actions .btn{flex:1;justify-content:center}
 }
+
 
 </style>
 </head>
@@ -976,6 +1041,7 @@ body.sticky-cta-active{padding-bottom:72px}
 </div>
 
 <main id="top">
+<div class="hc-page">
 
 <!-- ============ HELP HERO ============ -->
 <section class="hc-hero" aria-labelledby="hc-h">
@@ -988,6 +1054,7 @@ body.sticky-cta-active{padding-bottom:72px}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
         <input type="text" id="hcSearch" placeholder="Search for answers..." autocomplete="off" aria-label="Search help articles">
       </div>
+      <div class="hc-search-hint">Press <kbd>/</kbd> anywhere to search</div>
     </div>
   </div>
 </section>
@@ -995,6 +1062,7 @@ body.sticky-cta-active{padding-bottom:72px}
 <!-- ============ HELP BODY ============ -->
 <div class="hc-body" id="hcApp"></div>
 
+</div>
 </main>
 <footer role="contentinfo">
   <div class="wrap">
@@ -1056,8 +1124,7 @@ body.sticky-cta-active{padding-bottom:72px}
         <h5>Legal</h5>
         <a href="https://qualiphy.me/terms-of-service-cookies-privacy-policy/">Privacy Policy</a>
         <a href="https://qualiphy.me/terms-of-service-cookies-privacy-policy/">Terms of Use</a>
-        <a href="https://qualiphy.me/terms-of-service-cookies-privacy-policy/">Cookies Policy</a>
-      </div>
+        </div>
     </div>
     <div class="footer-bottom">
       <div>© <span id="year">2026</span> Qualiphy PC · Quidget is a Qualiphy product</div>
@@ -1099,10 +1166,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
 (function helpCenter(){
   const CHV = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>';
   const ICONS = {
-    setup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>',
-    settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
-    trouble: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.008v.008H12v-.008z"/></svg>',
-    faq: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"/></svg>'
+    setup: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>',
+    settings: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+    trouble: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.008v.008H12v-.008z"/></svg>',
+    faq: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
   };
 
   const CATS = [
@@ -1157,23 +1224,56 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
   const contactBlock = `<div class="hc-contact">
     <div class="hc-contact-text">
-      <h3>Still need help?</h3>
-      <p>Email <a href="mailto:support@qualiphy.me">support@qualiphy.me</a> or <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" target="_blank" rel="noopener">book a demo</a>. 7 days · 6 AM to 7 PM PT · 365 days/year.</p>
+      <h3>Still stuck? We're quick to respond.</h3>
+      <p>Email <a href="mailto:support@qualiphy.me">support@qualiphy.me</a>, or book a 15-minute call. Available 7 days a week, 6 AM to 7 PM PT.</p>
     </div>
-    <a href="mailto:support@qualiphy.me" class="btn btn-primary btn-sm">Email Support</a>
+    <div class="hc-contact-actions">
+      <a href="mailto:support@qualiphy.me" class="btn btn-primary btn-sm">Email support</a>
+      <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Book a call</a>
+    </div>
   </div>`;
 
+  // Popular articles — hand-picked top questions
+  const POPULAR = [
+    { ci: 0, ai: 3 },  // Finding your API key
+    { ci: 1, ai: 6 },  // Branding and white-label
+    { ci: 0, ai: 2 },  // What the setup wizard does
+    { ci: 2, ai: 0 },  // Exam invite not sending
+    { ci: 3, ai: 4 },  // How subscription renewals work
+    { ci: 1, ai: 5 },  // Service area
+  ];
+
   function goHome() {
+    const popularHtml = POPULAR.map(p => {
+      const a = CATS[p.ci]?.articles[p.ai];
+      if (!a) return '';
+      return `<button class="hc-popular-item" type="button" data-ci="${p.ci}" data-ai="${p.ai}">
+        <span class="hc-popular-item-dot"></span>
+        <span>${a.q}</span>
+      </button>`;
+    }).join('');
+
     app.innerHTML = '<div class="hc-grid">' + CATS.map((c, i) =>
       `<button class="hc-card" data-i="${i}" type="button">
-        <div class="hc-card-icon ${c.icon}">${ICONS[c.icon]}</div>
+        <div class="hc-card-icon hc-${c.icon}">${ICONS[c.icon]}</div>
         <h3>${c.title}</h3>
         <p>${c.desc}</p>
         <span class="hc-card-count">${c.articles.length} article${c.articles.length === 1 ? '' : 's'} ${CHV}</span>
       </button>`
-    ).join('') + '</div>' + contactBlock;
+    ).join('') + '</div>' +
+    `<div class="hc-popular">
+      <div class="hc-popular-h">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Popular questions
+      </div>
+      <div class="hc-popular-list">${popularHtml}</div>
+    </div>` + contactBlock;
+
     app.querySelectorAll('.hc-card').forEach(c =>
       c.addEventListener('click', () => goCat(+c.dataset.i))
+    );
+    app.querySelectorAll('.hc-popular-item').forEach(b =>
+      b.addEventListener('click', () => goArt(+b.dataset.ci, +b.dataset.ai))
     );
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1183,10 +1283,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
     app.innerHTML = `<div class="hc-crumb">
         <button type="button" data-home>Help Center</button>
         <span class="hc-crumb-sep">›</span>
-        <span>${c.title}</span>
+        <span class="hc-crumb-current">${c.title}</span>
       </div>
-      <h2 class="hc-view-h">${c.title}</h2>
-      <p class="hc-view-sub">${c.desc}</p>
+      <div class="hc-cat-head">
+        <div class="hc-cat-icon hc-${c.icon}">${ICONS[c.icon]}</div>
+        <div>
+          <h2 class="hc-view-h">${c.title}</h2>
+          <p class="hc-view-sub">${c.desc}</p>
+        </div>
+      </div>
       <div class="hc-articles">${c.articles.map((a, ai) =>
         `<button class="hc-art-link" type="button" data-ci="${ci}" data-ai="${ai}">
           <span class="hc-art-link-body"><span>${a.q}</span></span>${CHV}
@@ -1209,13 +1314,19 @@ document.getElementById('year').textContent = new Date().getFullYear();
         <span class="hc-crumb-sep">›</span>
         <button type="button" data-cat="${ci}">${c.title}</button>
         <span class="hc-crumb-sep">›</span>
-        <span>${a.q}</span>
+        <span class="hc-crumb-current">${a.q}</span>
       </div>
-      <h2 class="hc-art-title">${a.q}</h2>
-      <div class="hc-art-body">${a.a}</div>
-      <div class="hc-art-nav">
-        ${prev ? `<button type="button" class="prev" data-prev="${ai - 1}">← ${prev.q}</button>` : '<span></span>'}
-        ${next ? `<button type="button" class="next" data-next="${ai + 1}">${next.q} →</button>` : '<span></span>'}
+      <div class="hc-art-wrap">
+        <h2 class="hc-art-title">${a.q}</h2>
+        <div class="hc-art-body">${a.a}</div>
+        <div class="hc-art-nav">
+          ${prev ? `<button type="button" class="prev" data-prev="${ai - 1}">
+            <span class="hc-art-nav-label">← Previous</span>${prev.q}
+          </button>` : '<span class="hc-art-nav-empty"></span>'}
+          ${next ? `<button type="button" class="next" data-next="${ai + 1}">
+            <span class="hc-art-nav-label">Next →</span>${next.q}
+          </button>` : '<span class="hc-art-nav-empty"></span>'}
+        </div>
       </div>` + contactBlock;
     app.querySelector('[data-home]').addEventListener('click', goHome);
     app.querySelector('[data-cat]').addEventListener('click', () => goCat(ci));
@@ -1233,10 +1344,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
     app.innerHTML = `<div class="hc-crumb">
         <button type="button" data-home>Help Center</button>
         <span class="hc-crumb-sep">›</span>
-        <span>Search results</span>
+        <span class="hc-crumb-current">Search</span>
       </div>
-      <h2 class="hc-view-h">${r.length ? r.length + ' result' + (r.length > 1 ? 's' : '') : 'No results'}</h2>
-      <p class="hc-view-sub">${r.length ? `Matching "${q}"` : `Nothing matches "${q}". Try different keywords.`}</p>
+      <h2 class="hc-view-h">${r.length ? r.length + ' result' + (r.length > 1 ? 's' : '') + ' for "' + q + '"' : 'No results for "' + q + '"'}</h2>
+      <p class="hc-view-sub" style="margin-bottom:24px">${r.length ? 'Click any article to open it.' : 'Try different keywords or browse by category.'}</p>
       ${r.length
         ? `<div class="hc-articles">${r.map(a =>
             `<button class="hc-art-link" type="button" data-ci="${a.ci}" data-ai="${a.ai}">
@@ -1246,8 +1357,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
               </span>${CHV}
             </button>`
           ).join('')}</div>`
-        : `<div class="hc-empty">Try different keywords, or <a href="mailto:support@qualiphy.me">email support</a>.</div>`
-      }`;
+        : `<div class="hc-empty">Nothing matched. Try different keywords, or <a href="mailto:support@qualiphy.me">email support</a>.</div>`
+      }` + contactBlock;
     app.querySelector('[data-home]').addEventListener('click', () => {
       searchInput.value = '';
       goHome();
@@ -1262,6 +1373,19 @@ document.getElementById('year').textContent = new Date().getFullYear();
     clearTimeout(searchTimer);
     const q = this.value;
     searchTimer = setTimeout(() => runSearch(q), 120);
+  });
+
+  // Keyboard shortcut: press "/" to focus search (ignore when typing in a field)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    }
+    if (e.key === 'Escape' && document.activeElement === searchInput) {
+      searchInput.blur();
+      if (searchInput.value) { searchInput.value = ''; goHome(); }
+    }
   });
 
   goHome();
