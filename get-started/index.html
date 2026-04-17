@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WGKMC7NC');</script>
+<!-- End Google Tag Manager -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Started — Quidget WordPress Plugin Setup Guide</title>
+<meta name="description" content="Step-by-step setup guide for the Quidget WooCommerce telehealth plugin. Get your telehealth consultations live without an onboarding call.">
+<link rel="icon" href="../assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--surface, #f7f8fc); color: var(--text, #1e293b);
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeSlide 0.3s ease; }
+  code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; background: rgba(77,61,113,.06); padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #3d2b64; }
+  ol li::marker { font-weight: 600; color: #3d2b64; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+  /* Mobile sidebar */
+  @media (max-width: 768px) {
+    .guide-layout { flex-direction: column !important; }
+    .guide-sidebar {
+      width: 100% !important; height: auto !important;
+      border-right: none !important; border-bottom: 1px solid #e7e5e4 !important;
+      position: relative !important;
+    }
+    .guide-sidebar nav { 
+      display: flex !important; overflow-x: auto !important; 
+      padding: 8px !important; gap: 4px !important; flex-wrap: nowrap !important;
+    }
+    .guide-sidebar nav button { 
+      flex-shrink: 0 !important; white-space: nowrap !important; 
+      padding: 8px 12px !important;
+    }
+    .sidebar-footer { display: none !important; }
+    .guide-main { height: auto !important; min-height: calc(100vh - 120px); }
+    .guide-content { padding: 24px 16px 60px !important; }
+    .topbar-pills { display: none !important; }
+  }
+  @media print {
+    .guide-sidebar { display: none !important; }
+    .guide-main { overflow: visible !important; height: auto !important; }
+    .guide-content { max-width: 100% !important; padding: 0 !important; }
+    .guide-layout { display: block !important; height: auto !important; }
+    [style*="position: sticky"] { position: static !important; background: none !important; backdrop-filter: none !important; border: none !important; }
+    button { display: none !important; }
+    a[href]::after { content: " (" attr(href) ")"; font-size: 10px; color: #888; }
+    code { background: #f0f0f0 !important; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WGKMC7NC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="root"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRACKING MODULE — Get Started Flow
+   ═══════════════════════════════════════════════════════════════════════════ */
+window.QTRACK_CONFIG = {
+  WEBHOOK_URL: "https://script.google.com/macros/s/AKfycbzGh0miR8ERrU2gK-NVhwaovEI6CiGp7v6FOHXopoSpEgLuEgrmf0X2YhEqLz1c12Lw/exec",
+  SHARED_SECRET: "qdgt-7k9m-trk-ax42-2026",
+};
+
+(function() {
+  // Visitor ID (persistent per browser — same person always gets same row)
+  var visitorId = localStorage.getItem('qtrack_vid');
+  if (!visitorId) {
+    visitorId = Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('qtrack_vid', visitorId);
+  }
+  var sessionStart = Date.now();
+
+  // ─── UTM capture ───
+  var params = new URLSearchParams(window.location.search);
+  window._qtrack_utms = {
+    utm_source: params.get('utm_source') || '',
+    utm_medium: params.get('utm_medium') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+  };
+
+  // ─── Location capture (tries multiple services, falls back gracefully) ───
+  window._qtrack_geo = { city: '', region: '', country: '' };
+  (function resolveGeo() {
+    var apis = [
+      { url: 'https://get.geojs.io/v1/ip/geo.json', map: function(d) { return { city: d.city || '', region: d.region || '', country: d.country || '' }; }},
+      { url: 'https://ipapi.co/json/', map: function(d) { return { city: d.city || '', region: d.region || '', country: d.country_name || '' }; }},
+      { url: 'https://freeipapi.com/api/json', map: function(d) { return { city: d.cityName || '', region: d.regionName || '', country: d.countryName || '' }; }},
+    ];
+    function tryNext(i) {
+      if (i >= apis.length) return;
+      fetch(apis[i].url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var mapped = apis[i].map(data);
+          if (mapped.city || mapped.region) {
+            window._qtrack_geo = mapped;
+            if (window.track) window.track('location_resolved', mapped);
+          } else {
+            tryNext(i + 1);
+          }
+        })
+        .catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
+  })();
+
+  // ─── Question timer ───
+  window._qtrack_questionStart = null;
+  window._qtrack_questionTimes = {};
+  window._qtrack_currentQuestion = null;
+
+  window._qtrack_startQuestion = function(questionId) {
+    // Record time spent on previous question
+    if (window._qtrack_currentQuestion && window._qtrack_questionStart) {
+      var elapsed = Math.round((Date.now() - window._qtrack_questionStart) / 1000);
+      var prev = window._qtrack_currentQuestion;
+      window._qtrack_questionTimes[prev] = (window._qtrack_questionTimes[prev] || 0) + elapsed;
+    }
+    window._qtrack_currentQuestion = questionId;
+    window._qtrack_questionStart = Date.now();
+  };
+
+  // ─── Current screen state (for abandonment) ───
+  window._qtrack_screen = 'intake';
+  window._qtrack_currentStep = null;
+
+  // ─── Fire-and-forget event sender ───
+  window.track = function(event, data) {
+    if (!window.QTRACK_CONFIG.WEBHOOK_URL || !window.QTRACK_CONFIG.SHARED_SECRET) return;
+    var payload = {
+      secret: window.QTRACK_CONFIG.SHARED_SECRET,
+      session_id: visitorId,
+      event: event,
+      timestamp: new Date().toISOString(),
+      elapsed_sec: Math.round((Date.now() - sessionStart) / 1000),
+      referrer: document.referrer || 'direct',
+      user_agent: navigator.userAgent,
+      viewport: window.innerWidth + 'x' + window.innerHeight,
+      path: window.location.pathname,
+      utms: window._qtrack_utms,
+      geo: window._qtrack_geo,
+      data: data || {},
+    };
+    try {
+      fetch(window.QTRACK_CONFIG.WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+      });
+    } catch(e) { /* silent */ }
+  };
+
+  // Fire page load with UTMs
+  if (document.readyState !== 'loading') {
+    window.track('page_loaded', { utms: window._qtrack_utms });
+  } else {
+    document.addEventListener('DOMContentLoaded', function() { window.track('page_loaded', { utms: window._qtrack_utms }); });
+  }
+
+  // Fire page unload with abandonment data and question times
+  window.addEventListener('beforeunload', function() {
+    // Finalize current question time
+    if (window._qtrack_currentQuestion && window._qtrack_questionStart) {
+      var elapsed = Math.round((Date.now() - window._qtrack_questionStart) / 1000);
+      var prev = window._qtrack_currentQuestion;
+      window._qtrack_questionTimes[prev] = (window._qtrack_questionTimes[prev] || 0) + elapsed;
+    }
+    window.track('page_unloaded', {
+      total_duration_sec: Math.round((Date.now() - sessionStart) / 1000),
+      abandoned_at: window._qtrack_screen === 'guide'
+        ? 'Guide Step ' + (window._qtrack_currentStep || 0)
+        : 'Question: ' + (window._qtrack_currentQuestion || 'loading'),
+      question_times: window._qtrack_questionTimes,
+    });
+  });
+
+  // ─── Calendly booking listener ───
+  // Calendly fires postMessage events when users interact with the embedded iframe.
+  // We only care about the "event_scheduled" event — meaning they confirmed a booking.
+  window.addEventListener('message', function(e) {
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.event === 'calendly.event_scheduled') {
+      if (window.track) window.track('demo_scheduled');
+    }
+  });
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+const C = {
+  bg: "#f7f8fc", bgWhite: "#ffffff", bgMuted: "#f5f3f0", bgDark: "#1c1917",
+  border: "#e7e5e4", borderFocus: "#3d2b64",
+  text: "#1B1B1B", textBody: "#44403c", textMuted: "#78716c", textDim: "#a8a29e",
+  accent: "#4D3D71", accentLight: "rgba(77,61,113,.06)", accentMid: "#725F9D",
+  green: "#059669", greenLight: "#d1fae5",
+  amber: "#d97706", amberLight: "#fff3cd",
+  blue: "#2563eb", blueLight: "#dbeafe",
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   QUALIFYING QUESTIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+const QUESTIONS = [
+  {
+    id: "hasAccount",
+    q: "Do you have a Qualiphy account?",
+    hint: "Qualiphy powers the provider network and pharmacy fulfillment behind this plugin. You'll need an account before getting started.",
+    options: [
+      { value: "yes", label: "Yes, I have an account" },
+      { value: "no", label: "No, I need to set one up" },
+    ],
+    blocking: ["no"],
+  },
+  {
+    id: "hasMedDirector",
+    q: "Does your practice have a Medical Director?",
+    hint: "A Medical Director is required for practices offering medical procedures. If you're unsure or need help with compliance, we can connect you with our compliance team.",
+    options: [
+      { value: "yes", label: "Yes, we have a Medical Director" },
+      { value: "no", label: "No, not yet" },
+    ],
+    blocking: ["no"],
+  },
+  {
+    id: "hasApiKey",
+    q: "Do you have your API key ready?",
+    hint: "Your API key is what connects the plugin to your Qualiphy account. You can find it in your Qualiphy dashboard under Settings.",
+    options: [
+      { value: "yes", label: "Yes, I have it copied" },
+      { value: "no", label: "Not yet, I need to grab it" },
+    ],
+    blocking: ["no"],
+  },
+  {
+    id: "hasWordPress",
+    q: "Is your website built on WordPress?",
+    hint: "Quidget is a WordPress plugin that requires WooCommerce. If your site runs on a different platform, we can discuss your options.",
+    options: [
+      { value: "yes", label: "Yes, it's on WordPress" },
+      { value: "no", label: "No, it's on another platform" },
+    ],
+    blocking: ["no"],
+  },
+  {
+    id: "hasWoo",
+    q: "Do you already have WooCommerce installed on your WordPress site?",
+    options: [
+      { value: "yes", label: "Yes, it's active" },
+      { value: "no", label: "Not yet" },
+    ],
+  },
+  {
+    id: "examType",
+    q: "What type of consultations will you offer?",
+    hint: "Select all that apply. This determines how the plugin handles pharmacy routing and order flow.",
+    multiSelect: true,
+    options: [
+      { value: "rx", label: "Rx Consultations", desc: "Consultations with pharmacy fulfillment" },
+      { value: "gfe", label: "Good Faith Exams", desc: "Provider clearance for treatments" },
+      { value: "urgent_care", label: "Urgent Care", desc: "Same-day visits for acute, non-emergency concerns" },
+    ],
+  },
+  {
+    id: "hasSubscriptions",
+    q: "Will patients need recurring consultations (e.g. monthly refills)?",
+    hint: "This requires the WooCommerce Subscriptions extension.",
+    options: [
+      { value: "yes", label: "Yes" },
+      { value: "no", label: "No" },
+      { value: "unsure", label: "Not sure yet" },
+    ],
+  },
+  {
+    id: "hasProducts",
+    q: "Do you already have WooCommerce products you want to link to Qualiphy consultations?",
+    hint: "The plugin can create new products for you or link to existing ones.",
+    options: [
+      { value: "yes", label: "Yes, I have existing products" },
+      { value: "no", label: "No, I'll create new ones" },
+    ],
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SMALL COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function Logo({ size = 28 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 800 800" fill={C.accent} xmlns="http://www.w3.org/2000/svg">
+      <circle cx="420.1" cy="40.1" r="40.1"/>
+      <circle cx="207.9" cy="40.1" r="40.1"/>
+      <path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/>
+    </svg>
+  );
+}
+
+function Pill({ children, color = C.accent, bg = C.accentLight }) {
+  return (
+    <span style={{
+      display: "inline-block", padding: "3px 10px", borderRadius: 99,
+      fontSize: 11, fontWeight: 600, color, background: bg, letterSpacing: "0.02em",
+    }}>{children}</span>
+  );
+}
+
+function StepNum({ n, active, done }) {
+  return (
+    <div style={{
+      width: 32, height: 32, borderRadius: "50%", flexShrink: 0,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontSize: 13, fontWeight: 700,
+      background: done ? C.green : active ? C.accent : C.bgMuted,
+      color: done || active ? "#fff" : C.textDim,
+      transition: "all 0.3s ease",
+    }}>
+      {done ? "✓" : n}
+    </div>
+  );
+}
+
+function Card({ children, style: s = {} }) {
+  return (
+    <div style={{
+      background: C.bgWhite, border: `1px solid ${C.border}`, borderRadius: 12,
+      padding: 24, ...s,
+    }}>{children}</div>
+  );
+}
+
+function Callout({ type = "info", children }) {
+  const styles = {
+    info:    { bg: C.blueLight,   border: C.blue + "30",   color: C.blue,  icon: "ℹ" },
+    tip:     { bg: C.accentLight, border: C.accent + "30", color: C.accent, icon: "💡" },
+    warning: { bg: C.amberLight,  border: C.amber + "30",  color: C.amber, icon: "⚠" },
+    success: { bg: C.greenLight,  border: C.green + "30",  color: C.green, icon: "✓" },
+  };
+  const s = styles[type];
+  return (
+    <div style={{
+      padding: "14px 16px", borderRadius: 10, background: s.bg,
+      border: `1px solid ${s.border}`, display: "flex", gap: 10, alignItems: "flex-start",
+    }}>
+      <span style={{ fontSize: 14, flexShrink: 0, marginTop: 1 }}>{s.icon}</span>
+      <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6 }}>{children}</div>
+    </div>
+  );
+}
+
+function OptionBtn({ selected, onClick, children, desc, confirmed }) {
+  const isConfirmed = confirmed === true;
+  return (
+    <button onClick={onClick} style={{
+      display: "flex", flexDirection: "column", gap: 3,
+      padding: "14px 18px", borderRadius: 10,
+      border: `1.5px solid ${isConfirmed ? C.green : selected ? C.accent : C.border}`,
+      background: isConfirmed ? C.greenLight : selected ? C.accentLight : C.bgWhite,
+      cursor: "pointer", textAlign: "left", width: "100%",
+      transition: "all 0.15s ease", fontFamily: "inherit",
+      position: "relative",
+    }}>
+      {isConfirmed && <span style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: C.green }}>✓</span>}
+      <span style={{ fontSize: 14, fontWeight: 600, color: C.text, paddingRight: isConfirmed ? 24 : 0 }}>{children}</span>
+      {desc && <span style={{ fontSize: 12, color: C.textMuted }}>{desc}</span>}
+    </button>
+  );
+}
+
+function Btn({ children, onClick, variant = "primary", disabled, small }) {
+  const pad = small ? "8px 16px" : "11px 24px";
+  const sz = small ? 13 : 14;
+  const base = {
+    padding: pad, borderRadius: 8, border: "none", cursor: disabled ? "default" : "pointer",
+    fontWeight: 600, fontSize: sz, fontFamily: "inherit", display: "inline-flex",
+    alignItems: "center", gap: 6, opacity: disabled ? 0.4 : 1, transition: "all 0.15s ease",
+  };
+  const v = {
+    primary:   { ...base, background: C.accent, color: "#fff" },
+    secondary: { ...base, background: C.bgMuted, color: C.textBody, border: `1px solid ${C.border}` },
+    ghost:     { ...base, background: "transparent", color: C.textMuted, padding: small ? "8px 10px" : "11px 14px" },
+  };
+  return <button onClick={disabled ? undefined : onClick} style={v[variant]}>{children}</button>;
+}
+
+function WizardStep({ n, title, children }) {
+  return (
+    <div style={{ display: "flex", gap: 12 }}>
+      <div style={{
+        width: 24, height: 24, borderRadius: 6, flexShrink: 0, marginTop: 1,
+        background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 11, fontWeight: 700, color: C.accent,
+      }}>{n}</div>
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{title}</div>
+        <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, marginTop: 3 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function FlowStep({ n, children }) {
+  return (
+    <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+      <div style={{
+        width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
+        background: C.bgMuted, display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 11, fontWeight: 700, color: C.textMuted,
+      }}>{n}</div>
+      <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.55, marginTop: 1 }}>{children}</div>
+    </div>
+  );
+}
+
+function CheckItem({ done, children, style: s = {} }) {
+  return (
+    <div style={{ display: "flex", gap: 10, alignItems: "flex-start", ...s }}>
+      <div style={{
+        width: 18, height: 18, borderRadius: 4, flexShrink: 0, marginTop: 1,
+        border: `1.5px solid ${done ? C.green : C.border}`,
+        background: done ? C.greenLight : "transparent",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 11, color: C.green,
+      }}>{done ? "✓" : ""}</div>
+      <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6 }}>{children}</div>
+    </div>
+  );
+}
+
+function AdminPage({ title, path, children }) {
+  return (
+    <div style={{ paddingLeft: 12, borderLeft: `2px solid ${C.accentMid}` }}>
+      <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{title}</div>
+      <div style={{ fontSize: 12, color: C.accent, fontFamily: "'SF Mono', 'Fira Code', monospace", margin: "2px 0 4px" }}>{path}</div>
+      <div style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.5 }}>{children}</div>
+    </div>
+  );
+}
+
+function SummaryPill({ label, value }) {
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 5,
+      padding: "4px 10px", borderRadius: 6, background: C.bgMuted,
+      fontSize: 11, color: C.textMuted,
+    }}>
+      {label}: <strong style={{ color: C.textBody }}>{value}</strong>
+    </span>
+  );
+}
+
+function TroubleshootItem({ symptom, causes }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Card style={{ padding: 0, overflow: "hidden", marginBottom: 2 }}>
+      <button onClick={() => setOpen(!open)} style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        width: "100%", padding: "16px 20px", border: "none", background: "transparent",
+        cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 14, flexShrink: 0 }}>🔴</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{symptom}</span>
+        </div>
+        <span style={{
+          fontSize: 18, color: C.textDim, transition: "transform 0.2s ease",
+          transform: open ? "rotate(45deg)" : "none",
+        }}>+</span>
+      </button>
+      {open && (
+        <div style={{ padding: "0 20px 18px", display: "flex", flexDirection: "column", gap: 12 }}>
+          {causes.map((c, i) => (
+            <div key={i} style={{ paddingLeft: 12, borderLeft: `2px solid ${C.amberLight}` }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: C.amber }}>{c.title}</div>
+              <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, marginTop: 3 }}>{c.fix}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   API QUICK START — shown in WordPress gate for non-WP users
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function ApiQuickStart() {
+  const [step, setStep] = useState(0); // 0 = intro, 1 = services, 2 = result
+  const [services, setServices] = useState({ gfe: false, rx: false });
+  const [copied, setCopied] = useState(false);
+
+  // ─── TRACKING ───
+  useEffect(() => {
+    if (window.track) window.track('api_quickstart_viewed', { step });
+  }, [step]);
+  useEffect(() => {
+    if (window.track && copied) window.track('api_quickstart_copied', { gfe: services.gfe, rx: services.rx });
+  }, [copied]);
+  // ─── END TRACKING ───
+
+  const needsRx = services.rx;
+  const hasAny = services.gfe || services.rx;
+
+  const toggleSvc = (key) => setServices(prev => ({ ...prev, [key]: !prev[key] }));
+
+  const samplePayload = JSON.stringify({
+    api_key: "YOUR_API_KEY",
+    exams: ["YOUR_EXAM_ID"],
+    first_name: "John",
+    last_name: "Doe",
+    email: "patient@example.com",
+    dob: "1990-01-15",
+    phone_number: "+15551234567",
+    tele_state: "NY",
+    ...(needsRx ? { pharmacy_id: "PHARMACY_ID", exam_pos_id: "PACKAGE_ID" } : {}),
+  }, null, 2);
+
+  const testingText = `Testing without real patients:
+
+1. Use the sandbox URL:
+   https://sandbox-api.qualiphy.me/api/
+
+2. Set tele_state to "TE" (test mode)
+
+3. Control outcomes with patient names:
+   • "Test Approve" → exam approved
+   • "Test Reject" → exam rejected${needsRx ? '\n   • "Test Prescription Approve" → approved with Rx' : ''}
+
+4. Tests are reviewed by real providers (2-24hrs, excl weekends)
+
+5. Check your webhook to confirm results arrived`;
+
+  const copyPlan = () => {
+    let svcList = [];
+    if (services.gfe) svcList.push("Good Faith Exams");
+    if (services.rx) svcList.push("Rx Consultations");
+    let t = "QUALIPHY API QUICK START\n========================\n\n";
+    t += "Services: " + svcList.join(", ") + "\n";
+    t += "Pharmacy: " + (needsRx ? "Partner Pharmacy (recommended)" : "N/A") + "\n\n";
+    t += "API DOCS: https://api-docs.qualiphy.me\n";
+    t += "ENDPOINTS:\n- POST /exam_invite (create patient exam)\n- Webhook handler (receive results)\n";
+    if (needsRx) t += "- GET /partner_pharmacy_list\n- GET /partner_pharmacy_treatment_packages\n";
+    t += "\nSAMPLE CALL (POST /exam_invite):\n" + samplePayload + "\n\n";
+    t += "IMPORTANT: Use the patient's state in tele_state, not your clinic's.\n\n";
+    t += testingText + "\n\nQuestions? support@qualiphy.me";
+    navigator.clipboard.writeText(t).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); });
+  };
+
+  // Step 0: Intro
+  if (step === 0) return (
+    <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+      <div style={{ padding: "24px 24px 20px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+        <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>Quidget requires WordPress</div>
+        <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>
+          That's okay - Qualiphy also has a full REST API that works with any platform. Your developer can integrate telehealth consultations, pharmacy fulfillment, and webhooks directly into your existing system.
+        </p>
+      </div>
+      <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          {[
+            { icon: "🩺", t: "Good Faith Exams", d: "Patient clearance for procedures" },
+            { icon: "💊", t: "Rx Consultations", d: "Prescriptions + pharmacy fulfillment" },
+            { icon: "📡", t: "Webhooks", d: "Real-time status updates" },
+            { icon: "🏷️", t: "White-Label", d: "Your brand throughout" },
+          ].map((f, i) => (
+            <div key={i} style={{ padding: "10px 12px", borderRadius: 8, background: C.accentLight, fontSize: 12 }}>
+              <div style={{ marginBottom: 3 }}>{f.icon} <strong style={{ color: C.text }}>{f.t}</strong></div>
+              <div style={{ color: C.textMuted, fontSize: 11 }}>{f.d}</div>
+            </div>
+          ))}
+        </div>
+        <button onClick={() => setStep(1)} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "14px 22px", borderRadius: 10, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 600, border: "none", cursor: "pointer", width: "100%", transition: "background .15s" }}>
+          Build a Quick Start Guide →
+        </button>
+        <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+          <a href="https://api-docs.qualiphy.me" target="_blank" rel="noopener" style={{ fontSize: 13, color: C.accent, fontWeight: 600, textDecoration: "none" }}>View API Docs ↗</a>
+          <span style={{ color: C.border }}>·</span>
+          <a href="mailto:support@qualiphy.me?subject=API%20Integration%20Inquiry" style={{ fontSize: 13, color: C.textMuted, textDecoration: "none" }}>Email support</a>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Step 1: Pick services
+  if (step === 1) return (
+    <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+      <div style={{ padding: "24px 24px 16px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+        <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>What will you offer?</div>
+        <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>Select the services you'll integrate. This determines which API endpoints and sample code we include.</p>
+      </div>
+      <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 8 }}>
+        {[
+          { key: "gfe", label: "Good Faith Exams", desc: "Provider clearance for procedures - Botox, fillers, IV therapy, laser" },
+          { key: "rx", label: "Rx Consultations", desc: "Provider evaluates and may prescribe - GLP-1, men's/women's health" },
+        ].map(svc => (
+          <button key={svc.key} onClick={() => toggleSvc(svc.key)} style={{
+            display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 10,
+            border: `1.5px solid ${services[svc.key] ? C.accent : C.border}`,
+            background: services[svc.key] ? C.accentLight : "#fff",
+            cursor: "pointer", textAlign: "left", width: "100%", fontFamily: "inherit", transition: "all .15s",
+          }}>
+            <div style={{ width: 18, height: 18, borderRadius: 4, border: services[svc.key] ? "none" : "2px solid " + C.border, background: services[svc.key] ? C.accent : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+              {services[svc.key] && <span style={{ color: "#fff", fontSize: 12, fontWeight: 700 }}>✓</span>}
+            </div>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: C.text }}>{svc.label}</div>
+              <div style={{ fontSize: 12, color: C.textMuted, marginTop: 2 }}>{svc.desc}</div>
+            </div>
+          </button>
+        ))}
+        <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+          <button onClick={() => setStep(0)} style={{ padding: "10px 16px", borderRadius: 8, border: "1px solid " + C.border, background: "#fff", color: C.textMuted, fontFamily: "inherit", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>← Back</button>
+          <button onClick={() => setStep(2)} disabled={!hasAny} style={{ flex: 1, padding: "12px 22px", borderRadius: 10, background: hasAny ? C.accent : C.bgMuted, color: hasAny ? "#fff" : C.textDim, fontFamily: "inherit", fontSize: 14, fontWeight: 600, border: "none", cursor: hasAny ? "pointer" : "default", transition: "all .15s" }}>
+            Generate Quick Start →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Step 2: Generated result
+  let svcLabels = [];
+  if (services.gfe) svcLabels.push("GFE");
+  if (services.rx) svcLabels.push("Rx");
+  let endpoints = ["exam_invite", "Webhook handler"];
+  if (needsRx) endpoints = ["partner_pharmacy_list", "partner_pharmacy_treatment_packages", ...endpoints];
+
+  return (
+    <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+      <div style={{ padding: "24px 24px 16px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <span style={{ fontSize: 20 }}>✓</span>
+          <div style={{ fontSize: 17, fontWeight: 700, color: C.text }}>Your API Quick Start</div>
+        </div>
+        <p style={{ fontSize: 13, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>Hand this to your developer. It has the key endpoints, a sample API call, and testing instructions.</p>
+      </div>
+      <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 16 }}>
+
+        {/* Summary */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <div style={{ padding: "10px 14px", background: C.bgMuted, borderRadius: 8 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: C.textDim }}>Services</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{svcLabels.join(" + ")}</div>
+          </div>
+          <div style={{ padding: "10px 14px", background: C.bgMuted, borderRadius: 8 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: C.textDim }}>Pharmacy</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{needsRx ? "Partner Pharmacy" : "N/A"}</div>
+          </div>
+        </div>
+
+        {/* Endpoints */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, marginBottom: 6 }}>API Endpoints ({endpoints.length})</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+            {endpoints.map((e, i) => <code key={i} style={{ padding: "3px 8px", background: C.accentLight, borderRadius: 4, fontSize: 11, color: C.accent }}>{e}</code>)}
+          </div>
+        </div>
+
+        {/* Sample call */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, marginBottom: 6 }}>Sample API Call</div>
+          <div style={{ background: "#1A1D23", borderRadius: 8, overflow: "hidden" }}>
+            <div style={{ padding: "8px 12px", borderBottom: "1px solid #2A2D33", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: 11, color: "#8C919A" }}>POST /exam_invite</span>
+            </div>
+            <pre style={{ padding: "12px", margin: 0, fontSize: 11, color: "#C9D1D9", lineHeight: 1.6, overflowX: "auto", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>{samplePayload}</pre>
+          </div>
+          <div style={{ fontSize: 11, color: C.amber, marginTop: 6, display: "flex", gap: 6, alignItems: "flex-start" }}>
+            <span style={{ flexShrink: 0 }}>⚠</span>
+            <span>Use the <strong>patient's state</strong> in tele_state, not your clinic's.</span>
+          </div>
+        </div>
+
+        {/* Testing */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, marginBottom: 6 }}>Testing</div>
+          <div style={{ padding: "12px 14px", background: C.bgMuted, borderRadius: 8, fontSize: 12, color: C.textBody, lineHeight: 1.7 }}>
+            Sandbox URL: <code style={{ fontSize: 11 }}>sandbox-api.qualiphy.me/api/</code><br/>
+            Set <code style={{ fontSize: 11 }}>tele_state: "TE"</code> for test mode<br/>
+            Use <strong>"Test Approve"</strong> / <strong>"Test Reject"</strong> as patient names
+            {needsRx && <><br/>Use <strong>"Test Prescription Approve"</strong> to test Rx flow</>}
+          </div>
+        </div>
+
+        {/* Links */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <a href="https://api-docs.qualiphy.me" target="_blank" rel="noopener" style={{ fontSize: 13, color: C.accent, fontWeight: 600, textDecoration: "none" }}>📖 Full API Documentation ↗</a>
+          <a href="https://api-docs.qualiphy.me/docs/api/exam-invite" target="_blank" rel="noopener" style={{ fontSize: 13, color: C.accent, textDecoration: "none" }}>🔗 Exam Invite Endpoint ↗</a>
+          <a href="https://api-docs.qualiphy.me/docs/api/exam-webhook" target="_blank" rel="noopener" style={{ fontSize: 13, color: C.accent, textDecoration: "none" }}>🔔 Webhook Events ↗</a>
+          {needsRx && <a href="https://api-docs.qualiphy.me/docs/api/partner-pharmacy-list" target="_blank" rel="noopener" style={{ fontSize: 13, color: C.accent, textDecoration: "none" }}>🏥 Partner Pharmacies ↗</a>}
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: 10 }}>
+          <button onClick={() => setStep(1)} style={{ padding: "10px 16px", borderRadius: 8, border: "1px solid " + C.border, background: "#fff", color: C.textMuted, fontFamily: "inherit", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>← Back</button>
+          <button onClick={copyPlan} style={{ flex: 1, padding: "12px 22px", borderRadius: 10, background: copied ? C.green : C.accent, color: "#fff", fontFamily: "inherit", fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer", transition: "all .15s" }}>
+            {copied ? "✓ Copied!" : "Copy for Your Developer"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTAKE SCREEN
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function IntakeScreen({ onComplete }) {
+  const [answers, setAnswers] = useState({});
+  const [currentQ, setCurrentQ] = useState(0);
+  const [showCalendly, setShowCalendly] = useState(false);
+  const [confirmedVal, setConfirmedVal] = useState(null);
+
+  const q = QUESTIONS[currentQ];
+  const allDone = Object.keys(answers).length === QUESTIONS.length;
+
+  // Clear confirmed state on question change
+  useEffect(() => { setConfirmedVal(null); }, [currentQ]);
+
+  // ─── TRACKING OBSERVERS ───
+  // Track intake start once
+  useEffect(() => {
+    if (window.track) window.track('intake_started');
+    window._qtrack_screen = 'intake';
+  }, []);
+
+  // Track each question being viewed + start timer
+  useEffect(() => {
+    var qId = QUESTIONS[currentQ].id;
+    if (window._qtrack_startQuestion) window._qtrack_startQuestion(qId);
+    if (window.track) window.track('question_viewed', { question_index: currentQ, question_id: qId });
+  }, [currentQ]);
+
+  // Track each answer submission
+  useEffect(() => {
+    if (!window.track) return;
+    Object.keys(answers).forEach(key => {
+      const prev = window._qtrack_lastAnswers || {};
+      if (prev[key] !== answers[key]) {
+        window.track('answer_submitted', { question_id: key, answer: answers[key] });
+      }
+    });
+    window._qtrack_lastAnswers = { ...answers };
+  }, [answers]);
+
+  // Track blocking gate shown
+  const isBlockedForTracking = q.blocking && answers[q.id] && (Array.isArray(q.blocking) ? q.blocking.includes(answers[q.id]) : q.blocking === answers[q.id]);
+  useEffect(() => {
+    if (window.track && isBlockedForTracking) window.track('gate_shown', { question_id: q.id, answer: answers[q.id] });
+  }, [isBlockedForTracking, q.id]);
+
+  // Track Calendly embed open
+  useEffect(() => {
+    if (window.track && showCalendly) window.track('clicked_book_demo');
+  }, [showCalendly]);
+  // ─── END TRACKING ───
+
+  // Gate is derived — no separate state, no intermediate render
+  const currentAnswer = answers[q.id];
+  const isBlocked = q.blocking && currentAnswer && (Array.isArray(q.blocking) ? q.blocking.includes(currentAnswer) : q.blocking === currentAnswer);
+
+  const answer = (val) => {
+    if (q.multiSelect) {
+      // Toggle checkbox values, store as comma-separated
+      setAnswers(prev => {
+        const current = (prev[q.id] || "").split(",").filter(Boolean);
+        const next = current.includes(val) ? current.filter(v => v !== val) : [...current, val];
+        return { ...prev, [q.id]: next.join(",") };
+      });
+      return; // Don't auto-advance on multi-select
+    }
+    setConfirmedVal(val);
+    const newAnswers = { ...answers, [q.id]: val };
+    // If they already have an account, MD info was collected at signup — skip that question
+    if (q.id === "hasAccount" && val === "yes") {
+      newAnswers.hasMedDirector = "yes";
+    }
+    setAnswers(newAnswers);
+    const b = q.blocking;
+    if (b && (Array.isArray(b) ? b.includes(val) : b === val)) return;
+    if (currentQ < QUESTIONS.length - 1) {
+      const skip = (q.id === "hasAccount" && val === "yes") ? 2 : 1;
+      setTimeout(() => setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)), 350);
+    }
+  };
+
+  const passGate = () => {
+    const passingVal = q.options.find(o => !(Array.isArray(q.blocking) ? q.blocking.includes(o.value) : q.blocking === o.value));
+    const newAnswers = { ...answers, [q.id]: passingVal ? passingVal.value : "yes" };
+    // Same skip logic if they just created an account
+    if (q.id === "hasAccount") {
+      newAnswers.hasMedDirector = "yes";
+    }
+    setAnswers(newAnswers);
+    const skip = (q.id === "hasAccount") ? 2 : 1;
+    setTimeout(() => setCurrentQ(prev => Math.min(prev + skip, QUESTIONS.length - 1)), 10);
+  };
+
+  const goBack = () => {
+    if (isBlocked) { setAnswers(prev => { const n = { ...prev }; delete n[q.id]; return n; }); return; }
+    if (currentQ > 0) {
+      // Skip back over hasMedDirector if it was auto-filled because hasAccount=yes
+      const prevQ = (currentQ === 2 && answers.hasAccount === "yes") ? 0 : currentQ - 1;
+      setCurrentQ(prevQ);
+    }
+  };
+
+  return (
+    <div style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center", padding: "40px 20px",
+    }}>
+      <div style={{ maxWidth: showCalendly ? 680 : 480, width: "100%", transition: "max-width 0.3s ease" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <Logo size={36} />
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: C.text, margin: "16px 0 6px", letterSpacing: "-0.02em" }}>
+            Plugin Setup Guide
+          </h1>
+          <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.5 }}>
+            A few quick questions so we show you exactly what you need.
+          </p>
+        </div>
+
+        {/* Progress */}
+        <div style={{ display: "flex", gap: 4, marginBottom: 28 }}>
+          {QUESTIONS.map((_, i) => (
+            <div key={i} style={{
+              flex: 1, height: 3, borderRadius: 2,
+              background: i <= currentQ ? C.accent : C.border,
+              transition: "background 0.3s ease",
+            }} />
+          ))}
+        </div>
+
+        {/* Blocking gate — context changes based on which question we're on */}
+        {isBlocked ? (
+          <div key="gate" className="fade-in">
+            {q.id === "hasAccount" ? (
+              /* ── NO ACCOUNT ── */
+              <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+                <div style={{ padding: "24px 24px 20px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>Let's get you set up</div>
+                  <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>
+                    Create a free Qualiphy account — no signup fees, no monthly charges. The registration process walks you through everything. Once you're done, come back here and continue.
+                  </p>
+                </div>
+                <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 10 }}>
+                  <a href="https://app.qualiphy.me/signup" target="_blank" rel="noopener" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "14px 22px", borderRadius: 10, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+                    Create Account ↗
+                  </a>
+                  <button onClick={() => setShowCalendly(true)} style={{ display: showCalendly ? "none" : "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px 22px", borderRadius: 10, background: C.bgMuted, color: C.textMuted, fontFamily: "inherit", fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer", width: "100%", transition: "background .15s" }}>
+                      Not sure yet? Book a demo
+                    </button>
+                    {showCalendly && (
+                      <div style={{ borderRadius: 10, overflow: "hidden", border: "1px solid " + C.border, background: "#fff" }}>
+                        <iframe src="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo?embed_type=Inline&hide_gdpr_banner=1" style={{ width: "100%", height: 680, border: "none", display: "block" }} />
+                      </div>
+                    )}
+                </div>
+              </div>
+            ) : q.id === "hasMedDirector" ? (
+              /* ── NO MEDICAL DIRECTOR ── */
+              <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+                <div style={{ padding: "24px 24px 20px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>You'll need a Medical Director first</div>
+                  <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>
+                    A Medical Director is required for practices that perform or advertise medical procedures. They provide oversight, sign treatment protocols, and ensure compliance with state regulations.
+                  </p>
+                </div>
+                <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 10 }}>
+                  <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+                    Contact our compliance team to discuss your requirements and next steps.
+                  </p>
+                  <a href="mailto:andy@qualiphy.me?subject=Medical%20Director%20Compliance%20Inquiry" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "14px 22px", borderRadius: 10, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+                    Email Compliance Team ↗
+                  </a>
+                </div>
+              </div>
+            ) : q.id === "hasApiKey" ? (
+              /* ── NEEDS API KEY ── */
+              <div style={{ borderRadius: 12, border: "1px solid rgba(77,61,113,.12)", overflow: "hidden" }}>
+                <div style={{ padding: "24px 24px 16px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>How to find your API key</div>
+                  <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>
+                    It takes about 30 seconds. Open your Qualiphy dashboard and follow these steps:
+                  </p>
+                </div>
+                <div style={{ padding: "20px 24px", background: "#fff" }}>
+                  {[
+                    { n: "1", t: "Log in at app.qualiphy.me" },
+                    { n: "2", t: "Click Settings in the left sidebar" },
+                    { n: "3", t: "Your API key is at the top — click Copy" },
+                  ].map((s, i) => (
+                    <div key={i} style={{ display: "flex", gap: 12, marginBottom: 10 }}>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: C.accent }}>{s.n}</div>
+                      <div style={{ fontSize: 14, color: C.text, lineHeight: 1.5, paddingTop: 2 }}>{s.t}</div>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
+                    <a href="https://app.qualiphy.me" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "11px 22px", borderRadius: 8, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+                      Open Dashboard ↗
+                    </a>
+                    <a href="https://qualiphy.zendesk.com/hc/en-us/articles/27487203659675-How-Do-I-Find-API-Keys-for-Each-Of-My-Clinic-Locations" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "11px 22px", borderRadius: 8, background: C.bgMuted, color: C.textBody, fontFamily: "inherit", fontSize: 14, fontWeight: 600, textDecoration: "none", border: "1px solid " + C.border }}>
+                      View help article ↗
+                    </a>
+                  </div>
+                  <p style={{ fontSize: 12, color: C.textMuted, margin: "14px 0 0", lineHeight: 1.5 }}>
+                    <strong style={{ color: C.textBody }}>Multiple locations?</strong> The Settings page shows the API key for your default clinic. If you need the key for a different location, follow the steps in the <a href="https://qualiphy.zendesk.com/hc/en-us/articles/27487203659675-How-Do-I-Find-API-Keys-for-Each-Of-My-Clinic-Locations" target="_blank" rel="noopener" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>help article</a> above.
+                  </p>
+                </div>
+              </div>
+            ) : q.id === "hasWordPress" ? (
+              /* ── NOT ON WORDPRESS — API PATH ── */
+              <ApiQuickStart />
+            ) : null}
+
+            {/* Continue */}
+            <div style={{ marginTop: 20, padding: "16px 20px", borderRadius: 10, background: C.bgMuted, textAlign: "center" }}>
+              <Btn onClick={passGate}>{q.id === "hasAccount" ? "I've created my account — continue →" : q.id === "hasMedDirector" ? "I have a Medical Director — continue →" : q.id === "hasWordPress" ? "Actually, my site is on WordPress — continue →" : "I have my API key — continue →"}</Btn>
+            </div>
+            <div style={{ marginTop: 14 }}>
+              <Btn variant="ghost" onClick={goBack} small>← Back</Btn>
+            </div>
+          </div>
+        ) : (
+          /* Normal question */
+          <>
+            <div key={currentQ} className="fade-in">
+              <p style={{ fontSize: 11, color: C.textDim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 8px" }}>
+                Question {currentQ + 1} of {QUESTIONS.length}
+              </p>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: C.text, margin: "0 0 6px", lineHeight: 1.35 }}>
+                {q.q}
+              </h2>
+              {q.hint && (
+                <p style={{ fontSize: 13, color: C.textMuted, margin: "0 0 20px", lineHeight: 1.5 }}>{q.hint}</p>
+              )}
+              {!q.hint && <div style={{ height: 14 }} />}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {q.multiSelect ? (
+                  q.options.map(opt => {
+                    const selected = (answers[q.id] || "").split(",").includes(opt.value);
+                    return (
+                      <OptionBtn key={opt.value} selected={selected} onClick={() => answer(opt.value)} desc={opt.desc}>
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ width: 18, height: 18, borderRadius: 4, border: selected ? "none" : "2px solid " + C.border, background: selected ? C.accent : "transparent", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all .15s" }}>
+                            {selected && <span style={{ color: "#fff", fontSize: 12, fontWeight: 700 }}>✓</span>}
+                          </span>
+                          {opt.label}
+                        </span>
+                      </OptionBtn>
+                    );
+                  })
+                ) : (
+                  q.options.map(opt => (
+                    <OptionBtn key={opt.value} selected={answers[q.id] === opt.value} confirmed={confirmedVal === opt.value} onClick={() => answer(opt.value)} desc={opt.desc}>
+                      {opt.label}
+                    </OptionBtn>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Nav */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 28 }}>
+              {currentQ === 0 ? (
+                <Btn variant="ghost" onClick={() => window.location.href = "../"} small>← Back</Btn>
+              ) : (
+                <Btn variant="ghost" onClick={goBack} small>← Back</Btn>
+              )}
+              {allDone ? (
+                <Btn onClick={() => onComplete(answers)}>Show my setup guide →</Btn>
+              ) : q.multiSelect && answers[q.id] ? (
+                <Btn variant="secondary" onClick={() => { const skip = (currentQ === 0 && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
+              ) : currentQ < QUESTIONS.length - 1 && answers[q.id] ? (
+                <Btn variant="secondary" onClick={() => { const skip = (currentQ === 0 && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
+              ) : null}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GUIDE SCREEN
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function GuideScreen({ answers, onRestart }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [printing, setPrinting] = useState(false);
+  const contentRef = useRef(null);
+
+  // ─── TRACKING OBSERVERS ───
+  useEffect(() => {
+    window._qtrack_screen = 'guide';
+    // Finalize last question time before leaving intake
+    if (window._qtrack_currentQuestion && window._qtrack_questionStart) {
+      var elapsed = Math.round((Date.now() - window._qtrack_questionStart) / 1000);
+      var prev = window._qtrack_currentQuestion;
+      window._qtrack_questionTimes[prev] = (window._qtrack_questionTimes[prev] || 0) + elapsed;
+      window._qtrack_questionStart = null;
+    }
+    if (window.track) window.track('intake_completed', {
+      exam_types: answers.examType || '',
+      has_account: answers.hasAccount || '',
+      has_med_director: answers.hasMedDirector || '',
+      has_api_key: answers.hasApiKey || '',
+      has_wordpress: answers.hasWordPress || '',
+      has_woo: answers.hasWoo || '',
+      has_subscriptions: answers.hasSubscriptions || '',
+      has_products: answers.hasProducts || '',
+      question_times: window._qtrack_questionTimes || {},
+    });
+  }, []);
+
+  // Track each guide step viewed
+  useEffect(() => {
+    window._qtrack_currentStep = activeStep;
+    if (window.track) window.track('guide_step_viewed', { step_index: activeStep });
+  }, [activeStep]);
+
+  useEffect(() => {
+    if (window.track && printing) window.track('clicked_print_guide');
+  }, [printing]);
+  // ─── END TRACKING ───
+
+  const printAllSteps = useCallback(() => {
+    setPrinting(true);
+    setTimeout(() => {
+      window.print();
+      setPrinting(false);
+    }, 100);
+  }, []);
+
+  const examTypes = (answers.examType || "").split(",");
+  const needsRx   = examTypes.includes("rx");
+  const needsGfe  = examTypes.includes("gfe");
+  const needsSubs = answers.hasSubscriptions === "yes";
+  const hasProds  = answers.hasProducts === "yes";
+  const needsWoo  = answers.hasWoo === "no";
+  const apiState  = answers.hasApiKey; // always "yes" by the time they reach the guide
+
+  const scrollTop = useCallback(() => {
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+  }, []);
+
+  // ── Build steps dynamically ────────────────────────────────────────────
+  const steps = [];
+
+  // 0 — Prerequisites (only if no WooCommerce)
+  if (needsWoo) {
+    steps.push({ id: "prereqs", title: "Install Prerequisites", render: () => (
+      <>
+        <p>The Quidget plugin runs on top of WooCommerce — the free e-commerce plugin for WordPress. Here's what you need before installing.</p>
+        <Card>
+          <h4 style={{ margin: "0 0 12px", fontSize: 14 }}>Required</h4>
+          <CheckItem done={false}>
+            <strong>WooCommerce</strong> — Free e-commerce plugin for WordPress. If you don't have it yet, install it from within your WordPress admin (Plugins → Add New → search "WooCommerce") or download it from the link below.
+          </CheckItem>
+          <a href="https://wordpress.org/plugins/woocommerce/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: C.accentLight, color: C.accent, fontFamily: "inherit", fontSize: 13, fontWeight: 600, textDecoration: "none", margin: "10px 0 4px" }}>
+            Learn more about WooCommerce ↗
+          </a>
+          <CheckItem done={false} style={{ marginTop: 14 }}>
+            <strong>SSL Certificate (HTTPS)</strong> — Your site must use HTTPS. Most hosting providers include free SSL. The plugin checks this during setup.
+          </CheckItem>
+          <CheckItem done={false} style={{ marginTop: 14 }}>
+            <strong>Payment Gateway</strong> — Required for paid consultations. Two recommended options:
+          </CheckItem>
+          <div style={{ paddingLeft: 28, display: "flex", flexDirection: "column", gap: 6, marginTop: 4 }}>
+            <a href="https://woocommerce.com/document/woopayments/startup-guide/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: C.accentLight, color: C.accent, fontFamily: "inherit", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+              WooPayments (Free) — powered by Stripe ↗
+            </a>
+            <a href="https://woocommerce.com/products/authorize-net/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: C.accentLight, color: C.accent, fontFamily: "inherit", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+              Authorize.net (Paid) — recommended for telehealth ↗
+            </a>
+          </div>
+        </Card>
+        {needsSubs && (
+          <Card style={{ marginTop: 12 }}>
+            <h4 style={{ margin: "0 0 12px", fontSize: 14 }}>Required for Subscriptions</h4>
+            <CheckItem done={false}>
+              <strong>WooCommerce Subscriptions</strong> — Paid extension required for recurring monthly consultations (e.g., weight loss refills). Purchase from the <a href="https://woocommerce.com/products/woocommerce-subscriptions/" target="_blank" rel="noopener" style={{ color: C.accent }}>WooCommerce marketplace</a>.
+            </CheckItem>
+          </Card>
+        )}
+        <Card style={{ marginTop: 12 }}>
+          <h4 style={{ margin: "0 0 12px", fontSize: 14 }}>Optional</h4>
+          <CheckItem done={false}>
+            <strong>WooCommerce Product Bundles</strong> — If you want to offer bundled packages (e.g., consultation + lab kit), this extension lets you group products. Not required for standard consultations.
+          </CheckItem>
+          <a href="https://woocommerce.com/products/product-bundles/" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, background: C.accentLight, color: C.accent, fontFamily: "inherit", fontSize: 13, fontWeight: 600, textDecoration: "none", margin: "6px 0 0 28px" }}>
+            WooCommerce Product Bundles ↗
+          </a>
+        </Card>
+        <Callout type="info">
+          Qualiphy does not provide support for WooCommerce itself. For WooCommerce setup help, refer to the <a href="https://woocommerce.com/documentation/" target="_blank" rel="noopener" style={{ color: C.accent }}>official WooCommerce documentation</a>.
+        </Callout>
+      </>
+    )});
+  }
+
+  // 1 — Install
+  steps.push({ id: "install", title: "Install & Activate", render: () => (
+    <>
+      <p>Download the plugin file, then upload it to your WordPress site. The setup wizard launches automatically on activation.</p>
+      <div style={{ borderRadius: 10, overflow: "hidden", marginBottom: 16, border: "1px solid " + C.border }}>
+        <iframe src="https://www.youtube.com/embed/dKiUu-NwoLc?modestbranding=1&rel=0&showinfo=0&iv_load_policy=3" style={{ width: "100%", aspectRatio: "16/9", border: "none", display: "block" }} allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowFullScreen />
+      </div>
+      <a href="https://github.com/tom-at-Quailiphy/qualiphy-woocommerce/releases/latest/download/qualiphy.zip" target="_blank" rel="noopener" onClick={() => { if (window.track) window.track('clicked_download_plugin'); }} style={{
+        display: "inline-flex", alignItems: "center", gap: 8,
+        padding: "11px 20px", borderRadius: 8, marginBottom: 16,
+        background: C.accent, color: "#fff", fontFamily: "inherit",
+        fontSize: 14, fontWeight: 600, textDecoration: "none",
+        boxShadow: "0 2px 8px rgba(77,61,113,.2)",
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Quidget Plugin
+      </a>
+      <Card>
+        <ol style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+          <li style={{ fontSize: 14, lineHeight: 1.6, color: C.textBody }}>
+            In your WordPress admin, go to <strong>Plugins → Add New → Upload Plugin</strong>
+          </li>
+          <li style={{ fontSize: 14, lineHeight: 1.6, color: C.textBody }}>
+            Upload the <code>qualiphy.zip</code> file and click <strong>Install Now</strong>
+          </li>
+          <li style={{ fontSize: 14, lineHeight: 1.6, color: C.textBody }}>
+            Click <strong>Activate Plugin</strong> — the setup wizard opens immediately
+          </li>
+        </ol>
+      </Card>
+      <Callout type="info">
+        If you navigate away from the wizard, a yellow notice bar reminds you to complete setup. You can always return via <strong>Qualiphy → Setup Wizard</strong> in the sidebar.
+      </Callout>
+      <Callout type="warning">
+        <strong>Before you test paid consultations:</strong> Make sure you have a payment gateway (Stripe, PayPal, Authorize.net, etc.) installed and configured in WooCommerce. Exam invites only fire after payment is confirmed — without a working gateway, the consultation won't start. Free/no-cost consultations are not affected.
+      </Callout>
+    </>
+  )});
+
+  // 2 — Quidget Plugin Wizard (consolidated)
+  steps.push({ id: "wizard", title: "Quidget Plugin Wizard", render: () => (
+    <>
+      <p>Once the plugin is activated, the setup wizard walks you through everything. Here's what to expect at each step:</p>
+
+      <Card>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>1</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Accept Terms</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Review and accept the terms of service. The wizard also verifies SSL and WooCommerce are active.</p></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>2</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Upload Branding</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Add your logo (light and dark versions) and set accent colors. These appear on the exam launch modal, emails, and checkout. You can refine these later under Qualiphy → Settings → Branding.</p></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>3</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Connect API Key</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Paste your API key and click Verify. The plugin connects to Qualiphy and syncs your consultations, pharmacies, and exam data automatically.</p></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>4</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Set Service Area</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Select which U.S. states you serve. This creates a WooCommerce shipping zone automatically. 48 states + D.C. available (Alabama and Mississippi excluded).{needsRx ? " For Rx consultations, only select states where your pharmacies can fulfill." : ""}</p></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>5</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Import Consultations</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Your available consultations appear as cards. Click any card to import it as a WooCommerce product — the import wizard guides you through {hasProds ? "linking to an existing product or creating a new one, " : ""}pricing, {needsRx ? "pharmacy selection, " : ""}and publishing. Repeat for each consultation you want to offer.</p></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>6</div>
+            <div><strong style={{ fontSize: 14, color: C.text }}>Configure Settings</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Set clinical access controls (who can view patient data), email notifications, and auto-refund settings.{needsRx ? " Default return fee is $30 — the amount retained if a consultation is deferred." : ""}</p></div>
+          </div>
+        </div>
+      </Card>
+
+      {needsSubs && (
+        <Callout type="warning">
+          Make sure WooCommerce Subscriptions is active before running the wizard. The requirements screen checks for it — you need a green checkmark to import subscription-based consultations.
+        </Callout>
+      )}
+
+      <Card style={{ marginTop: 4 }}>
+        <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>Working with a developer?</h4>
+        <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+          Share this page with them — it contains everything they need to complete setup without a call.
+        </p>
+      </Card>
+    </>
+  )});
+
+  // 8 — Post Setup
+  steps.push({ id: "postsetup", title: "After Setup", render: () => (
+    <>
+      <p>Setup is complete. Here's what you should know about day-to-day operations.</p>
+
+      <Card>
+        <h4 style={{ margin: "0 0 10px", fontSize: 14 }}>How a consultation works end-to-end</h4>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 4 }}>
+          <FlowStep n="1">Patient finds the consultation product and adds it to cart</FlowStep>
+          <FlowStep n="2">Checkout collects gender, date of birth, and phone number</FlowStep>
+          <FlowStep n="3">After payment, an exam invite fires to Qualiphy automatically</FlowStep>
+          <FlowStep n="4">Thank-you page shows a popup to connect with a provider</FlowStep>
+          {needsRx ? (
+            <>
+              <FlowStep n="5">Provider reviews and writes a prescription</FlowStep>
+              <FlowStep n="6">Pharmacy fulfills and ships — tracking updates your order</FlowStep>
+              <FlowStep n="7">Order auto-completes when delivered</FlowStep>
+            </>
+          ) : (
+            <>
+              <FlowStep n="5">Provider reviews and approves the consultation</FlowStep>
+              <FlowStep n="6">Order auto-completes on approval</FlowStep>
+            </>
+          )}
+        </div>
+      </Card>
+
+      <Callout type="info">
+        <strong>Why does checkout exist?</strong> The WooCommerce checkout step isn't optional overhead — it's how the plugin collects required patient information (name, gender, date of birth, phone, billing state) and triggers the exam invite to Qualiphy. Without it, the provider wouldn't have the data they need for the consultation. The plugin auto-redirects to checkout and auto-creates an account for the patient, so the friction is minimal.
+      </Callout>
+
+      <Card style={{ marginTop: 12 }}>
+        <h4 style={{ margin: "0 0 12px", fontSize: 14 }}>Key admin pages</h4>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <AdminPage title="Dashboard" path="Qualiphy → Dashboard">
+            Overview, quick links, and news.
+          </AdminPage>
+          <AdminPage title="Consultations" path="Qualiphy → Consultations">
+            Manage, sync, and import consultations. Add new products here when you create new exams in Qualiphy.
+          </AdminPage>
+          {needsRx && (
+            <AdminPage title="Pharmacies" path="Qualiphy → Pharmacies">
+              View pharmacies, state coverage, and configure routing rules per exam per state.
+            </AdminPage>
+          )}
+          <AdminPage title="Settings" path="Qualiphy → Settings">
+            General, checkout behavior, language customization, email notifications, branding, and advanced options.
+          </AdminPage>
+        </div>
+      </Card>
+
+      {needsSubs && (
+        <Card style={{ marginTop: 12 }}>
+          <h4 style={{ margin: "0 0 10px", fontSize: 14 }}>Subscription behavior</h4>
+          <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+            On renewal, the plugin sends a new exam invite automatically. If a renewal consultation is deferred, the subscription can be cancelled or put on hold (configurable in Settings → General).
+          </p>
+        </Card>
+      )}
+
+      {needsRx && (
+        <Card style={{ marginTop: 12 }}>
+          <h4 style={{ margin: "0 0 10px", fontSize: 14 }}>Dose questionnaire (returning patients)</h4>
+          <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+            For products with multiple dose variations, enable the <strong>Questionnaire</strong> on the product edit page. This replaces the dropdown with a guided flow: "Have you taken this before?" → "Current dose" → "Stay, increase, or decrease." Customize text and colors in Settings → Language.
+          </p>
+        </Card>
+      )}
+
+      <Card style={{ marginTop: 12 }}>
+        <h4 style={{ margin: "0 0 12px", fontSize: 14 }}>Common issues after setup</h4>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>"Please log in to view this order" on the thank-you page</div>
+            <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, marginTop: 3 }}>
+              The plugin forces account creation at checkout, but if your WooCommerce settings conflict (e.g., guest checkout is partially enabled, or a caching plugin serves stale pages), the patient lands on a login wall instead of seeing the exam launch. Fix: go to <strong>WooCommerce → Settings → Accounts & Privacy</strong> and enable "Allow customers to create an account during checkout." Also clear any page cache after setup.
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>Exam invite not firing after checkout</div>
+            <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, marginTop: 3 }}>
+              The most common cause is a missing or misconfigured payment gateway. The exam invite fires on <em>payment complete</em>, not on order creation. If the payment gateway isn't confirming the charge, the invite never sends. Verify your gateway is processing test transactions successfully before diagnosing the plugin.
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>Renaming the product breaks the consultation</div>
+            <div style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, marginTop: 3 }}>
+              You can safely rename the product title and change the URL slug — the Qualiphy link is stored as metadata on the product, not tied to the name. If something breaks after renaming, it's usually a caching issue. Clear your site cache and test again. If it persists, uninstall and reactivate the plugin to re-run the setup wizard (your data is preserved).
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card style={{ marginTop: 12 }}>
+        <h4 style={{ margin: "0 0 10px", fontSize: 14 }}>Tip: Direct-to-checkout URL for in-clinic use</h4>
+        <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+          If your staff processes consultations in-clinic (e.g., a nurse at the front desk), you can create a direct link that adds the consultation to cart and jumps straight to checkout: <code>yoursite.com/checkout/?add-to-cart=PRODUCT_ID</code>. Replace <code>PRODUCT_ID</code> with the WooCommerce product ID (found in the URL when editing the product). Bookmark this for your team — it cuts the patient flow down to one step for staff-initiated consultations.
+        </p>
+      </Card>
+
+      <Callout type="success">
+        Your store is ready. Need help? <strong>support@qualiphy.me</strong> or <strong>(424) 320-9958</strong>.
+      </Callout>
+    </>
+  )});
+
+  // 9 — Troubleshooting
+  steps.push({ id: "troubleshooting", title: "Troubleshooting", render: () => (
+    <>
+      <p>If something isn't working after setup, find your symptom below. These cover the most common issues we see.</p>
+
+      <TroubleshootItem
+        symptom="Exam invite never sends after checkout"
+        causes={[
+          { title: "No payment gateway", fix: "The invite fires on payment confirmation. If no gateway is configured (or the gateway fails silently), the invite never triggers. Go to WooCommerce → Settings → Payments and verify your gateway is active and processing test orders." },
+          { title: "Free exam not configured correctly", fix: "For $0 consultations, make sure the product was imported with the 'Free Instant Checkout' option in the import wizard. Free exams fire on order creation, not payment — but only if WooCommerce recognizes the order total as $0." },
+          { title: "Caching plugin interference", fix: "Aggressive caching (especially database or object caching) can prevent WooCommerce AJAX calls from working. Exclude /checkout/ and /my-account/ from your cache. If using W3 Total Cache, disable page cache for logged-in users." },
+        ]}
+      />
+
+      <TroubleshootItem
+        symptom="Patient sees 'Please log in to view this order' on the thank-you page"
+        causes={[
+          { title: "Account creation setting conflict", fix: "Go to WooCommerce → Settings → Accounts & Privacy. Enable 'Allow customers to create an account during checkout.' The Qualiphy plugin forces account creation, but this WooCommerce setting must also be enabled for it to work." },
+          { title: "Page cache serving stale content", fix: "Clear your entire site cache after installing the plugin. Some caching plugins serve the thank-you page from cache before the order session is established." },
+        ]}
+      />
+
+      <TroubleshootItem
+        symptom="Exam launch popup doesn't appear after checkout"
+        causes={[
+          { title: "Auto-launch is disabled", fix: "Go to Qualiphy → Settings → General. Make sure 'Auto Launch Exams' is enabled. Also check the launch mode — 'Popup' shows the modal, 'Redirect' sends them directly to the meeting URL." },
+          { title: "Invite was sent but meeting URL is missing", fix: "Check the WooCommerce order — look for a Qualiphy section with the invite status. If it says 'error', check the error message. Common cause: the patient's state isn't in your service area, or pharmacy routing failed for an Rx exam." },
+        ]}
+      />
+
+      <TroubleshootItem
+        symptom="Product page shows 'not available in your area' for all customers"
+        causes={[
+          { title: "Service area too narrow", fix: "Go to Qualiphy → Settings → Service Area and check your selected states. If a state isn't checked, patients in that state can't purchase." },
+          { title: "Shipping zone misconfigured", fix: "The plugin auto-creates a 'Qualiphy Service Area' shipping zone. If it was accidentally deleted or modified, go to WooCommerce → Settings → Shipping and verify it exists with free shipping for your selected states. Or re-save your service area in Qualiphy settings to regenerate it." },
+        ]}
+      />
+
+      {needsRx && (
+        <TroubleshootItem
+          symptom="Rx consultation approved but no prescription/tracking"
+          causes={[
+            { title: "Pharmacy routing not configured", fix: "Go to Qualiphy → Pharmacies and verify that the exam has a pharmacy assigned for the patient's state. If no pharmacy covers that state, the prescription can't be created." },
+            { title: "Webhook not reaching your site", fix: "Prescription and tracking updates arrive via webhook. Go to Qualiphy → Settings → Advanced and verify the webhook URL is correct and reachable. Check if a security plugin (Wordfence, Sucuri) is blocking incoming POST requests to the webhook endpoint." },
+          ]}
+        />
+      )}
+
+      <Card style={{ marginTop: 4, background: C.accentLight, border: `1px solid ${C.accentMid}` }}>
+        <h4 style={{ margin: "0 0 8px", fontSize: 14, color: C.accent }}>Still stuck?</h4>
+        <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: 0 }}>
+          Contact us at <strong>support@qualiphy.me</strong> or <strong>(424) 320-9958</strong>. Include your site URL, which step you're on, and any error messages — screenshots help us diagnose faster. If you'd prefer our team handle setup entirely, let us know.
+        </p>
+      </Card>
+    </>
+  )});
+
+  // ── Render ─────────────────────────────────────────────────────────────
+  return (
+    <div className="guide-layout" style={{ display: "flex", height: "100vh" }}>
+
+      {/* Sidebar */}
+      <aside className="guide-sidebar" style={{
+        width: 280, flexShrink: 0, background: C.bgWhite, borderRight: `1px solid ${C.border}`,
+        display: "flex", flexDirection: "column", overflow: "hidden",
+      }}>
+        <div style={{ padding: "20px 20px 16px", borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Logo size={24} />
+            <span style={{ fontSize: 15, fontWeight: 700, color: C.text }}>Qualiphy</span>
+          </div>
+          <p style={{ fontSize: 12, color: C.textMuted, margin: "8px 0 0" }}>Plugin Setup Guide</p>
+        </div>
+
+        <nav style={{ flex: 1, overflow: "auto", padding: "12px 12px" }}>
+          {steps.map((step, i) => (
+            <button key={step.id} onClick={() => { setActiveStep(i); scrollTop(); }} style={{
+              display: "flex", alignItems: "flex-start", gap: 10,
+              width: "100%", padding: "10px 10px", borderRadius: 8, border: "none",
+              background: i === activeStep ? C.accentLight : "transparent",
+              cursor: "pointer", textAlign: "left", fontFamily: "inherit",
+              transition: "background 0.15s ease", marginBottom: 2,
+            }}>
+              <StepNum n={i + 1} active={i === activeStep} done={i < activeStep} />
+              <span style={{
+                fontSize: 13, fontWeight: i === activeStep ? 600 : 500,
+                color: i === activeStep ? C.accent : i < activeStep ? C.green : C.textBody,
+                lineHeight: 1.35, marginTop: 5,
+              }}>{step.title}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer" style={{ padding: "12px 16px", borderTop: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ display: "flex", gap: 6 }}>
+            <Btn variant="ghost" onClick={onRestart} small>← Restart guide</Btn>
+            <Btn variant="ghost" onClick={printAllSteps} small>🖨 Print</Btn>
+          </div>
+          <div style={{ fontSize: 11, color: C.textDim, lineHeight: 1.4 }}>
+            Need help? <strong style={{ color: C.textMuted }}>support@qualiphy.me</strong>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="guide-main" ref={contentRef} style={{ flex: 1, overflow: "auto" }}>
+        <div style={{
+          position: "sticky", top: 0, zIndex: 10, padding: "14px 32px",
+          background: C.bg + "ee", backdropFilter: "blur(8px)",
+          borderBottom: `1px solid ${C.border}`,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Pill>{steps[activeStep].title}</Pill>
+            <span style={{ fontSize: 12, color: C.textDim }}>Step {activeStep + 1} of {steps.length}</span>
+          </div>
+          <div className="topbar-pills" style={{ display: "flex", gap: 4 }}>
+            <SummaryPill label="Type" value={needsRx && needsGfe ? "Rx + GFE" : needsRx ? "Rx" : "GFE"} />
+            {needsSubs && <SummaryPill label="Subscriptions" value="Yes" />}
+          </div>
+        </div>
+
+        {printing ? (
+          <div className="guide-content" style={{ maxWidth: 680, margin: "0 auto", padding: "32px 32px 80px" }}>
+            {steps.map((step, i) => (
+              <div key={step.id} style={{ marginBottom: 40, pageBreakInside: "avoid" }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: C.text, margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+                  {step.title}
+                </h2>
+                <div style={{ fontSize: 14, color: C.textBody, lineHeight: 1.7, display: "flex", flexDirection: "column", gap: 16 }}>
+                  {step.render()}
+                </div>
+                {i < steps.length - 1 && <hr style={{ border: "none", borderTop: "1px solid " + C.border, margin: "32px 0 0" }} />}
+              </div>
+            ))}
+          </div>
+        ) : (
+        <div key={activeStep} className="fade-in guide-content" style={{ maxWidth: 680, margin: "0 auto", padding: "32px 32px 80px" }}>
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: C.text, margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+            {steps[activeStep].title}
+          </h2>
+          <div style={{ fontSize: 14, color: C.textBody, lineHeight: 1.7, display: "flex", flexDirection: "column", gap: 16 }}>
+            {steps[activeStep].render()}
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40, paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
+            <Btn variant="secondary" onClick={() => { setActiveStep(Math.max(0, activeStep - 1)); scrollTop(); }} disabled={activeStep === 0}>
+              ← Previous
+            </Btn>
+            {activeStep < steps.length - 1 ? (
+              <Btn onClick={() => { setActiveStep(activeStep + 1); scrollTop(); }}>
+                Next: {steps[activeStep + 1].title} →
+              </Btn>
+            ) : (
+              <Btn onClick={() => { if (window.track) window.track('guide_completed'); window.open("https://app.qualiphy.me", "_blank"); }}>
+                Go to Qualiphy Dashboard →
+              </Btn>
+            )}
+          </div>
+        </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   APP ROOT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function App() {
+  const [screen, setScreen] = useState("intake");
+  const [answers, setAnswers] = useState(null);
+
+  if (screen === "intake") {
+    return <IntakeScreen onComplete={(a) => { setAnswers(a); setScreen("guide"); }} />;
+  }
+  return <GuideScreen answers={answers} onRestart={() => { setAnswers(null); setScreen("intake"); }} />;
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+</script>
+</body>
+</html>
