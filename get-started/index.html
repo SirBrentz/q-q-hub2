@@ -90,6 +90,12 @@
 window.QTRACK_CONFIG = {
   WEBHOOK_URL: "https://script.google.com/macros/s/AKfycbzGh0miR8ERrU2gK-NVhwaovEI6CiGp7v6FOHXopoSpEgLuEgrmf0X2YhEqLz1c12Lw/exec",
   SHARED_SECRET: "qdgt-7k9m-trk-ax42-2026",
+  // ─── A/B EXPERIMENT (set to null to disable variant assignment) ───
+  // When set, assigns each visitor to one variant deterministically (hash of vid)
+  // and persists in localStorage so the same person sees the same variant on return.
+  // Format: { name: 'experiment_name', variants: ['control', 'variant_a', ...] }
+  // Example: { name: 'hero_v2', variants: ['control', 'variant_a'] }
+  AB_EXPERIMENT: null,
 };
 
 (function() {
@@ -100,6 +106,25 @@ window.QTRACK_CONFIG = {
     localStorage.setItem('qtrack_vid', visitorId);
   }
   var sessionStart = Date.now();
+
+  // ─── A/B variant assignment (deterministic per visitor) ───
+  // Returns "experiment_name:variant_name" or "" if no experiment is configured.
+  // Same visitorId always gets the same variant for a given experiment.
+  function getVariant() {
+    var exp = window.QTRACK_CONFIG.AB_EXPERIMENT;
+    if (!exp || !exp.name || !Array.isArray(exp.variants) || exp.variants.length < 2) return '';
+    var key = 'qtrack_var_' + exp.name;
+    var assigned = localStorage.getItem(key);
+    if (!assigned || exp.variants.indexOf(assigned) === -1) {
+      // Hash visitorId for deterministic bucket (so the same person always lands in the same arm)
+      var h = 0;
+      for (var i = 0; i < visitorId.length; i++) h = ((h << 5) - h + visitorId.charCodeAt(i)) | 0;
+      assigned = exp.variants[Math.abs(h) % exp.variants.length];
+      localStorage.setItem(key, assigned);
+    }
+    return exp.name + ':' + assigned;
+  }
+  window._qtrack_variant = getVariant();
 
   // ─── UTM capture ───
   var params = new URLSearchParams(window.location.search);
@@ -170,6 +195,7 @@ window.QTRACK_CONFIG = {
       path: window.location.pathname,
       utms: window._qtrack_utms,
       geo: window._qtrack_geo,
+      variant: window._qtrack_variant || '',
       data: data || {},
     };
     try {
@@ -528,7 +554,7 @@ function TroubleshootItem({ symptom, causes }) {
 
 function ApiQuickStart() {
   const [step, setStep] = useState(0); // 0 = intro, 1 = services, 2 = result
-  const [services, setServices] = useState({ gfe: false, rx: false });
+  const [services, setServices] = useState({ gfe: false, rx: false, urgent_care: false });
   const [copied, setCopied] = useState(false);
 
   // ─── TRACKING ───
@@ -536,12 +562,12 @@ function ApiQuickStart() {
     if (window.track) window.track('api_quickstart_viewed', { step });
   }, [step]);
   useEffect(() => {
-    if (window.track && copied) window.track('api_quickstart_copied', { gfe: services.gfe, rx: services.rx });
+    if (window.track && copied) window.track('api_quickstart_copied', { gfe: services.gfe, rx: services.rx, urgent_care: services.urgent_care });
   }, [copied]);
   // ─── END TRACKING ───
 
   const needsRx = services.rx;
-  const hasAny = services.gfe || services.rx;
+  const hasAny = services.gfe || services.rx || services.urgent_care;
 
   const toggleSvc = (key) => setServices(prev => ({ ...prev, [key]: !prev[key] }));
 
@@ -576,6 +602,7 @@ function ApiQuickStart() {
     let svcList = [];
     if (services.gfe) svcList.push("Good Faith Exams");
     if (services.rx) svcList.push("Rx Consultations");
+    if (services.urgent_care) svcList.push("Urgent Care");
     let t = "QUALIPHY API QUICK START\n========================\n\n";
     t += "Services: " + svcList.join(", ") + "\n";
     t += "Pharmacy: " + (needsRx ? "Partner Pharmacy (recommended)" : "N/A") + "\n\n";
@@ -634,6 +661,7 @@ function ApiQuickStart() {
         {[
           { key: "gfe", label: "Good Faith Exams", desc: "Provider clearance for procedures - Botox, fillers, IV therapy, laser" },
           { key: "rx", label: "Rx Consultations", desc: "Provider evaluates and may prescribe - GLP-1, men's/women's health" },
+          { key: "urgent_care", label: "Urgent Care", desc: "Same-day visits for acute, non-emergency concerns" },
         ].map(svc => (
           <button key={svc.key} onClick={() => toggleSvc(svc.key)} style={{
             display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 16px", borderRadius: 10,
@@ -664,6 +692,7 @@ function ApiQuickStart() {
   let svcLabels = [];
   if (services.gfe) svcLabels.push("GFE");
   if (services.rx) svcLabels.push("Rx");
+  if (services.urgent_care) svcLabels.push("Urgent Care");
   let endpoints = ["exam_invite", "Webhook handler"];
   if (needsRx) endpoints = ["partner_pharmacy_list", "partner_pharmacy_treatment_packages", ...endpoints];
 

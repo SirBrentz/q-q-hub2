@@ -585,6 +585,181 @@ a:hover{text-decoration:underline}
 .score-pill.rank-2{background:rgba(87,148,242,.15);color:#7AACF5}
 .score-pill.rank-3{background:rgba(184,119,217,.15);color:#C695E0}
 
+/* ============ TOPBAR EXTRAS ============ */
+.topbar-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg-1);border:1px solid var(--border);border-radius:6px;
+  padding:6px 12px;
+  font-family:var(--mono);font-size:11px;color:var(--text-dim);
+  transition:all .15s;letter-spacing:.02em;
+}
+.topbar-btn:hover{border-color:var(--border-strong);color:var(--text-bright)}
+.topbar-btn svg{flex-shrink:0;opacity:.7}
+.topbar-btn:hover svg{opacity:1}
+
+/* ============ HOUR × DAY HEATMAP ============ */
+.hmap{
+  display:grid;
+  grid-template-columns:40px repeat(24, 1fr);
+  gap:3px;padding:6px 2px;
+}
+.hmap-corner{}
+.hmap-hlabel{
+  font-family:var(--mono);font-size:9.5px;color:var(--text-faint);
+  text-align:center;padding:0 0 2px;letter-spacing:.02em;
+}
+.hmap-dlabel{
+  font-family:var(--mono);font-size:10px;color:var(--text-faint);
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:10px;letter-spacing:.02em;
+}
+.hmap-cell{
+  aspect-ratio:1/1;
+  min-height:20px;
+  border-radius:2px;
+  background:var(--bg-2);
+  transition:transform .1s, outline-color .1s;
+  outline:1px solid transparent;
+  cursor:default;
+  position:relative;
+}
+.hmap-cell[data-i]{
+  background:rgba(87,148,242,calc(var(--i, 0) / 100 * 0.9 + 0.04));
+}
+.hmap-cell:hover{
+  outline-color:var(--text-bright);
+  transform:scale(1.25);
+  z-index:3;
+}
+.hmap-cell[data-tip]::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:var(--bg-3);border:1px solid var(--border-strong);border-radius:4px;
+  padding:5px 8px;font-family:var(--mono);font-size:10.5px;color:var(--text-bright);
+  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .1s;
+  z-index:10;
+}
+.hmap-cell:hover::after{opacity:1}
+.hmap-legend{
+  display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10.5px;color:var(--text-faint);
+}
+.hmap-legend-grad{
+  flex:1;height:8px;border-radius:2px;
+  background:linear-gradient(90deg, var(--bg-2), rgba(87,148,242,.9));
+}
+.hmap-peaks{
+  margin-top:12px;display:flex;gap:24px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;color:var(--text-dim);
+}
+.hmap-peaks strong{color:var(--text-bright);font-weight:600}
+
+/* ============ DEVICE × COMPLETION ============ */
+.dcomp{display:flex;flex-direction:column;gap:10px;padding:4px 2px}
+.dcomp-row{
+  display:grid;grid-template-columns:90px 1fr 70px;gap:12px;align-items:center;
+  padding:10px 12px;background:var(--bg-2);border-radius:4px;
+  border:1px solid transparent;transition:border-color .15s;
+}
+.dcomp-row:hover{border-color:var(--border-strong)}
+.dcomp-label{
+  font-family:var(--mono);font-size:11.5px;color:var(--text-bright);
+  display:flex;align-items:center;gap:8px;
+}
+.dcomp-label-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:4px;background:var(--bg-3);color:var(--text-dim);
+}
+.dcomp-mid{display:flex;flex-direction:column;gap:5px}
+.dcomp-stats{
+  display:flex;gap:14px;align-items:baseline;
+  font-family:var(--mono);font-size:10.5px;color:var(--text-dim);
+}
+.dcomp-stats strong{color:var(--text-bright);font-weight:600}
+.dcomp-bar{
+  position:relative;height:6px;background:var(--bg-3);border-radius:3px;overflow:hidden;
+}
+.dcomp-bar-fill{
+  display:block;position:absolute;left:0;top:0;bottom:0;
+  border-radius:3px;
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.dcomp-bar-fill.t-low{background:linear-gradient(90deg, #7A4040, var(--red))}
+.dcomp-bar-fill.t-med{background:linear-gradient(90deg, #7A6330, var(--orange))}
+.dcomp-bar-fill.t-high{background:linear-gradient(90deg, #3A6A32, var(--green-soft))}
+.dcomp-rate{
+  font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text-bright);
+  text-align:right;font-feature-settings:'tnum';
+}
+
+/* ============ A/B EXPERIMENTS ============ */
+.ab-list{display:flex;flex-direction:column;gap:14px;padding:4px 2px}
+.ab-exp{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:6px;
+  padding:14px 16px;
+}
+.ab-exp-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;
+}
+.ab-exp-name{
+  font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--text-bright);
+  display:flex;align-items:center;gap:8px;
+}
+.ab-exp-name::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:var(--purple);
+  box-shadow:0 0 8px rgba(184,119,217,.5);
+}
+.ab-exp-meta{font-family:var(--mono);font-size:11px;color:var(--text-faint)}
+.ab-variants{display:flex;flex-direction:column;gap:10px}
+.ab-variant{
+  display:grid;grid-template-columns:110px 1fr 72px;gap:12px;align-items:center;
+}
+.ab-variant-name{
+  font-family:var(--mono);font-size:11.5px;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.ab-variant-crown{
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--green-soft);font-size:12px;
+}
+.ab-variant-bar{
+  position:relative;height:10px;background:var(--bg-3);border-radius:2px;overflow:hidden;
+}
+.ab-variant-fill{
+  display:block;position:absolute;left:0;top:0;bottom:0;
+  background:linear-gradient(90deg, var(--blue), #7AACF5);
+  border-radius:2px;
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.ab-variant.winner .ab-variant-fill{
+  background:linear-gradient(90deg, var(--green), var(--green-soft));
+}
+.ab-variant-stats{
+  font-family:var(--mono);font-size:11.5px;color:var(--text-bright);font-weight:600;
+  text-align:right;font-feature-settings:'tnum';
+}
+.ab-variant-sub{
+  font-family:var(--mono);font-size:10px;color:var(--text-dim);
+  display:block;margin-top:2px;
+}
+.ab-result{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--border);
+  font-family:var(--mono);font-size:11px;
+}
+.ab-result-lift{color:var(--text-bright)}
+.ab-result-lift strong{color:var(--green-soft);font-weight:600}
+.ab-result-lift strong.down{color:#F07080}
+.ab-result-sig{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:3px 10px;border-radius:3px;font-weight:600;
+}
+.ab-result-sig.sig{background:rgba(86,166,75,.12);color:var(--green-soft)}
+.ab-result-sig.nsig{background:rgba(139,144,154,.1);color:var(--text-dim)}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:1100px){
   .grid-stats{grid-template-columns:repeat(2,1fr)}
@@ -603,6 +778,13 @@ a:hover{text-decoration:underline}
   .dropoff-step{grid-template-columns:60px 1fr auto;gap:8px}
   .dropoff-meta{min-width:80px;font-size:9.5px}
   .rate-bar{width:50px}
+  .hmap{grid-template-columns:30px repeat(24, 1fr);gap:2px}
+  .hmap-hlabel{font-size:8px}
+  .hmap-dlabel{font-size:9px;padding-right:6px}
+  .dcomp-row{grid-template-columns:70px 1fr 58px;gap:8px;padding:8px 10px}
+  .dcomp-stats{font-size:9.5px;gap:10px}
+  .ab-variant{grid-template-columns:80px 1fr 60px;gap:8px}
+  .ab-variant-stats{font-size:10.5px}
 }
 </style>
 </head>
@@ -665,6 +847,11 @@ a:hover{text-decoration:underline}
     <button class="time-btn" data-range="30" role="tab">30d</button>
     <button class="time-btn" data-range="all" role="tab">all</button>
   </div>
+
+  <button class="topbar-btn" id="exportBtn" title="Export current window as CSV">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span>csv</span>
+  </button>
 
   <button class="refresh" id="refreshBtn" title="Refresh data">
     <span class="refresh-dot" id="refreshDot"></span>
@@ -851,11 +1038,11 @@ a:hover{text-decoration:underline}
       <div class="panel-header">
         <div class="panel-title">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          Devices
+          Device × Completion
         </div>
-        <div class="panel-meta">user agent</div>
+        <div class="panel-meta">completion rate by device</div>
       </div>
-      <div class="panel-body" id="breakdownDevices"></div>
+      <div class="panel-body" id="deviceCompletion"></div>
     </div>
 
     <div class="panel">
@@ -884,6 +1071,30 @@ a:hover{text-decoration:underline}
       <span id="srcmatrixMeta">—</span>
     </div>
     <table class="tbl" id="srcMatrixTable"></table>
+  </div>
+
+  <!-- Hour × Day heatmap -->
+  <div class="panel section-gap">
+    <div class="panel-header">
+      <div class="panel-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        When Traffic Is Warm
+      </div>
+      <div class="panel-meta" id="hmapMeta">sessions by day × hour · local tz</div>
+    </div>
+    <div class="panel-body" id="hourHeatmap"></div>
+  </div>
+
+  <!-- A/B Experiments (conditional, only shown when variant data exists) -->
+  <div class="panel section-gap" id="abPanel" style="display:none">
+    <div class="panel-header">
+      <div class="panel-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="12" r="5"/><circle cx="17" cy="12" r="5"/></svg>
+        A/B Experiments
+      </div>
+      <div class="panel-meta" id="abMeta">—</div>
+    </div>
+    <div class="panel-body" id="abExperiments"></div>
   </div>
 
   <!-- Recent sessions -->
@@ -1014,6 +1225,7 @@ function normalizeSession(s) {
     lastActivity: s['Last Activity'] ? new Date(s['Last Activity']) : null,
     duration: Number(s['Duration (sec)']) || 0,
     totalEvents: Number(s['Total Events']) || 0,
+    variant: s['Variant'] || '',
   };
 }
 
@@ -1045,7 +1257,10 @@ function render() {
   renderQuestionHeatmap(rows);
   renderDropoff(rows);
   renderBreakdowns(rows);
+  renderDeviceCompletion(rows);
   renderSourceMatrix(rows);
+  renderHourHeatmap(rows);
+  renderABExperiments(rows);
   renderSessionsTable(rows);
   renderMeta(rows);
 }
@@ -1315,11 +1530,6 @@ function renderBreakdowns(rows) {
   const traffic = {};
   rows.forEach(r => { traffic[r.utmSource || 'direct'] = (traffic[r.utmSource || 'direct']||0)+1; });
   renderBreakdown('breakdownTraffic', traffic, 'purple', rows.length);
-
-  // Devices
-  const devices = {};
-  rows.forEach(r => { devices[r.device || 'Unknown'] = (devices[r.device || 'Unknown']||0)+1; });
-  renderBreakdown('breakdownDevices', devices, 'cyan', rows.length);
 
   // Gates
   const gates = {};
@@ -1729,6 +1939,356 @@ function renderSourceMatrix(rows) {
 }
 
 /* ============================================================
+ * DEVICE × COMPLETION
+ * ============================================================ */
+function renderDeviceCompletion(rows) {
+  const el = $('deviceCompletion');
+  const byDevice = {};
+  rows.forEach(r => {
+    const d = r.device || 'Unknown';
+    if (!byDevice[d]) byDevice[d] = { total: 0, completed: 0, demo: 0 };
+    byDevice[d].total++;
+    if (r.intakeCompleted) byDevice[d].completed++;
+    if (r.bookedDemo) byDevice[d].demo++;
+  });
+  const entries = Object.entries(byDevice).sort((a,b) => b[1].total - a[1].total);
+
+  if (!entries.length) {
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+        </div>
+        no sessions in range
+      </div>`;
+    return;
+  }
+
+  const iconFor = (d) => {
+    if (/mobile/i.test(d)) return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>';
+    if (/tablet/i.test(d)) return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
+    return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>';
+  };
+
+  el.innerHTML = '<div class="dcomp">' + entries.map(([dev, s]) => {
+    const rate = s.total > 0 ? s.completed / s.total : 0;
+    const ratePct = Math.round(rate * 100);
+    const tier = rate >= 0.35 ? 't-high' : rate >= 0.15 ? 't-med' : 't-low';
+    return `
+      <div class="dcomp-row">
+        <div class="dcomp-label">
+          <span class="dcomp-label-icon">${iconFor(dev)}</span>
+          <span>${escapeHtml(dev)}</span>
+        </div>
+        <div class="dcomp-mid">
+          <div class="dcomp-stats">
+            <span><strong>${s.total}</strong> sessions</span>
+            <span><strong>${s.completed}</strong> completed</span>
+            ${s.demo > 0 ? `<span><strong>${s.demo}</strong> demo</span>` : ''}
+          </div>
+          <div class="dcomp-bar"><span class="dcomp-bar-fill ${tier}" style="width:${ratePct}%"></span></div>
+        </div>
+        <div class="dcomp-rate">${ratePct}%</div>
+      </div>
+    `;
+  }).join('') + '</div>';
+}
+
+/* ============================================================
+ * HOUR × DAY HEATMAP
+ * Groups sessions into a 7 (day of week) × 24 (hour of day) grid
+ * Times are rendered in the VIEWER's local timezone, which works
+ * well when most traffic is US-based and Brent is in Arkansas.
+ * ============================================================ */
+function renderHourHeatmap(rows) {
+  const el = $('hourHeatmap');
+  const grid = Array.from({length: 7}, () => Array(24).fill(0));
+  rows.forEach(r => {
+    if (!r.startedAt) return;
+    const d = r.startedAt.getDay();    // 0=Sun..6=Sat
+    const h = r.startedAt.getHours();
+    grid[d][h]++;
+  });
+  const max = Math.max(1, ...grid.flat());
+
+  // Find peak day + peak hour + peak cell
+  let peakDay = 0, peakDayCount = 0;
+  let peakHour = 0, peakHourCount = 0;
+  let peakCell = { d: 0, h: 0, c: 0 };
+  for (let d = 0; d < 7; d++) {
+    const dayTotal = grid[d].reduce((a,b) => a+b, 0);
+    if (dayTotal > peakDayCount) { peakDayCount = dayTotal; peakDay = d; }
+    for (let h = 0; h < 24; h++) {
+      if (grid[d][h] > peakCell.c) peakCell = { d, h, c: grid[d][h] };
+    }
+  }
+  for (let h = 0; h < 24; h++) {
+    let hourTotal = 0;
+    for (let d = 0; d < 7; d++) hourTotal += grid[d][h];
+    if (hourTotal > peakHourCount) { peakHourCount = hourTotal; peakHour = h; }
+  }
+
+  if (max <= 1 && rows.length < 5) {
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        not enough sessions to show patterns yet
+      </div>`;
+    return;
+  }
+
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const hourLabel = (h) => h === 0 ? '12a' : h === 12 ? '12p' : h < 12 ? h + 'a' : (h-12) + 'p';
+  const fmtHourFull = (h) => {
+    const hh = h === 0 ? 12 : h > 12 ? h-12 : h;
+    const suf = h < 12 ? 'am' : 'pm';
+    return hh + suf + '–' + (((h+1)%12 === 0 ? 12 : (h+1)%12) + (h+1 < 12 || (h+1) === 24 ? 'am' : 'pm'));
+  };
+
+  let html = '<div class="hmap">';
+  // Header row: corner + hour labels
+  html += '<div class="hmap-corner"></div>';
+  for (let h = 0; h < 24; h++) {
+    // Only show every 3rd label to avoid crowding
+    html += `<div class="hmap-hlabel">${h % 3 === 0 ? hourLabel(h) : ''}</div>`;
+  }
+  // One row per day
+  for (let d = 0; d < 7; d++) {
+    html += `<div class="hmap-dlabel">${days[d]}</div>`;
+    for (let h = 0; h < 24; h++) {
+      const c = grid[d][h];
+      const intensity = c === 0 ? 0 : Math.max(5, Math.round((c / max) * 100));
+      const tip = `${days[d]} ${fmtHourFull(h)} · ${c} session${c === 1 ? '' : 's'}`;
+      html += `<div class="hmap-cell" data-i="${intensity}" style="--i:${intensity}" data-c="${c}" data-tip="${tip}"></div>`;
+    }
+  }
+  html += '</div>';
+
+  // Peaks summary
+  html += `
+    <div class="hmap-peaks">
+      <span>peak day · <strong>${days[peakDay]}</strong> (${peakDayCount})</span>
+      <span>peak hour · <strong>${hourLabel(peakHour)}</strong> (${peakHourCount})</span>
+      <span>hottest slot · <strong>${days[peakCell.d]} ${hourLabel(peakCell.h)}</strong> (${peakCell.c})</span>
+    </div>
+  `;
+
+  // Legend
+  html += `
+    <div class="hmap-legend">
+      <span>0</span>
+      <span class="hmap-legend-grad"></span>
+      <span>${max}</span>
+    </div>
+  `;
+
+  el.innerHTML = html;
+}
+
+/* ============================================================
+ * A/B EXPERIMENTS
+ * Auto-detects variant data from the Variant column. Format:
+ *   "<experiment_name>:<variant_name>"  e.g. "hero_v2:control"
+ * Multiple experiments can run simultaneously via this same column
+ * as long as each session is tagged with one experiment+variant.
+ * ============================================================ */
+// Two-proportion z-test. Returns {lift, zScore, pValue, significant}
+function zTestProportions(cA, nA, cB, nB) {
+  if (nA === 0 || nB === 0) return { lift: 0, zScore: 0, pValue: 1, significant: false };
+  const pA = cA / nA, pB = cB / nB;
+  const pPool = (cA + cB) / (nA + nB);
+  const se = Math.sqrt(pPool * (1 - pPool) * (1/nA + 1/nB));
+  const z = se === 0 ? 0 : (pB - pA) / se;
+  // Two-tailed p-value via normal CDF approximation
+  const absZ = Math.abs(z);
+  const pValue = 2 * (1 - normCdf(absZ));
+  return { lift: pB - pA, zScore: z, pValue, significant: pValue < 0.05 };
+}
+function normCdf(x) {
+  // Abramowitz & Stegun 7.1.26 approximation
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+  const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x) / Math.sqrt(2);
+  const t = 1 / (1 + p * x);
+  const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x*x);
+  return 0.5 * (1 + sign * y);
+}
+
+function renderABExperiments(rows) {
+  const panel = $('abPanel');
+  const el = $('abExperiments');
+
+  // Group by experiment name (parse "exp:variant" format)
+  const experiments = {};
+  rows.forEach(r => {
+    if (!r.variant) return;
+    const parts = String(r.variant).split(':');
+    if (parts.length !== 2) return;
+    const [exp, vName] = parts.map(x => x.trim());
+    if (!exp || !vName) return;
+    if (!experiments[exp]) experiments[exp] = {};
+    if (!experiments[exp][vName]) experiments[exp][vName] = { total: 0, completed: 0, demo: 0 };
+    experiments[exp][vName].total++;
+    if (r.intakeCompleted) experiments[exp][vName].completed++;
+    if (r.bookedDemo) experiments[exp][vName].demo++;
+  });
+
+  const expNames = Object.keys(experiments);
+  if (!expNames.length) {
+    panel.style.display = 'none';
+    return;
+  }
+  panel.style.display = '';
+
+  const totalTagged = rows.filter(r => r.variant).length;
+  $('abMeta').textContent = `${expNames.length} experiment${expNames.length === 1 ? '' : 's'} · ${totalTagged} tagged sessions`;
+
+  el.innerHTML = '<div class="ab-list">' + expNames.map(exp => {
+    const variants = Object.entries(experiments[exp]).sort((a,b) => a[0].localeCompare(b[0]));
+    const total = variants.reduce((a,[_,v]) => a + v.total, 0);
+    const maxRate = Math.max(...variants.map(([_,v]) => v.total ? v.completed/v.total : 0));
+    const winnerName = (variants.find(([_,v]) => v.total && v.completed/v.total === maxRate) || [''])[0];
+
+    // Pick control = first alphabetically (or 'control' if present)
+    const controlEntry = variants.find(([n]) => n.toLowerCase() === 'control') || variants[0];
+    const [controlName, controlData] = controlEntry;
+
+    let html = `
+      <div class="ab-exp">
+        <div class="ab-exp-head">
+          <span class="ab-exp-name">${escapeHtml(exp)}</span>
+          <span class="ab-exp-meta">${variants.length} variants · n=${total}</span>
+        </div>
+        <div class="ab-variants">
+    `;
+
+    variants.forEach(([name, v]) => {
+      const rate = v.total ? v.completed / v.total : 0;
+      const ratePct = Math.round(rate * 100);
+      const barW = maxRate > 0 ? (rate / maxRate) * 100 : 0;
+      const isWinner = name === winnerName && variants.length > 1;
+      html += `
+        <div class="ab-variant ${isWinner ? 'winner' : ''}">
+          <div class="ab-variant-name">
+            ${isWinner ? '<span class="ab-variant-crown">♦</span>' : ''}
+            <span>${escapeHtml(name)}</span>
+          </div>
+          <div class="ab-variant-bar"><span class="ab-variant-fill" style="width:${barW}%"></span></div>
+          <div class="ab-variant-stats">
+            ${ratePct}%
+            <span class="ab-variant-sub">${v.completed}/${v.total}</span>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+
+    // Significance test: compare non-control variants against control
+    if (variants.length >= 2 && controlData.total > 0) {
+      const challengers = variants.filter(([n]) => n !== controlName);
+      if (challengers.length) {
+        const [chName, chData] = challengers[0]; // report first challenger; typical 2-arm test
+        const test = zTestProportions(controlData.completed, controlData.total, chData.completed, chData.total);
+        const liftPp = (test.lift * 100).toFixed(1);
+        const liftDir = test.lift > 0 ? 'up' : 'down';
+        const enough = controlData.total >= 30 && chData.total >= 30;
+        html += `
+          <div class="ab-result">
+            <span class="ab-result-lift">
+              lift · <strong class="${liftDir}">${test.lift > 0 ? '+' : ''}${liftPp}pp</strong>
+              <span style="color:var(--text-faint)">(${escapeHtml(chName)} vs ${escapeHtml(controlName)})</span>
+            </span>
+            <span class="ab-result-sig ${test.significant && enough ? 'sig' : 'nsig'}">
+              ${test.significant && enough
+                ? `significant · p=${test.pValue.toFixed(3)}`
+                : enough
+                  ? `not significant · p=${test.pValue.toFixed(3)}`
+                  : `need more data (n<30 in a variant)`
+              }
+            </span>
+          </div>
+        `;
+      }
+    }
+
+    html += '</div>';
+    return html;
+  }).join('') + '</div>';
+}
+
+/* ============================================================
+ * CSV EXPORT
+ * Exports the current filtered window as CSV. Uses the same column
+ * set the Apps Script persists, so re-importing to Sheets is clean.
+ * ============================================================ */
+function exportCSV() {
+  const rows = filteredSessions();
+  if (!rows.length) {
+    alert('No sessions in the current window to export.');
+    return;
+  }
+  const headers = [
+    'Session ID','Started At','Device','Browser',
+    'UTM Source','UTM Medium','UTM Campaign',
+    'City','State','Country',
+    'Has Account','Has Med Director','Has API Key','Has WordPress',
+    'Exam Types','Has Subscriptions','Has Products',
+    'Gates Hit','Booked Demo','Demo Scheduled','API Quickstart',
+    'Furthest Question','Intake Completed',
+    'Furthest Guide Step','Downloaded Plugin','Guide Completed',
+    'Abandoned At','Question Times','Duration (sec)','Total Events','Variant',
+  ];
+
+  const esc = (v) => {
+    if (v === null || v === undefined) return '';
+    const s = String(v);
+    // Quote if contains comma, quote, newline
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  };
+
+  const lines = [headers.join(',')];
+  rows.forEach(r => {
+    lines.push([
+      r.id,
+      r.startedAt ? r.startedAt.toISOString() : '',
+      r.device, r.browser,
+      r.utmSource, r.utmMedium, r.utmCampaign,
+      r.city, r.state, r.country,
+      r.hasAccount, r.hasMedDirector, r.hasApiKey, r.hasWordPress,
+      r.examTypes, r.hasSubscriptions, r.hasProducts,
+      r.gatesHit,
+      r.bookedDemo ? 'Yes' : '',
+      r.demoScheduled ? 'Yes' : '',
+      r.apiQuickstart,
+      r.furthestQuestion,
+      r.intakeCompleted ? 'Yes' : '',
+      r.furthestGuideStep,
+      r.downloadedPlugin ? 'Yes' : '',
+      r.guideCompleted ? 'Yes' : '',
+      r.abandonedAt, r.questionTimes,
+      r.duration, r.totalEvents, r.variant,
+    ].map(esc).join(','));
+  });
+
+  const csv = '\ufeff' + lines.join('\n'); // BOM for Excel compat
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g, '-');
+  const rangeLabel = state.rangeDays === 'all' ? 'all' : state.rangeDays + 'd';
+  a.href = url;
+  a.download = `quidget-sessions-${rangeLabel}-${stamp}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ============================================================
  * TIME RANGE CONTROL
  * ============================================================ */
 function initTimeRange() {
@@ -1742,6 +2302,8 @@ function initTimeRange() {
     });
   });
   $('refreshBtn').addEventListener('click', fetchData);
+  const expBtn = $('exportBtn');
+  if (expBtn) expBtn.addEventListener('click', exportCSV);
 }
 
 /* ============================================================
