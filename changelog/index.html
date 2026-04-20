@@ -860,12 +860,7 @@ body.sticky-cta-active{padding-bottom:72px}
 .cl-hero-inner{max-width:720px}
 .cl-hero h1{font-size:clamp(2rem,4.5vw,3.25rem);letter-spacing:-.025em;line-height:1.1;margin-bottom:16px}
 .cl-hero p{font-size:17.5px;color:var(--text-mid);line-height:1.6;margin-bottom:20px;max-width:560px}
-.cl-hero-meta{display:inline-flex;gap:20px;flex-wrap:wrap;font-family:var(--font-m);font-size:12px;color:var(--text-lt);padding-top:18px;border-top:1px dashed var(--border-lt)}
-.cl-hero-meta a{display:inline-flex;align-items:center;gap:8px;color:var(--text-lt);text-decoration:none;transition:color .15s}
-.cl-hero-meta a:hover{color:var(--text)}
-.cl-hero-meta a:hover strong{color:var(--indigo)}
-.cl-hero-meta-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18)}
-.cl-hero-meta strong{color:var(--text);font-weight:600;transition:color .15s}
+
 
 .cl-body{padding:72px 0 96px}
 .cl-loading{display:flex;align-items:center;gap:12px;padding:32px;font-family:var(--font-m);font-size:13px;color:var(--text-lt);justify-content:center;border:1px dashed var(--border-lt);border-radius:var(--r-md);background:var(--surface-alt)}
@@ -995,12 +990,6 @@ body.sticky-cta-active{padding-bottom:72px}
       <div class="kicker">Changelog</div>
       <h1 id="cl-h">Every release, every fix,<br>in one place.</h1>
       <p>Quidget ships continuously. This page syncs directly from our live product roadmap. Every new feature, improvement, and bug fix is reflected here the moment it's marked complete.</p>
-      <div class="cl-hero-meta">
-        <a href="https://qualiphyapi.gttn.co/api/v1/roadmap" target="_blank" rel="noopener" id="clLastUpdatedLink">
-          <span class="cl-hero-meta-dot"></span>
-          Last updated: <strong id="clLastChecked">checking...</strong>
-        </a>
-      </div>
     </div>
   </div>
 </section>
@@ -1125,7 +1114,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const CACHE_KEY = 'qdgt_changelog_v1';
   const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
   const root = document.getElementById('clRoot');
-  const lastCheckedEl = document.getElementById('clLastChecked');
   const refetchBtn = document.getElementById('clRefetch');
   if (!root) return;
 
@@ -1243,8 +1231,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
     } else {
       root.innerHTML = (versionsHtml || '') + (futureHtml || '');
     }
-
-    lastCheckedEl.textContent = formatDate(fetchedAt);
   };
 
   const readCache = () => {
