@@ -436,6 +436,155 @@ a:hover{text-decoration:underline}
 }
 @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
+/* ============ ANOMALY ALERTS ============ */
+.alerts{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.alerts:empty{display:none}
+.alert{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-radius:6px;
+  border:1px solid;
+  font-size:12.5px;
+  animation:alertIn .4s cubic-bezier(.16,1,.3,1);
+}
+@keyframes alertIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.alert-up{background:rgba(86,166,75,.08);border-color:rgba(86,166,75,.25);color:var(--green-soft)}
+.alert-down{background:rgba(224,47,68,.08);border-color:rgba(224,47,68,.3);color:#F07080}
+.alert-info{background:rgba(87,148,242,.08);border-color:rgba(87,148,242,.25);color:#7AACF5}
+.alert-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;background:currentColor;opacity:.15}
+.alert-icon::before{content:'';position:absolute}
+.alert-body{flex:1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.alert-title{font-weight:600;color:var(--text-bright)}
+.alert-meta{font-family:var(--mono);font-size:11px;color:var(--text-dim)}
+.alert-delta{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  padding:2px 8px;border-radius:3px;background:rgba(255,255,255,.05);
+}
+
+/* ============ QUESTION TIME HEATMAP ============ */
+.qheat{display:flex;flex-direction:column;gap:7px;padding:4px 2px}
+.qheat-row{
+  display:grid;grid-template-columns:78px 1fr auto;gap:12px;align-items:center;
+  font-size:12px;
+}
+.qheat-row-label{
+  font-family:var(--mono);font-size:11.5px;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.qheat-row-tag{
+  font-family:var(--mono);font-size:9.5px;color:var(--text-faint);
+  padding:2px 5px;border-radius:3px;background:var(--bg-2);
+  letter-spacing:.04em;
+}
+.qheat-row-bar{position:relative;height:20px;background:var(--bg-2);border-radius:3px;overflow:hidden}
+.qheat-row-fill{
+  position:absolute;left:0;top:0;bottom:0;
+  border-radius:3px;
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.qheat-row-median{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:10.5px;font-weight:600;color:#fff;
+  padding:0 7px;
+  text-shadow:0 1px 1px rgba(0,0,0,.5);
+  pointer-events:none;
+}
+.qheat-row-meta{
+  font-family:var(--mono);font-size:10.5px;color:var(--text-dim);
+  text-align:right;min-width:70px;
+}
+.qheat-legend{
+  display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10.5px;color:var(--text-faint);
+}
+.qheat-legend-grad{
+  flex:1;height:8px;border-radius:2px;
+  background:linear-gradient(90deg, #56A64B 0%, #F2CC0C 50%, #E02F44 100%);
+}
+
+/* ============ GRANULAR DROP-OFF ============ */
+.dropoff{padding:4px 2px;display:flex;flex-direction:column;gap:3px}
+.dropoff-step{
+  display:grid;grid-template-columns:78px 1fr auto;gap:12px;align-items:center;
+  padding:7px 0;
+}
+.dropoff-label{
+  font-family:var(--mono);font-size:11.5px;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.dropoff-q{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:4px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  background:var(--bg-3);color:var(--text-dim);
+  flex-shrink:0;
+}
+.dropoff-bar{position:relative;height:18px;background:var(--bg-2);border-radius:3px;overflow:hidden}
+.dropoff-fill{
+  position:absolute;left:0;top:0;bottom:0;
+  background:linear-gradient(90deg, rgba(87,148,242,.7), rgba(87,148,242,.4));
+  border-right:2px solid var(--blue);
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.dropoff-fill.critical{
+  background:linear-gradient(90deg, rgba(224,47,68,.65), rgba(224,47,68,.35));
+  border-right-color:var(--red);
+}
+.dropoff-fill.warn{
+  background:linear-gradient(90deg, rgba(255,152,48,.65), rgba(255,152,48,.35));
+  border-right-color:var(--orange);
+}
+.dropoff-meta{
+  font-family:var(--mono);font-size:10.5px;color:var(--text-dim);
+  text-align:right;min-width:100px;
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;
+}
+.dropoff-count{color:var(--text-bright);font-weight:600}
+.dropoff-drop{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:1px 6px;border-radius:3px;font-weight:600;
+}
+.dropoff-drop.critical{background:rgba(224,47,68,.14);color:#F07080}
+.dropoff-drop.warn{background:rgba(255,152,48,.14);color:var(--orange)}
+.dropoff-drop.ok{background:rgba(86,166,75,.12);color:var(--green-soft)}
+
+/* ============ SOURCE × COMPLETION MATRIX ============ */
+.srcmatrix{padding:0}
+.srcmatrix-note{
+  padding:10px 14px;
+  font-family:var(--mono);font-size:10.5px;color:var(--text-faint);
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  letter-spacing:.02em;
+}
+.srcmatrix-note strong{color:var(--text-dim);font-weight:500}
+.rate-cell{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);
+}
+.rate-bar{
+  width:80px;height:6px;background:var(--bg-3);border-radius:3px;overflow:hidden;
+  display:inline-block;
+}
+.rate-bar-fill{
+  display:block;
+  height:100%;border-radius:3px;
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.rate-bar-fill.t-low{background:linear-gradient(90deg, #7A4040, var(--red))}
+.rate-bar-fill.t-med{background:linear-gradient(90deg, #7A6330, var(--orange))}
+.rate-bar-fill.t-high{background:linear-gradient(90deg, #3A6A32, var(--green-soft))}
+.rate-val{font-size:11.5px;color:var(--text-bright);font-weight:600;min-width:36px;text-align:right}
+.score-pill{
+  display:inline-block;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  padding:2px 8px;border-radius:3px;
+  background:var(--bg-3);color:var(--text-dim);
+}
+.score-pill.rank-1{background:rgba(86,166,75,.18);color:var(--green-soft)}
+.score-pill.rank-2{background:rgba(87,148,242,.15);color:#7AACF5}
+.score-pill.rank-3{background:rgba(184,119,217,.15);color:#C695E0}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:1100px){
   .grid-stats{grid-template-columns:repeat(2,1fr)}
@@ -449,6 +598,11 @@ a:hover{text-decoration:underline}
   .topbar{padding:10px 14px;flex-wrap:wrap;height:auto}
   .crumbs{display:none}
   .dash-h-meta{font-size:10.5px;gap:12px}
+  .qheat-row{grid-template-columns:60px 1fr auto;gap:8px}
+  .qheat-row-meta{min-width:50px;font-size:9.5px}
+  .dropoff-step{grid-template-columns:60px 1fr auto;gap:8px}
+  .dropoff-meta{min-width:80px;font-size:9.5px}
+  .rate-bar{width:50px}
 }
 </style>
 </head>
@@ -529,6 +683,9 @@ a:hover{text-decoration:underline}
       <span>updated · <strong id="metaUpdated">—</strong></span>
     </div>
   </div>
+
+  <!-- Anomaly alerts -->
+  <div class="alerts" id="alerts"></div>
 
   <!-- Top stats row -->
   <div class="grid grid-stats">
@@ -616,6 +773,31 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- Question diagnostics row -->
+  <div class="grid grid-2 section-gap">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Time per Question
+        </div>
+        <div class="panel-meta">median seconds · higher = friction</div>
+      </div>
+      <div class="panel-body" id="qheat"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 20l5-5 5 5M7 4l5 5 5-5"/></svg>
+          Drop-off by Question
+        </div>
+        <div class="panel-meta">granular funnel</div>
+      </div>
+      <div class="panel-body" id="dropoff"></div>
+    </div>
+  </div>
+
   <!-- Middle row: services, top states, top cities -->
   <div class="grid grid-3 section-gap">
     <div class="panel">
@@ -686,6 +868,22 @@ a:hover{text-decoration:underline}
       </div>
       <div class="panel-body" id="breakdownGates"></div>
     </div>
+  </div>
+
+  <!-- Source × completion quality matrix -->
+  <div class="panel section-gap">
+    <div class="panel-header">
+      <div class="panel-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+        Source Quality
+      </div>
+      <div class="panel-meta">traffic source × intake completion</div>
+    </div>
+    <div class="srcmatrix-note">
+      <span>ranked by <strong>quality score</strong> (balances volume + completion rate)</span>
+      <span id="srcmatrixMeta">—</span>
+    </div>
+    <table class="tbl" id="srcMatrixTable"></table>
   </div>
 
   <!-- Recent sessions -->
@@ -840,10 +1038,14 @@ function filteredSessions() {
 
 function render() {
   const rows = filteredSessions();
+  renderAlerts(rows);
   renderStats(rows);
   renderChart(rows);
   renderFunnel(rows);
+  renderQuestionHeatmap(rows);
+  renderDropoff(rows);
   renderBreakdowns(rows);
+  renderSourceMatrix(rows);
   renderSessionsTable(rows);
   renderMeta(rows);
 }
@@ -1213,6 +1415,317 @@ function timeAgo(date) {
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============================================================
+ * ANOMALY ALERTS
+ * ============================================================ */
+function renderAlerts(rows) {
+  const el = $('alerts');
+  el.innerHTML = '';
+  if (state.rangeDays === 'all') return;
+
+  const cur = rows;
+  const span = Number(state.rangeDays) * 86400000;
+  const prevStart = new Date(Date.now() - span * 2);
+  const prevEnd = new Date(Date.now() - span);
+  const prev = state.sessions.filter(s => s.startedAt && s.startedAt >= prevStart && s.startedAt < prevEnd);
+
+  // Need at least a handful of prior sessions for a meaningful comparison
+  if (prev.length < 3) return;
+
+  const alerts = [];
+
+  // Volume delta
+  const volDelta = (cur.length - prev.length) / Math.max(prev.length, 1) * 100;
+  if (Math.abs(volDelta) >= 30) {
+    alerts.push({
+      kind: volDelta > 0 ? 'up' : 'down',
+      title: volDelta > 0 ? 'Traffic surge detected' : 'Traffic drop detected',
+      meta: `sessions vs prior ${state.rangeDays}d window`,
+      delta: (volDelta > 0 ? '+' : '') + Math.round(volDelta) + '% · ' + cur.length + ' vs ' + prev.length,
+    });
+  }
+
+  // Completion rate delta
+  const curComp = cur.length ? cur.filter(r => r.intakeCompleted).length / cur.length : 0;
+  const prevComp = prev.length ? prev.filter(r => r.intakeCompleted).length / prev.length : 0;
+  if (prevComp > 0 && Math.abs(curComp - prevComp) >= 0.10) {
+    const compDelta = (curComp - prevComp) * 100;
+    alerts.push({
+      kind: compDelta > 0 ? 'up' : 'down',
+      title: compDelta > 0 ? 'Completion rate improving' : 'Completion rate dropping',
+      meta: `intake completion vs prior window`,
+      delta: (compDelta > 0 ? '+' : '') + compDelta.toFixed(1) + 'pp · ' + Math.round(curComp*100) + '% vs ' + Math.round(prevComp*100) + '%',
+    });
+  }
+
+  // Demo click rate delta
+  const curDemo = cur.length ? cur.filter(r => r.bookedDemo).length / cur.length : 0;
+  const prevDemo = prev.length ? prev.filter(r => r.bookedDemo).length / prev.length : 0;
+  if (prev.length >= 10 && Math.abs(curDemo - prevDemo) >= 0.05) {
+    const demoDelta = (curDemo - prevDemo) * 100;
+    alerts.push({
+      kind: demoDelta > 0 ? 'up' : 'down',
+      title: demoDelta > 0 ? 'Demo clicks rising' : 'Demo clicks falling',
+      meta: `demo-click rate vs prior window`,
+      delta: (demoDelta > 0 ? '+' : '') + demoDelta.toFixed(1) + 'pp · ' + Math.round(curDemo*100) + '% vs ' + Math.round(prevDemo*100) + '%',
+    });
+  }
+
+  // Session quality: median duration delta
+  const curDurs = cur.filter(r => r.duration > 0).map(r => r.duration).sort((a,b) => a-b);
+  const prevDurs = prev.filter(r => r.duration > 0).map(r => r.duration).sort((a,b) => a-b);
+  if (curDurs.length >= 5 && prevDurs.length >= 5) {
+    const curMed = curDurs[Math.floor(curDurs.length/2)];
+    const prevMed = prevDurs[Math.floor(prevDurs.length/2)];
+    const durDelta = (curMed - prevMed) / Math.max(prevMed, 1) * 100;
+    if (Math.abs(durDelta) >= 40) {
+      alerts.push({
+        kind: durDelta > 0 ? 'up' : 'down',
+        title: durDelta > 0 ? 'Sessions getting longer' : 'Sessions getting shorter',
+        meta: `median session duration`,
+        delta: (durDelta > 0 ? '+' : '') + Math.round(durDelta) + '% · ' + fmtDuration(curMed).label + ' vs ' + fmtDuration(prevMed).label,
+      });
+    }
+  }
+
+  if (!alerts.length) return;
+
+  alerts.forEach(a => {
+    const icon = a.kind === 'up'
+      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>'
+      : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    el.innerHTML += `
+      <div class="alert alert-${a.kind}">
+        <div class="alert-icon" style="background:currentColor;opacity:.2;color:inherit">${icon}</div>
+        <div class="alert-body">
+          <span class="alert-title">${a.title}</span>
+          <span class="alert-meta">${a.meta}</span>
+        </div>
+        <span class="alert-delta">${a.delta}</span>
+      </div>
+    `;
+  });
+}
+
+/* ============================================================
+ * QUESTION TIME HEATMAP
+ * ============================================================ */
+// Parse the Question Times JSON column safely and aggregate median seconds per question key
+function parseQuestionTimes(rows) {
+  const perQuestion = {};
+  rows.forEach(r => {
+    if (!r.questionTimes) return;
+    try {
+      const parsed = typeof r.questionTimes === 'string' ? JSON.parse(r.questionTimes) : r.questionTimes;
+      if (!parsed || typeof parsed !== 'object') return;
+      Object.entries(parsed).forEach(([qid, sec]) => {
+        const s = Number(sec);
+        if (!Number.isFinite(s) || s < 0) return;
+        if (!perQuestion[qid]) perQuestion[qid] = [];
+        perQuestion[qid].push(s);
+      });
+    } catch(e) { /* malformed JSON, skip */ }
+  });
+  return perQuestion;
+}
+
+// Friendlier labels mapped from question ids seen in the get-started flow
+const QUESTION_LABELS = {
+  hasAccount: 'Account',
+  hasMedDirector: 'Med Director',
+  hasApiKey: 'API Key',
+  hasWordPress: 'WordPress',
+  examType: 'Exam Type',
+  hasSubscriptions: 'Subscriptions',
+  hasProducts: 'Products',
+};
+
+function renderQuestionHeatmap(rows) {
+  const el = $('qheat');
+  const perQ = parseQuestionTimes(rows);
+  const entries = Object.entries(perQ).map(([qid, times]) => {
+    const sorted = [...times].sort((a,b) => a-b);
+    const median = sorted[Math.floor(sorted.length/2)];
+    const p90 = sorted[Math.floor(sorted.length*0.9)] || median;
+    return { qid, label: QUESTION_LABELS[qid] || qid, median, p90, n: times.length };
+  }).sort((a,b) => b.median - a.median);
+
+  if (!entries.length) {
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        no per-question timing data yet
+      </div>`;
+    return;
+  }
+
+  const maxMed = Math.max(...entries.map(e => e.median), 1);
+  const maxScale = Math.max(maxMed, 30); // floor scale at 30s so fast questions don't span full bar
+
+  // Color ramp: green (fast) → yellow (moderate) → red (slow)
+  const fillFor = (sec) => {
+    const ratio = Math.min(sec / maxScale, 1);
+    if (ratio < 0.33) return 'linear-gradient(90deg, #3A6A32, #56A64B)';
+    if (ratio < 0.66) return 'linear-gradient(90deg, #7A6330, #F2CC0C)';
+    return 'linear-gradient(90deg, #7A3030, #E02F44)';
+  };
+
+  el.innerHTML = '<div class="qheat">' + entries.map(e => {
+    const w = Math.max(6, (e.median / maxScale) * 100);
+    return `
+      <div class="qheat-row">
+        <div class="qheat-row-label">
+          <span>${escapeHtml(e.label)}</span>
+          <span class="qheat-row-tag">${escapeHtml(e.qid)}</span>
+        </div>
+        <div class="qheat-row-bar">
+          <div class="qheat-row-fill" style="width:${w}%;background:${fillFor(e.median)}"></div>
+          <span class="qheat-row-median" style="left:${w > 18 ? '10px' : 'calc(' + w + '% + 8px)'};color:${w > 18 ? '#fff' : 'var(--text-bright)'}">
+            ${e.median.toFixed(1)}s
+          </span>
+        </div>
+        <div class="qheat-row-meta">n=${e.n} · p90 ${e.p90.toFixed(0)}s</div>
+      </div>
+    `;
+  }).join('') + '</div>' + `
+    <div class="qheat-legend">
+      <span>0s</span>
+      <span class="qheat-legend-grad"></span>
+      <span>${Math.round(maxScale)}s+</span>
+    </div>
+  `;
+}
+
+/* ============================================================
+ * GRANULAR DROP-OFF (by furthest question reached)
+ * ============================================================ */
+function renderDropoff(rows) {
+  const el = $('dropoff');
+  const total = rows.length;
+  if (!total) {
+    el.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 20l5-5 5 5M7 4l5 5 5-5"/></svg>
+        </div>
+        no sessions in range
+      </div>`;
+    return;
+  }
+  const maxQ = Math.max(0, ...rows.map(r => r.furthestQuestion || 0));
+  const steps = [];
+  // step i: sessions that reached at least question index i
+  for (let i = 0; i <= Math.max(maxQ, 0); i++) {
+    const count = rows.filter(r => (r.furthestQuestion || 0) >= i).length;
+    steps.push({ idx: i, count });
+  }
+
+  el.innerHTML = '<div class="dropoff">' + steps.map((s, i) => {
+    const prev = i === 0 ? total : steps[i-1].count;
+    const retention = prev > 0 ? (s.count / prev) * 100 : 0;
+    const dropPct = 100 - retention;
+    const barW = total > 0 ? (s.count / total) * 100 : 0;
+    // Intensity classes
+    let barClass = '';
+    let dropClass = 'ok';
+    if (i > 0) {
+      if (dropPct >= 40) { barClass = 'critical'; dropClass = 'critical'; }
+      else if (dropPct >= 20) { barClass = 'warn'; dropClass = 'warn'; }
+    }
+    const dropText = i === 0 ? 'entry' : '−' + Math.round(dropPct) + '%';
+    return `
+      <div class="dropoff-step">
+        <div class="dropoff-label">
+          <span class="dropoff-q">q${s.idx}</span>
+          <span>${i === 0 ? 'Landed' : 'Reached'}</span>
+        </div>
+        <div class="dropoff-bar">
+          <div class="dropoff-fill ${barClass}" style="width:${Math.max(barW, 2)}%"></div>
+        </div>
+        <div class="dropoff-meta">
+          <span class="dropoff-count">${s.count}</span>
+          <span class="dropoff-drop ${dropClass}">${dropText}</span>
+        </div>
+      </div>
+    `;
+  }).join('') + '</div>';
+}
+
+/* ============================================================
+ * SOURCE × COMPLETION MATRIX
+ * ============================================================ */
+function renderSourceMatrix(rows) {
+  const tbl = $('srcMatrixTable');
+  const byCombo = {};
+  rows.forEach(r => {
+    const src = r.utmSource || 'direct';
+    const med = r.utmMedium || '—';
+    const key = src + '‖' + med;
+    if (!byCombo[key]) byCombo[key] = { src, med, total: 0, completed: 0, demo: 0, totalDur: 0, durCount: 0 };
+    const b = byCombo[key];
+    b.total++;
+    if (r.intakeCompleted) b.completed++;
+    if (r.bookedDemo) b.demo++;
+    if (r.duration > 0) { b.totalDur += r.duration; b.durCount++; }
+  });
+
+  const rowsOut = Object.values(byCombo).map(b => {
+    const rate = b.total ? b.completed / b.total : 0;
+    // Quality score: completion rate weighted by a volume confidence factor.
+    // Uses the Wilson-style log(1+volume) dampener so tiny n doesn't dominate.
+    const score = rate * Math.log(1 + b.total);
+    const avgDur = b.durCount ? Math.round(b.totalDur / b.durCount) : 0;
+    return { ...b, rate, score, avgDur };
+  }).sort((a,b) => b.score - a.score);
+
+  if (!rowsOut.length) {
+    tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="empty-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></div>no sources in range</div></td></tr></tbody>`;
+    $('srcmatrixMeta').textContent = '—';
+    return;
+  }
+
+  $('srcmatrixMeta').textContent = `${rowsOut.length} source${rowsOut.length === 1 ? '' : 's'} · ${rows.length} sessions`;
+
+  tbl.innerHTML = `
+    <thead><tr>
+      <th>Rank</th>
+      <th>Source</th>
+      <th>Medium</th>
+      <th class="num">Sessions</th>
+      <th class="num">Completed</th>
+      <th>Completion rate</th>
+      <th class="num">Demo clicks</th>
+      <th class="num">Avg dur</th>
+    </tr></thead>
+    <tbody>
+      ${rowsOut.slice(0, 20).map((b, i) => {
+        const ratePct = Math.round(b.rate * 100);
+        const tier = b.rate >= 0.35 ? 't-high' : b.rate >= 0.15 ? 't-med' : 't-low';
+        const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+        return `
+          <tr>
+            <td><span class="score-pill ${rankClass}">#${i+1}</span></td>
+            <td class="mono">${escapeHtml(b.src)}</td>
+            <td class="mono" style="color:var(--text-dim)">${escapeHtml(b.med)}</td>
+            <td class="num">${b.total}</td>
+            <td class="num">${b.completed}</td>
+            <td>
+              <span class="rate-cell">
+                <span class="rate-bar"><span class="rate-bar-fill ${tier}" style="width:${ratePct}%"></span></span>
+                <span class="rate-val">${ratePct}%</span>
+              </span>
+            </td>
+            <td class="num">${b.demo || '—'}</td>
+            <td class="num">${b.avgDur > 0 ? fmtDuration(b.avgDur).label : '—'}</td>
+          </tr>
+        `;
+      }).join('')}
+    </tbody>
+  `;
 }
 
 /* ============================================================
