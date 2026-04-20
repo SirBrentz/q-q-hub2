@@ -651,6 +651,25 @@ strong{font-weight:600;color:var(--text)}
 .pricing-price{font-family:var(--font-h);font-size:68px;font-weight:800;color:var(--ink);line-height:1;margin:0 0 10px;letter-spacing:-.04em}
 .pricing-price small{font-size:19px;color:var(--text-lt);font-weight:500;margin-left:10px;letter-spacing:.01em}
 .pricing-note{font-family:var(--font-m);font-size:12px;color:var(--text-lt);margin-bottom:16px}
+
+/* Treatment coverage block (chips) */
+.tcov{margin:0 auto 44px;max-width:980px}
+.tcov-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;justify-content:center;flex-wrap:wrap}
+.tcov-label{font-family:var(--font-m);font-size:11px;color:var(--text-lt);letter-spacing:.08em;text-transform:uppercase}
+.tcov-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tcov-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:100px;
+  background:#fff;border:1px solid var(--border);
+  font-size:13.5px;color:var(--ink);font-weight:500;
+  box-shadow:0 2px 10px rgba(77,61,113,.04);
+}
+.tcov-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--indigo);flex-shrink:0}
+.tcov-note{font-size:12.5px;color:var(--text-lt);text-align:center;margin-top:14px;font-family:var(--font-m)}
+@media (max-width:600px){
+  .tcov-chips{gap:8px}
+  .tcov-chip{padding:8px 13px;font-size:13px}
+}
 .pricing-callout{
   background:var(--lavender-mist);border:1px solid rgba(77,61,113,.1);
   border-radius:10px;padding:14px 16px;margin-bottom:28px;
@@ -921,7 +940,7 @@ body.sticky-cta-active{padding-bottom:72px}
           <span class="line line-rot"><em class="rotator" id="heroRotator"><span class="rotator-sizer" aria-hidden="true">medical weight loss clinic.</span><span class="rotator-word">GLP-1 program.</span></em></span>
           <span class="line">From WooCommerce.</span>
         </h1>
-        <p class="hero-sub">Quidget turns your WooCommerce store into a full e-commerce GLP-1 telehealth experience. Patients buy a monthly program, connect with a licensed provider, and receive Semaglutide or Tirzepatide shipped to their door, all wired through your existing WordPress site.</p>
+        <p class="hero-sub">Quidget turns your WooCommerce store into a full e-commerce GLP-1 telehealth experience. Patients buy a monthly program, connect <strong>instantly on video with a licensed provider</strong>, and receive <strong>Semaglutide, Tirzepatide, or any of 20+ peptides</strong> shipped from a top-tier pharmacy — all white-labeled to your clinic.</p>
         <div class="hero-actions">
           <a href="../get-started/" class="btn btn-primary btn-lg">Get Started →</a>
           <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-outline btn-lg btn-play">
@@ -933,7 +952,7 @@ body.sticky-cta-active{padding-bottom:72px}
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Semaglutide &amp; Tirzepatide</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Monthly subscriptions</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Pharmacy fulfillment</div>
-          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>$27.99 per consultation</div>
+          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>$27.99 all-in per visit</div>
         </div>
         <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
           <svg class="hero-reviews-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
@@ -1206,6 +1225,12 @@ body.sticky-cta-active{padding-bottom:72px}
 
     <div class="feats-grid">
       <article class="feat reveal">
+        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+        <h3>Instant video, your brand</h3>
+        <p>Patients connect to a licensed provider over secure video the moment they check out — branded end-to-end to your clinic. Average time to connect: under a minute.</p>
+      </article>
+
+      <article class="feat reveal">
         <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 11-6.22-8.56"/><polyline points="21 3 21 9 15 9"/></svg></div>
         <h3>Monthly subscription billing</h3>
         <p>Full WooCommerce Subscriptions support. Fresh consultations fire automatically on each renewal so the patient keeps getting treatment and your revenue compounds month over month.</p>
@@ -1213,8 +1238,8 @@ body.sticky-cta-active{padding-bottom:72px}
 
       <article class="feat reveal">
         <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h3>Pharmacy routing</h3>
-        <p>Semaglutide and Tirzepatide prescriptions auto-route to the correct partner pharmacy by patient state. No phone calls, no manual coordination, no hand-offs.</p>
+        <h3>Top-tier pharmacy network</h3>
+        <p>Semaglutide and Tirzepatide route to a hand-selected network of the highest-quality partner pharmacies, matched to patient state automatically. No phone calls, no manual coordination, no hand-offs.</p>
       </article>
 
       <article class="feat reveal">
@@ -1258,7 +1283,7 @@ body.sticky-cta-active{padding-bottom:72px}
       </div>
       <div class="stat-b reveal">
         <div class="stat-b-v">$27<span style="font-size:.6em">.99</span></div>
-        <div class="stat-b-l">per completed consultation</div>
+        <div class="stat-b-l">all-in per completed visit</div>
       </div>
       <div class="stat-b reveal">
         <div class="stat-b-v">$0</div>
@@ -1337,16 +1362,31 @@ body.sticky-cta-active{padding-bottom:72px}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">Pricing</div>
-      <h2 id="pricing-h">$27.99 per visit.<br>The rest is your margin.</h2>
-      <p>Qualiphy's cost to your clinic is $27.99 per completed consultation. You set whatever you charge the patient for the program — $199, $299, $399, whatever matches your positioning — and keep the difference.</p>
+      <h2 id="pricing-h">Lowest all-in cost per visit.<br>You set patient pricing.</h2>
+      <p>$27.99 is your cost per completed visit — that's it. Patients typically pay $199–$399 for a monthly Semaglutide program or $299–$499 for Tirzepatide, depending on your dose and market. You set the price, you keep the spread, Quidget handles the billing.</p>
+    </div>
+
+    <div class="tcov reveal">
+      <div class="tcov-head">
+        <span class="tcov-label">GLP-1 medications covered</span>
+      </div>
+      <div class="tcov-chips">
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Semaglutide</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Tirzepatide</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Compounded options</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Dose escalation protocols</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Follow-up refills</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Lab kit clearance</span>
+      </div>
+      <div class="tcov-note">Same $27.99 all-in visit fee for initial consult and every refill. Patient-facing pricing is yours to set.</div>
     </div>
 
     <div class="pricing-card reveal">
       <div class="pricing-left">
         <div class="kicker" style="margin-bottom:6px">The entire model</div>
         <h2 style="font-size:32px;letter-spacing:-.02em;line-height:1.1">One line item.<br>Fully variable cost.</h2>
-        <div class="pricing-price">$27.99<small>&nbsp;/&nbsp;consultation</small></div>
-        <div class="pricing-note">› billed only when a licensed provider completes a consultation</div>
+        <div class="pricing-price">$27.99<small>&nbsp;/&nbsp;visit · all-in</small></div>
+        <div class="pricing-note">› your lowest all-in cost per completed visit · you set medication margins</div>
         <div class="pricing-callout">
           <span class="pricing-callout-icon">i</span><strong>How your economics work:</strong> $27.99 is your cost per visit. Patients typically pay $199–$399 for a monthly Semaglutide program or $299–$499 for Tirzepatide, depending on your dose and market. You set the price, you keep the spread, Quidget handles the billing.
         </div>

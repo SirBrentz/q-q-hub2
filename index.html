@@ -651,6 +651,25 @@ strong{font-weight:600;color:var(--text)}
 .pricing-price{font-family:var(--font-h);font-size:68px;font-weight:800;color:var(--ink);line-height:1;margin:0 0 10px;letter-spacing:-.04em}
 .pricing-price small{font-size:19px;color:var(--text-lt);font-weight:500;margin-left:10px;letter-spacing:.01em}
 .pricing-note{font-family:var(--font-m);font-size:12px;color:var(--text-lt);margin-bottom:16px}
+
+/* Treatment coverage block (chips) */
+.tcov{margin:0 auto 44px;max-width:980px}
+.tcov-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;justify-content:center;flex-wrap:wrap}
+.tcov-label{font-family:var(--font-m);font-size:11px;color:var(--text-lt);letter-spacing:.08em;text-transform:uppercase}
+.tcov-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tcov-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:100px;
+  background:#fff;border:1px solid var(--border);
+  font-size:13.5px;color:var(--ink);font-weight:500;
+  box-shadow:0 2px 10px rgba(77,61,113,.04);
+}
+.tcov-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--indigo);flex-shrink:0}
+.tcov-note{font-size:12.5px;color:var(--text-lt);text-align:center;margin-top:14px;font-family:var(--font-m)}
+@media (max-width:600px){
+  .tcov-chips{gap:8px}
+  .tcov-chip{padding:8px 13px;font-size:13px}
+}
 .pricing-callout{
   background:var(--lavender-mist);border:1px solid rgba(77,61,113,.1);
   border-radius:10px;padding:14px 16px;margin-bottom:28px;
@@ -920,7 +939,7 @@ body.sticky-cta-active{padding-bottom:72px}
           <span class="line">Your brand.</span>
           <span class="line line-rot">Your <em class="rotator" id="heroRotator"><span class="rotator-sizer" aria-hidden="true">weight loss line.</span><span class="rotator-word">online med spa.</span></em></span>
         </h1>
-        <p class="hero-sub">Quidget turns your WordPress + WooCommerce store into a full e-commerce telehealth experience. Patients consult, purchase, and receive treatment end-to-end, powered by a licensed provider network and nationwide fulfillment, all under your brand.</p>
+        <p class="hero-sub">Quidget turns your WordPress + WooCommerce store into a full e-commerce telehealth experience. Patients consult, purchase, and receive treatment end-to-end — <strong>GLP-1s, 20+ peptides, ED meds, hair loss, urgent care, IV therapy</strong> and more. Instant video consultations, white-labeled to your clinic, with a top-tier pharmacy network behind every order.</p>
         <div class="hero-actions">
           <a href="get-started/" class="btn btn-primary btn-lg">Get Started →</a>
           <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-outline btn-lg btn-play">
@@ -931,7 +950,7 @@ body.sticky-cta-active{padding-bottom:72px}
         <div class="hero-trust">
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>White-label ready</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>No signup fees</div>
-          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>$27.99 per consultation</div>
+          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>$27.99 all-in per visit</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Self-serve setup</div>
         </div>
         <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
@@ -1207,6 +1226,12 @@ body.sticky-cta-active{padding-bottom:72px}
 
     <div class="feats-grid">
       <article class="feat reveal">
+        <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+        <h3>Instant video, your brand</h3>
+        <p>Patients connect to a licensed provider over secure video the moment they check out — branded end-to-end to your clinic. Average time to connect: under a minute.</p>
+      </article>
+
+      <article class="feat reveal">
         <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
         <h3>Guided setup</h3>
         <p>A step-by-step wizard walks you through install, account connection, and your first test order. Most clinics go live in under an hour.</p>
@@ -1220,8 +1245,8 @@ body.sticky-cta-active{padding-bottom:72px}
 
       <article class="feat reveal">
         <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h3>Nationwide fulfillment</h3>
-        <p>Our partner network handles fulfillment across the continental U.S. Orders route automatically, your staff never picks up a phone.</p>
+        <h3>Top-tier pharmacy network</h3>
+        <p>Prescriptions route to a hand-selected network of the highest-quality partner pharmacies. Ship nationwide, direct to patient, with tracking synced back to your store.</p>
       </article>
 
       <article class="feat reveal">
@@ -1259,7 +1284,7 @@ body.sticky-cta-active{padding-bottom:72px}
       </div>
       <div class="stat-b reveal">
         <div class="stat-b-v">$27<span style="font-size:.6em">.99</span></div>
-        <div class="stat-b-l">per completed consultation</div>
+        <div class="stat-b-l">all-in per completed visit</div>
       </div>
       <div class="stat-b reveal">
         <div class="stat-b-v">$0</div>
@@ -1338,16 +1363,33 @@ body.sticky-cta-active{padding-bottom:72px}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="kicker">Pricing</div>
-      <h2 id="pricing-h">Pay per completed consultation.<br>Nothing else.</h2>
-      <p>No setup fees. No monthly minimums. No annual contracts. If you don't run consultations, you don't pay.</p>
+      <h2 id="pricing-h">Lowest all-in cost per visit.<br>You set patient pricing.</h2>
+      <p>No setup fees. No monthly minimums. No annual contracts. One line item covers the licensed provider visit. Medication, shipping, and patient-facing price are yours.</p>
+    </div>
+
+    <div class="tcov reveal">
+      <div class="tcov-head">
+        <span class="tcov-label">Treatments covered</span>
+      </div>
+      <div class="tcov-chips">
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>GLP-1 weight loss</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>20+ peptides</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>ED medications</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Hair loss</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Urgent care</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>IV therapy clearance</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>Aesthetics &amp; injectables</span>
+        <span class="tcov-chip"><span class="tcov-chip-dot"></span>At-home lab kits</span>
+      </div>
+      <div class="tcov-note">Same $27.99 all-in visit fee for every treatment above. Patient-facing pricing is yours to set.</div>
     </div>
 
     <div class="pricing-card reveal">
       <div class="pricing-left">
         <div class="kicker" style="margin-bottom:6px">The entire model</div>
         <h2 style="font-size:32px;letter-spacing:-.02em;line-height:1.1">One line item.<br>Fully variable cost.</h2>
-        <div class="pricing-price">$27.99<small>&nbsp;/&nbsp;consultation</small></div>
-        <div class="pricing-note">› billed only when a licensed provider completes a consultation</div>
+        <div class="pricing-price">$27.99<small>&nbsp;/&nbsp;visit · all-in</small></div>
+        <div class="pricing-note">› your lowest all-in cost per completed visit · you set medication margins</div>
         <div class="pricing-callout">
           <span class="pricing-callout-icon">i</span><strong>How patient pricing works:</strong> The $27.99 is your cost, the consultation fee Qualiphy charges your clinic. You set whatever you charge the patient (markup, medication, shipping, supplies), and you keep the difference. Quidget handles the billing automatically.
         </div>
