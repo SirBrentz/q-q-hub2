@@ -1507,7 +1507,7 @@ body.sticky-cta-active{padding-bottom:72px}
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false"><span class="faq-num">06</span><span class="faq-q-t">What hours are providers available?</span><span class="faq-ico"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><div class="faq-a-in">Providers are on-call from <span data-tz-hour="6" data-tz-zone="America/Los_Angeles">6:00 AM</span> to <span data-tz-hour="19" data-tz-zone="America/Los_Angeles">7:00 PM</span> Pacific, seven days a week. Times shown here auto-adjust to your timezone. Most consultations are picked up within minutes. Orders placed outside these hours queue for the next available window, and patients receive a branded confirmation letting them know when to expect the review.</div></div>
+        <div class="faq-a"><div class="faq-a-in">Providers are on-call from <span data-tz-hour="6" data-tz-zone="America/Los_Angeles">6:00 AM</span> to <span data-tz-hour="19" data-tz-zone="America/Los_Angeles">7:00 PM</span> <span data-tz-label>Pacific</span>, seven days a week. Times shown here auto-adjust to your timezone. Most consultations are picked up within minutes. Orders placed outside these hours queue for the next available window, and patients receive a branded confirmation letting them know when to expect the review.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false"><span class="faq-num">07</span><span class="faq-q-t">What if a patient gets disconnected mid-consultation?</span><span class="faq-ico"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
@@ -1938,6 +1938,39 @@ document.querySelectorAll('.reveal').forEach(el => rObs.observe(el));
       }).format(trueUtc);
       el.textContent = formatted;
     });
+
+    // Fill any data-tz-label spans with a friendly local timezone name.
+    // Uses the long timezone name (e.g. "Central Daylight Time"), strips
+    // the "Daylight"/"Standard" word for cleanliness, and falls back to
+    // the abbreviation if anything goes sideways.
+    const labelNodes = document.querySelectorAll('[data-tz-label]');
+    if (labelNodes.length) {
+      let friendly = '';
+      try {
+        const longParts = new Intl.DateTimeFormat('en-US', {
+          timeZone: localTz, timeZoneName: 'long'
+        }).formatToParts(now);
+        const longName = longParts.find(p => p.type === 'timeZoneName');
+        if (longName) {
+          // "Central Daylight Time" → "Central", "British Summer Time" → "British"
+          friendly = longName.value
+            .replace(/\s*(Standard|Daylight|Summer|Prevailing)\s*Time$/i, '')
+            .replace(/\s*Time$/i, '')
+            .trim();
+        }
+        // If the long name didn't yield something useful, try the short abbreviation.
+        if (!friendly) {
+          const shortParts = new Intl.DateTimeFormat('en-US', {
+            timeZone: localTz, timeZoneName: 'short'
+          }).formatToParts(now);
+          const shortName = shortParts.find(p => p.type === 'timeZoneName');
+          if (shortName) friendly = shortName.value;
+        }
+      } catch (e) { /* leave fallback */ }
+      if (friendly) {
+        labelNodes.forEach(n => { n.textContent = friendly; });
+      }
+    }
   } catch (err) {
     // If anything goes wrong, leave the default PT times visible as a safe fallback.
   }
