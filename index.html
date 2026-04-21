@@ -106,12 +106,12 @@
   --ink-soft:#1F1A26;
   --text:#141216;
   --text-mid:#4C4454;
-  --text-lt:#7A7380;
+  --text-lt:#5F5868;
   --text-vlt:#A8A3B0;
   --border:#ECE8F0;
   --border-lt:#F3F0F5;
   --border-mid:#DDD7E4;
-  --emerald:#059669;
+  --emerald:#047857;
   --emerald-bg:#D1FAE5;
   --amber:#D97706;
   --rose:#DC2626;
@@ -283,7 +283,7 @@ strong{font-weight:600;color:var(--text)}
 .hv-item svg{opacity:.7;flex-shrink:0}
 .hv-main{padding:22px;background:#FAF8FC}
 .hv-mtitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.hv-mtitle h5{font-family:var(--font-h);font-size:14px;font-weight:700;color:var(--ink)}
+.hv-mtitle .hv-mtitle-t{font-family:var(--font-h);font-size:14px;font-weight:700;color:var(--ink)}
 .hv-chip{font-family:var(--font-m);font-size:9px;padding:2px 8px;border-radius:100px;background:var(--emerald-bg);color:var(--emerald);font-weight:600}
 .hv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .hv-stat{background:#fff;border:1px solid var(--border-lt);border-radius:8px;padding:10px}
@@ -338,7 +338,7 @@ strong{font-weight:600;color:var(--text)}
 .marquee-label{font-family:var(--font-m);font-size:11px;color:var(--text-lt);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:24px}
 .marquee-track{display:flex;gap:56px;white-space:nowrap;animation:mqmove 45s linear infinite;align-items:center}
 @keyframes mqmove{to{transform:translateX(-50%)}}
-.marquee-item{font-family:var(--font-h);font-weight:700;font-size:18px;color:var(--text-lt);opacity:.55;flex-shrink:0;display:flex;align-items:center;gap:10px}
+.marquee-item{font-family:var(--font-h);font-weight:700;font-size:18px;color:var(--text-lt);flex-shrink:0;display:flex;align-items:center;gap:10px}
 .marquee-dot{width:5px;height:5px;border-radius:50%;background:var(--border-mid);flex-shrink:0}
 
 /* ============ HOW IT WORKS ============ */
@@ -399,7 +399,7 @@ strong{font-weight:600;color:var(--text)}
 .demo-phone-s{background:#fff;border-radius:28px;overflow:hidden;position:relative}
 .demo-phone-status{height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-family:var(--font-h);font-size:11px;font-weight:600;color:var(--ink)}
 .demo-phone-t{padding:18px 20px;background:linear-gradient(135deg,var(--indigo),var(--indigo-deep));color:#fff}
-.demo-phone-t h4{font-family:var(--font-h);font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.demo-phone-t .demo-phone-t-h{font-family:var(--font-h);font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;display:block}
 .demo-phone-t p{font-size:11px;color:rgba(255,255,255,.7);margin:0}
 .demo-phone-f{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
 .demo-phone-fl{display:flex;flex-direction:column;gap:4px}
@@ -761,7 +761,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px}
 .footer-social{display:flex;gap:10px;margin-top:20px}
 .footer-social a{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all .2s}
 .footer-social a:hover{background:var(--indigo);color:#fff}
-.footer-col h5{font-family:var(--font-m);font-size:11px;color:rgba(255,255,255,.78);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.footer-col h3{font-family:var(--font-m);font-size:11px;color:rgba(255,255,255,.78);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
 .footer-col a{display:block;color:rgba(255,255,255,.7);padding:6px 0;font-size:14px;transition:color .15s}
 .footer-col a:hover{color:var(--lavender)}
 .footer-bottom{padding-top:24px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-family:var(--font-m);font-size:11px;color:rgba(255,255,255,.72);flex-wrap:wrap;gap:16px}
@@ -892,7 +892,7 @@ body.sticky-cta-active{padding-bottom:72px}
 <nav class="nav" id="nav" role="navigation" aria-label="Main">
   <div class="nav-inner">
     <a href="./" class="logo" aria-label="Quidget home">
-      <div class="logo-mark"><img src="favicon-128.png" alt="Quidget" width="38" height="38" loading="eager"></div>
+      <div class="logo-mark"><img src="favicon-76.png" alt="Quidget" width="38" height="38" loading="eager"></div>
       <div class="logo-text">
         <span>Quidget</span>
         <span class="logo-sub">by Qualiphy</span>
@@ -914,16 +914,16 @@ body.sticky-cta-active{padding-bottom:72px}
 </nav>
 
 <!-- Mobile menu -->
-<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
   <div class="mobile-menu-inner">
-    <a href="#how">How it works</a>
-    <a href="#product">Product</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="help/">Help Center</a>
-    <a href="changelog/">Changelog</a>
-    <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo">Book a demo</a>
+    <a href="#how" tabindex="-1">How it works</a>
+    <a href="#product" tabindex="-1">Product</a>
+    <a href="#features" tabindex="-1">Features</a>
+    <a href="#pricing" tabindex="-1">Pricing</a>
+    <a href="#faq" tabindex="-1">FAQ</a>
+    <a href="help/" tabindex="-1">Help Center</a>
+    <a href="changelog/" tabindex="-1">Changelog</a>
+    <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" tabindex="-1">Book a demo</a>
 </div>
 </div>
 
@@ -972,15 +972,15 @@ body.sticky-cta-active{padding-bottom:72px}
             <div class="hv-url">yourclinic.com/wp-admin/admin.php?page=quidget</div>
           </div>
           <div class="hv-body">
-            <aside class="hv-sidebar">
+            <div class="hv-sidebar">
               <div class="hv-brand"><svg width="14" height="14" viewBox="0 0 800 800" fill="currentColor" aria-hidden="true"><circle cx="420.1" cy="40.1" r="40.1"/><circle cx="207.9" cy="40.1" r="40.1"/><path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/></svg>Quidget</div>
               <div class="hv-item active"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 15v-3h2v3H4zm4 0V5h2v10H8zm4 0V8h2v7h-2z"/></svg>Dashboard</div>
               <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 3h16v2H2V3zm0 4h16v2H2V7zm0 4h12v2H2v-2zm0 4h16v2H2v-2z"/></svg>Consultations</div>
               <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3.5l.5-1h17l.5 1v1l-.5 1H15v10.5l-.5.5h-9l-.5-.5V5.5H1.5L1 4.5v-1zm5 2V15h8V5.5H6z"/></svg>Fulfillment</div>
               <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M18 16V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h13c.55 0 1-.45 1-1z"/></svg>Settings</div>
-            </aside>
+            </div>
             <div class="hv-main">
-              <div class="hv-mtitle"><h5>Today's orders</h5><span class="hv-chip">LIVE</span></div>
+              <div class="hv-mtitle"><span class="hv-mtitle-t">Today's orders</span><span class="hv-chip">LIVE</span></div>
               <div class="hv-stats">
                 <div class="hv-stat"><div class="hv-stat-l">Approved</div><div class="hv-stat-v">42</div></div>
                 <div class="hv-stat"><div class="hv-stat-l">In queue</div><div class="hv-stat-v">3</div></div>
@@ -1143,7 +1143,7 @@ body.sticky-cta-active{padding-bottom:72px}
           <div class="demo-phone">
             <div class="demo-phone-s">
               <div class="demo-phone-status"><span>9:41</span><span>●●● ▾▾ 100%</span></div>
-              <div class="demo-phone-t"><h4>Tell us about yourself</h4><p>Required for your consultation</p></div>
+              <div class="demo-phone-t"><span class="demo-phone-t-h">Tell us about yourself</span><p>Required for your consultation</p></div>
               <div class="demo-phone-f">
                 <div class="demo-phone-fl"><div class="demo-phone-lb">Date of birth</div><div class="demo-phone-in">05/14/1989</div></div>
                 <div class="demo-phone-fl"><div class="demo-phone-lb">Gender</div><div class="demo-phone-in">Female</div></div>
@@ -1330,11 +1330,11 @@ body.sticky-cta-active{padding-bottom:72px}
 
       <div class="wl-stage reveal">
         <div class="wl-tabs" role="tablist" aria-label="Brand examples">
-          <button class="wl-tab active" data-wl="indigo" aria-selected="true"><span class="wl-tab-dot" style="color:#4D3D71"></span>Example Clinic</button>
-          <button class="wl-tab" data-wl="emerald" aria-selected="false"><span class="wl-tab-dot" style="color:#0F8B5C"></span>Example Wellness</button>
-          <button class="wl-tab" data-wl="coral" aria-selected="false"><span class="wl-tab-dot" style="color:#D9534F"></span>Example Med Spa</button>
+          <button class="wl-tab active" data-wl="indigo" role="tab" aria-selected="true" aria-controls="wlPreview"><span class="wl-tab-dot" style="color:#4D3D71" aria-hidden="true"></span>Example Clinic</button>
+          <button class="wl-tab" data-wl="emerald" role="tab" aria-selected="false" aria-controls="wlPreview"><span class="wl-tab-dot" style="color:#0F8B5C" aria-hidden="true"></span>Example Wellness</button>
+          <button class="wl-tab" data-wl="coral" role="tab" aria-selected="false" aria-controls="wlPreview"><span class="wl-tab-dot" style="color:#D9534F" aria-hidden="true"></span>Example Med Spa</button>
         </div>
-        <div class="wl-preview" id="wlPreview">
+        <div class="wl-preview" id="wlPreview" role="tabpanel" tabindex="0" aria-label="Brand example preview">
           <div class="wl-preview-bar">
             <div class="wl-preview-logo">
               <span class="wl-preview-logo-mark" id="wlMark">E</span>
@@ -1549,7 +1549,7 @@ body.sticky-cta-active{padding-bottom:72px}
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="./" class="logo" aria-label="Quidget home">
-          <div class="logo-mark"><img src="favicon-128.png" alt="Quidget" width="38" height="38" loading="eager"></div>
+          <div class="logo-mark"><img src="favicon-76.png" alt="Quidget" width="38" height="38" loading="eager"></div>
           <div class="logo-text">
             <span>Quidget</span>
             <span class="logo-sub">by Qualiphy</span>
@@ -1574,11 +1574,11 @@ body.sticky-cta-active{padding-bottom:72px}
           <span class="footer-rating-text"><b>5.0</b> · Trusted by thousands on Google</span>
         </a>
         <div class="footer-contact">
-          <span>7 days · 6 AM–7 PM PT · 365 days/year</span>
+          <span>7 days · <span data-tz-hour="6" data-tz-zone="America/Los_Angeles">6 AM</span>–<span data-tz-hour="19" data-tz-zone="America/Los_Angeles">7 PM</span> <span data-tz-label>PT</span> · 365 days/year</span>
         </div>
       </div>
       <div class="footer-col">
-        <h5>Product</h5>
+        <h3>Product</h3>
         <a href="./">Overview</a>
         <a href="get-started/">Get Started</a>
         <a href="help/">Help Center</a>
@@ -1586,14 +1586,14 @@ body.sticky-cta-active{padding-bottom:72px}
         <a href="weight-loss/">GLP-1 &amp; Weight Loss</a>
       </div>
       <div class="footer-col">
-        <h5>Qualiphy</h5>
+        <h3>Qualiphy</h3>
         <a href="https://qualiphy.me" target="_blank" rel="noopener">qualiphy.me</a>
         <a href="https://app.qualiphy.me" target="_blank" rel="noopener">Clinic Dashboard</a>
         <a href="https://app.qualiphy.me/signup" target="_blank" rel="noopener">Sign Up Free</a>
         <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" target="_blank" rel="noopener">Book a demo</a>
       </div>
       <div class="footer-col">
-        <h5>Resources</h5>
+        <h3>Resources</h3>
         <a href="#how">How it works</a>
         <a href="#features">Features</a>
         <a href="#pricing">Pricing</a>
@@ -1601,7 +1601,7 @@ body.sticky-cta-active{padding-bottom:72px}
         <a href="https://github.com/tom-at-Quailiphy/qualiphy-woocommerce/releases/latest/download/qualiphy.zip">Download Plugin</a>
       </div>
       <div class="footer-col">
-        <h5>Legal</h5>
+        <h3>Legal</h3>
         <a href="https://qualiphy.me/terms-of-service-cookies-privacy-policy/">Privacy Policy</a>
         <a href="https://qualiphy.me/terms-of-service-cookies-privacy-policy/">Terms of Use</a>
         </div>
@@ -1637,18 +1637,28 @@ window.addEventListener('scroll', () => {
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 if (hamburger) {
-  hamburger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('menu-open');
+  // Toggle full focus state when menu opens/closes. Using `inert` is the
+  // modern way to remove a subtree from focus + accessibility tree at once,
+  // and we mirror tabindex for older browsers that don't support inert yet.
+  function setMenuOpen(isOpen) {
+    nav.classList.toggle('menu-open', isOpen);
     hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    if (isOpen) {
+      mobileMenu.removeAttribute('inert');
+    } else {
+      mobileMenu.setAttribute('inert', '');
+    }
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.setAttribute('tabindex', isOpen ? '0' : '-1');
+    });
+  }
+  hamburger.addEventListener('click', () => {
+    setMenuOpen(!nav.classList.contains('menu-open'));
   });
   // Close on link click
   mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      nav.classList.remove('menu-open');
-      hamburger.setAttribute('aria-expanded','false');
-      mobileMenu.setAttribute('aria-hidden','true');
-    });
+    a.addEventListener('click', () => setMenuOpen(false));
   });
 }
 
@@ -1692,20 +1702,31 @@ function setupRotator(elId, phrases, interval){
 
   // Pick the phrase that renders widest and pin the sizer to it so the
   // surrounding text ("Your" / "Launch your") never shifts as phrases cycle.
+  // Uses an offscreen probe so we batch all measurements in a single layout
+  // pass instead of N read+write cycles (which trigger N forced reflows).
   const fitSizer = () => {
+    const cs = window.getComputedStyle(sizer);
+    const probe = document.createElement('span');
+    probe.style.cssText =
+      `position:absolute;left:-99999px;top:0;visibility:hidden;white-space:nowrap;` +
+      `font:${cs.font};letter-spacing:${cs.letterSpacing};font-feature-settings:${cs.fontFeatureSettings || 'normal'};`;
+    document.body.appendChild(probe);
     let widest = phrases[0];
     let widestW = 0;
+    // Measure all phrases — single layout flush at the end of this rAF tick.
     phrases.forEach(p => {
-      sizer.textContent = p;
-      const w = sizer.offsetWidth;
+      probe.textContent = p;
+      const w = probe.offsetWidth;
       if (w > widestW) { widestW = w; widest = p; }
     });
+    document.body.removeChild(probe);
     sizer.textContent = widest;
   };
-  fitSizer();
+  // Run on the next animation frame so it doesn't block initial paint.
+  requestAnimationFrame(fitSizer);
   // Re-measure once web fonts load, since fallback-font widths differ.
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(fitSizer);
+    document.fonts.ready.then(() => requestAnimationFrame(fitSizer));
   }
 
   let i = 0;
@@ -1715,11 +1736,12 @@ function setupRotator(elId, phrases, interval){
       i = (i + 1) % phrases.length;
       word.textContent = phrases[i];
       word.classList.remove('out');
-      // Force the 'in' keyframe to replay by briefly nulling the animation.
+      // Replay the 'in' keyframe by toggling animation in two rAF ticks,
+      // which avoids the forced sync layout that `void offsetWidth` causes.
       word.style.animation = 'none';
-      // Reading offsetWidth flushes the style change.
-      void word.offsetWidth;
-      word.style.animation = '';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { word.style.animation = ''; });
+      });
     }, 380);
   }, interval);
 }
@@ -1985,15 +2007,27 @@ document.querySelectorAll('.reveal').forEach(el => rObs.observe(el));
   let dismissed = false;
   const hero = document.querySelector('.hero');
   const finalCta = document.querySelector('.cta');
+  // rAF-throttled handler: scroll events fire many times per frame, but we
+  // only need one geometry read + one class toggle per frame to feel smooth.
+  // Splitting the read and the write into separate rAF callbacks would also
+  // help, but here the writes are class toggles (cheap) and there's no
+  // intervening read, so a single rAF-throttle gets us the win without
+  // making the code harder to follow.
+  let rafPending = false;
   const onScroll = () => {
     if (dismissed) return;
-    const heroRect = hero ? hero.getBoundingClientRect() : null;
-    const ctaRect = finalCta ? finalCta.getBoundingClientRect() : null;
-    const pastHero = heroRect ? heroRect.bottom < 80 : window.scrollY > 500;
-    const inFinalCta = ctaRect ? (ctaRect.top < window.innerHeight && ctaRect.bottom > 0) : false;
-    const shouldShow = pastHero && !inFinalCta;
-    bar.classList.toggle('in', shouldShow);
-    document.body.classList.toggle('sticky-cta-active', shouldShow);
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      const heroRect = hero ? hero.getBoundingClientRect() : null;
+      const ctaRect = finalCta ? finalCta.getBoundingClientRect() : null;
+      const pastHero = heroRect ? heroRect.bottom < 80 : window.scrollY > 500;
+      const inFinalCta = ctaRect ? (ctaRect.top < window.innerHeight && ctaRect.bottom > 0) : false;
+      const shouldShow = pastHero && !inFinalCta;
+      bar.classList.toggle('in', shouldShow);
+      document.body.classList.toggle('sticky-cta-active', shouldShow);
+    });
   };
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
