@@ -934,6 +934,27 @@ body.sticky-cta-active{padding-bottom:72px}
   .cl-future-grid{grid-template-columns:1fr}
 }
 
+
+.nav-has-dd{position:relative}
+.nav-has-dd::after{content:'';position:absolute;top:100%;left:-12px;right:-12px;height:14px;pointer-events:auto}
+.nav-dd-caret{width:10px;height:10px;transition:transform .2s var(--ease);opacity:.6;display:inline-block;margin-left:2px}
+.nav-link{display:inline-flex;align-items:center;gap:4px}
+.nav-has-dd:hover .nav-dd-caret,.nav-has-dd:focus-within .nav-dd-caret{transform:rotate(180deg);opacity:1}
+.nav-dd{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(-8px);min-width:280px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 12px 40px rgba(77,61,113,.12),0 2px 8px rgba(77,61,113,.04);opacity:0;pointer-events:none;transition:all .22s var(--ease);z-index:101}
+.nav-has-dd:hover .nav-dd,.nav-has-dd:focus-within .nav-dd{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.nav-dd::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(45deg);width:12px;height:12px;background:#fff;border-top:1px solid var(--border);border-left:1px solid var(--border)}
+.nav-dd-header{display:flex;align-items:center;justify-content:space-between;padding:6px 12px 8px;margin-bottom:4px;border-bottom:1px solid var(--border-lt)}
+.nav-dd-header-t{font-family:var(--font-m);font-size:10px;color:var(--text-lt);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.nav-dd-header-all{font-family:var(--font-h);font-size:11.5px;color:var(--indigo);font-weight:600}
+.nav-dd-header-all:hover{color:var(--indigo-hover);text-decoration:underline}
+.nav-dd-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;font-family:var(--font-h);font-size:13.5px;font-weight:500;color:var(--text);transition:all .15s}
+.nav-dd-item:hover{background:var(--lavender-mist);color:var(--indigo)}
+.nav-dd-item svg{width:16px;height:16px;color:var(--indigo);opacity:.75;flex-shrink:0}
+.nav-dd-item:hover svg{opacity:1}
+.mobile-menu-sub{padding-left:16px;border-left:2px solid var(--border);margin:2px 0 4px 4px}
+.mobile-menu-sub a{font-size:13.5px!important;padding:10px 0!important;font-weight:500!important;color:var(--text-mid)!important}
+.mobile-menu-sub a:hover{color:var(--indigo)!important}
+
 </style>
 </head>
 <body>
@@ -954,6 +975,19 @@ body.sticky-cta-active{padding-bottom:72px}
     </a>
     <div class="nav-links">
       <a href="../#how" class="nav-link">How it works</a>
+      <div class="nav-has-dd">
+        <a href="../treatments/" class="nav-link" aria-haspopup="true">Treatments <svg class="nav-dd-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 4.5l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dd" role="menu">
+          <div class="nav-dd-header"><span class="nav-dd-header-t">Treatment Categories</span><a href="../treatments/" class="nav-dd-header-all">View all →</a></div>
+          <a href="../treatments/#weight-loss" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/></svg>Weight Loss</a>
+          <a href="../treatments/#gfe" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 7-7"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg>Good Faith Exams</a>
+          <a href="../treatments/#longevity" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2"/></svg>Longevity</a>
+          <a href="../treatments/#wellness" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Wellness</a>
+          <a href="../treatments/#mens-health" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><path d="M19 5l-5 5"/></svg>Men's Health</a>
+          <a href="../treatments/#womens-health" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M12 14v8"/></svg>Women's Health</a>
+          <a href="../treatments/#urgent-care" class="nav-dd-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M12 11v5M9.5 13.5h5"/></svg>Urgent Care</a>
+        </div>
+      </div>
       <a href="../#features" class="nav-link">Features</a>
       <a href="../#pricing" class="nav-link">Pricing</a>
       <a href="../help/" class="nav-link">Help Center</a>
@@ -971,6 +1005,16 @@ body.sticky-cta-active{padding-bottom:72px}
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
     <a href="../#how">How it works</a>
+    <a href="../treatments/">Treatments</a>
+    <div class="mobile-menu-sub">
+      <a href="../treatments/#weight-loss">Weight Loss</a>
+      <a href="../treatments/#gfe">Good Faith Exams</a>
+      <a href="../treatments/#longevity">Longevity</a>
+      <a href="../treatments/#wellness">Wellness</a>
+      <a href="../treatments/#mens-health">Men's Health</a>
+      <a href="../treatments/#womens-health">Women's Health</a>
+      <a href="../treatments/#urgent-care">Urgent Care</a>
+    </div>
     <a href="../#product">Product</a>
     <a href="../#features">Features</a>
     <a href="../#pricing">Pricing</a>
@@ -1049,6 +1093,7 @@ body.sticky-cta-active{padding-bottom:72px}
         <a href="../get-started/">Get Started</a>
         <a href="../help/">Help Center</a>
         <a href="./" style="color:var(--lavender)"><b>Changelog</b></a>
+        <a href="../treatments/">Treatments</a>
         <a href="../weight-loss/">GLP-1 &amp; Weight Loss</a>
       </div>
       <div class="footer-col">
