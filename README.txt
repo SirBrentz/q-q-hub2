@@ -4,57 +4,61 @@ QUIDGET SITE — UPDATE PACK
 Drop the folders into the root of your Quidget site and let them merge.
 This pack replaces only the files that changed.
 
-LATEST CHANGE (this round)
---------------------------
-/treatments/index.html — all em dashes (—) removed.
+LATEST CHANGES (this round)
+---------------------------
+Treatment category order rearranged site-wide per boss's direction:
 
-Replaced 11 em dashes across the page, including 4 in <title>/meta
-tags (title, description, og:title, twitter:title) and 7 in body
-copy. Each replacement chose the cleanest punctuation for context:
+  NEW ORDER (top → bottom):
+    01. Weight Loss
+    02. Men's Health
+    03. Women's Health
+    04. Urgent Care
+    05. Longevity
+    06. Wellness
+    07. Good Faith Exams
 
-- Title delimiters (4x): em dash → colon
-- Hero sub-copy (1x): em dash → period (shorter beats)
-- Weight Loss intro (1x): em dash → comma (additive)
-- GFE intro (1x): em dash → period (enumeration)
-- Wellness intro (1x): em dash → comma (flow)
-- Women's Health intro (1x): em dash → period
-- Pricing callout (1x): em dash → period + "That's"
-- Sticky CTA (2x, paired): em dashes → commas (three-item sequence)
+Updated across every surface:
+- /treatments/index.html:
+  • 7 section bodies reordered
+  • kicker numbers renumbered (01..07)
+  • alternating section background pattern (ts/ts.alt) maintained
+  • sticky sub-nav pill bar reordered
+  • hero coverage-card chips reordered (Good Faith Exams is now the
+    full-width chip at the bottom)
+  • footer treatments column reordered
+  • nav dropdown + mobile submenu reordered
+  • hero sub-copy text listing reordered
+  • meta description + og:description text listings reordered
+- /index.html, /weight-loss/, /help/, /changelog/, /thank-you/:
+  • nav dropdown + mobile submenu reordered
+- /llms.txt:
+  • category listing reordered
+  • 3 em dashes removed for consistency with site-wide style
 
-Zero em dashes remain anywhere on the page.
-
-NOTE FOR FUTURE EDITS
----------------------
-Em dashes are off-limits on this site. Any future copy changes
-should avoid the — character (U+2014) and its HTML entities
-(&mdash;, &#8212;, &#x2014;). Use periods, colons, commas, or
-parentheses depending on context.
-
-CUMULATIVE CHANGES IN THIS PACK
--------------------------------
-- Semrush audit fixes: /robots.txt, /sitemap.xml, /llms.txt at root,
-  broken CSS link removed from /get-started/, static h1 added for
-  crawlers, Cloudflare email obfuscation bypassed on demo emails.
-- Prescribing language removed from treatments page, homepage, 404.
-- Treatments page: 7 anchor-linked sections, sticky sub-nav pills,
-  two-column hero with LegitScript badge, "From $XX.XX" pricing,
-  48 states + D.C. coverage claim, no category numbering.
+CUMULATIVE CHANGES STILL IN THIS PACK
+-------------------------------------
+- /robots.txt, /sitemap.xml, /llms.txt at site root
+- Semrush audit fixes: broken CSS removed, static h1 added for SEO on
+  /get-started/, email obfuscation bypass on demo mockups, em dashes
+  removed from treatments page.
+- Prescribing language removed from treatments, homepage, 404.
+- Two-column hero with LegitScript badge, "From $XX.XX" pricing,
+  48 states + D.C. coverage claim.
 - Nav "Treatments" dropdown with hover bridge on all 6 pages.
-- LegitScript badge is a proper transparent PNG.
 
 FILES IN THIS PACK
 ------------------
 - /robots.txt
 - /sitemap.xml
-- /llms.txt
-- /index.html
-- /weight-loss/index.html
+- /llms.txt                         (reordered + em dashes removed)
+- /index.html                       (nav dropdown reordered)
+- /weight-loss/index.html           (nav dropdown reordered)
 - /get-started/index.html
-- /treatments/index.html            (em dashes removed, this round)
+- /treatments/index.html            (full site-wide reorder)
 - /404.html
-- /help/index.html
-- /changelog/index.html
-- /thank-you/index.html
+- /help/index.html                  (nav dropdown reordered)
+- /changelog/index.html             (nav dropdown reordered)
+- /thank-you/index.html             (nav dropdown reordered)
 - /assets/legitscript-certified.png
 
 STILL TO DO (hosting/dashboard, not code)
