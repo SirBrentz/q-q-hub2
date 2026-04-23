@@ -1,0 +1,23 @@
+# Quidget by Qualiphy
+
+> Quidget is a WordPress plugin that turns a WooCommerce store into a full telehealth platform. Clinics and medical spas sell treatments through their existing store while Quidget handles patient intake, licensed provider consultations (Good Faith Exams, Rx consults, urgent care), and pharmacy fulfillment — all white-labeled under the clinic's brand. Pricing starts from $27.99 per completed visit. LegitScript certified. Coverage across 48 states + D.C.
+
+## Key pages
+
+- [Overview](https://quidget.qualiphy.me/): What Quidget is, how it works, features, pricing, FAQ
+- [Treatments](https://quidget.qualiphy.me/treatments/): Full catalog of treatment categories — Weight Loss, Good Faith Exams, Longevity, Wellness, Men's Health, Women's Health, Urgent Care
+- [GLP-1 & Weight Loss](https://quidget.qualiphy.me/weight-loss/): Dedicated GLP-1 weight-loss program landing page with subscription billing and pharmacy routing
+- [Get Started](https://quidget.qualiphy.me/get-started/): Interactive setup wizard for clinics installing Quidget on their WordPress site
+- [Help Center](https://quidget.qualiphy.me/help/): Setup, configuration, troubleshooting, and FAQ
+- [Changelog](https://quidget.qualiphy.me/changelog/): Release notes and product updates
+
+## Product context
+
+- **Built for:** Medical spas, weight-loss clinics, wellness practices, and telehealth operators on WordPress + WooCommerce
+- **Not a consumer product:** End patients use the clinic's branded store; they never see Quidget or Qualiphy branding
+- **Delivery model:** Licensed providers in the Qualiphy network handle consultations; Quidget is the software layer
+- **Compliance:** LegitScript certified healthcare merchant; 48 states + D.C. (Alabama and Mississippi excluded)
+
+## Parent company
+
+Quidget is a product of Qualiphy (https://qualiphy.me) — a healthcare technology company focused on telehealth infrastructure for clinics and medspas.

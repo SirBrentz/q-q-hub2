@@ -1,0 +1,13 @@
+# robots.txt for quidget.qualiphy.me
+# Quidget — Telehealth Plugin for WooCommerce & WordPress by Qualiphy
+
+User-agent: *
+Allow: /
+
+# Cloudflare internal endpoints — not content
+Disallow: /cdn-cgi/
+
+# AI crawlers — context file
+# See /llms.txt for site summary
+
+Sitemap: https://quidget.qualiphy.me/sitemap.xml
