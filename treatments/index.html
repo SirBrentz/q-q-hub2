@@ -435,9 +435,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px}
       <!-- LEFT: content -->
       <div class="t-hero-left">
         <div class="hero-kicker">
-          <span class="hero-kicker-chip">GFE · From $27.99</span>
+          <span class="hero-kicker-chip" id="versionChip">v1.1.0</span>
           <span class="hero-kicker-dot"></span>
-          <span>LegitScript certified · nationwide</span>
+          <span>Now live on clinic stores nationwide</span>
         </div>
         <h1 id="t-hero-h">Every treatment we <em>cover, in one place.</em></h1>
         <p class="t-hero-sub">Every treatment category Quidget runs for you. <strong>Weight Loss, Men's Health, Women's Health, Urgent Care, Longevity, Wellness, and Good Faith Exams</strong>. One flat cost per completed visit. You set what your patient pays.</p>
@@ -920,20 +920,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px}
   </div>
 </section>
 
-<section class="ts dark" aria-labelledby="cov-h">
-  <div class="wrap">
-    <div class="ts-head reveal">
-      <div class="kicker">Coverage</div>
-      <h2 id="cov-h">Every category. One flat cost per visit.</h2>
-      <p>The categories above share one simple economic model: a Good Faith Exam fee starting at $27.99 per completed consultation. Urgent Care consults start at $49.99. You set the retail price on top of either. There are no per-treatment contracts, no line-item platform fees, and no minimum volume requirements.</p>
-    </div>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap" class="reveal">
-      <a href="../get-started/" class="btn btn-primary btn-lg" style="background:var(--lavender);color:var(--ink)">Get Started →</a>
-      <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-ghost-light btn-lg btn-play"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M6 4l10 6-10 6V4z"/></svg>Book a sales demo</a>
-    </div>
-  </div>
-</section>
-
 <section class="pricing" id="pricing" aria-labelledby="pricing-h">
   <div class="wrap">
     <div class="section-head reveal">
@@ -1007,20 +993,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px}
         </div>
       </div>
       <p class="roi-disclaimer">Illustrative only. Actual numbers depend on your patient pricing, volume, product mix, and fulfillment costs. Quidget charges from $27.99 per completed consultation; declined or incomplete visits are not billed.</p>
-    </div>
-  </div>
-</section>
-
-<section class="cta" aria-labelledby="cta-h">
-  <div class="wrap">
-    <div class="cta-inner reveal">
-      <div class="kicker" style="background:rgba(255,255,255,.08);color:var(--lavender)">Ready when you are</div>
-      <h2 id="cta-h">Launch your full treatment menu.<br>Under your brand. Starting today.</h2>
-      <p>Every category above goes live the moment you install Quidget. No per-treatment contracts, no separate integrations, no waiting period.</p>
-      <div class="cta-actions">
-        <a href="../get-started/" class="btn btn-primary btn-lg">Get Started →</a>
-        <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-ghost-light btn-lg btn-play"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M6 4l10 6-10 6V4z"/></svg>Book a sales demo</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1118,6 +1090,22 @@ if (hamburger) {
 }
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// Dynamic version from roadmap API (falls back to static v1.1.0 in markup)
+(async function fetchVersion(){
+  try {
+    const res = await fetch('https://qualiphyapi.gttn.co/api/v1/roadmap', {cache:'no-store'});
+    if (!res.ok) return;
+    const json = await res.json();
+    if (!json || !json.success || !json.data || !Array.isArray(json.data.versions)) return;
+    const versions = json.data.versions;
+    const latest = versions[versions.length - 1];
+    if (latest && latest.version) {
+      const chip = document.getElementById('versionChip');
+      if (chip) chip.textContent = 'v' + latest.version;
+    }
+  } catch(e) { /* keep static fallback */ }
+})();
 
 const rObs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), {threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => rObs.observe(el));

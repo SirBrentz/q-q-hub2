@@ -4,61 +4,54 @@ QUIDGET SITE — UPDATE PACK
 Drop the folders into the root of your Quidget site and let them merge.
 This pack replaces only the files that changed.
 
-LATEST CHANGES (this round)
----------------------------
-Treatment category order rearranged site-wide per boss's direction:
+LATEST CHANGES (this round, treatments page only)
+-------------------------------------------------
+1. Removed the "Coverage" block (dark section that sat between the
+   Good Faith Exams section and the pricing block). Its copy was
+   mostly restating the hero. Gone.
 
-  NEW ORDER (top → bottom):
-    01. Weight Loss
-    02. Men's Health
-    03. Women's Health
-    04. Urgent Care
-    05. Longevity
-    06. Wellness
-    07. Good Faith Exams
+2. Removed the final "Ready when you are / Launch your full treatment
+   menu" CTA block. The sticky CTA bar handles that job already.
 
-Updated across every surface:
-- /treatments/index.html:
-  • 7 section bodies reordered
-  • kicker numbers renumbered (01..07)
-  • alternating section background pattern (ts/ts.alt) maintained
-  • sticky sub-nav pill bar reordered
-  • hero coverage-card chips reordered (Good Faith Exams is now the
-    full-width chip at the bottom)
-  • footer treatments column reordered
-  • nav dropdown + mobile submenu reordered
-  • hero sub-copy text listing reordered
-  • meta description + og:description text listings reordered
-- /index.html, /weight-loss/, /help/, /changelog/, /thank-you/:
-  • nav dropdown + mobile submenu reordered
-- /llms.txt:
-  • category listing reordered
-  • 3 em dashes removed for consistency with site-wide style
+3. Replaced the hero kicker chip. Was "GFE · From $27.99 • LegitScript
+   certified · nationwide". Now matches the homepage pattern:
+   "v1.1.0 • Now live on clinic stores nationwide", with the version
+   chip pulling dynamically from the Qualiphy roadmap API (same JS
+   as the homepage, falling back to the static v1.1.0 if the API is
+   unreachable).
+
+New page flow:
+  Hero → Sticky sub-nav pills → 7 treatment sections
+  (Weight Loss through Good Faith Exams) → Pricing + ROI → Footer
 
 CUMULATIVE CHANGES STILL IN THIS PACK
 -------------------------------------
 - /robots.txt, /sitemap.xml, /llms.txt at site root
-- Semrush audit fixes: broken CSS removed, static h1 added for SEO on
-  /get-started/, email obfuscation bypass on demo mockups, em dashes
-  removed from treatments page.
-- Prescribing language removed from treatments, homepage, 404.
+- Treatment category order site-wide (new order: Weight Loss, Men's
+  Health, Women's Health, Urgent Care, Longevity, Wellness, Good
+  Faith Exams at the bottom)
+- Semrush audit fixes (broken CSS removed, static h1 on /get-started/,
+  email obfuscation bypass on demo mockups, em dashes removed from
+  treatments page and llms.txt)
+- Prescribing language removed from treatments, homepage, 404
 - Two-column hero with LegitScript badge, "From $XX.XX" pricing,
-  48 states + D.C. coverage claim.
-- Nav "Treatments" dropdown with hover bridge on all 6 pages.
+  48 states + D.C. coverage claim
+- Nav "Treatments" dropdown with hover bridge on all 6 pages
+- LegitScript badge as proper transparent PNG
 
 FILES IN THIS PACK
 ------------------
 - /robots.txt
 - /sitemap.xml
-- /llms.txt                         (reordered + em dashes removed)
-- /index.html                       (nav dropdown reordered)
-- /weight-loss/index.html           (nav dropdown reordered)
+- /llms.txt
+- /index.html
+- /weight-loss/index.html
 - /get-started/index.html
-- /treatments/index.html            (full site-wide reorder)
+- /treatments/index.html            (latest: 2 blocks removed, hero chip swapped)
 - /404.html
-- /help/index.html                  (nav dropdown reordered)
-- /changelog/index.html             (nav dropdown reordered)
-- /thank-you/index.html             (nav dropdown reordered)
+- /help/index.html
+- /changelog/index.html
+- /thank-you/index.html
 - /assets/legitscript-certified.png
 
 STILL TO DO (hosting/dashboard, not code)
