@@ -1259,14 +1259,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
       return;
     }
 
-    // Sort versions newest-first: unreleased first, then by release_date desc, then by version desc
-    const versions = payload.data.versions.slice().sort((a, b) => {
-      if (a.is_released !== b.is_released) return a.is_released ? 1 : -1;
-      if (a.release_date && b.release_date) return new Date(b.release_date) - new Date(a.release_date);
-      if (a.release_date) return -1;
-      if (b.release_date) return 1;
-      return (b.version || '').localeCompare(a.version || '', undefined, { numeric: true });
-    });
+    // Released versions only, newest-first by release_date then version
+    const versions = payload.data.versions
+      .filter(v => v.is_released === true)
+      .sort((a, b) => {
+        if (a.release_date && b.release_date) return new Date(b.release_date) - new Date(a.release_date);
+        if (a.release_date) return -1;
+        if (b.release_date) return 1;
+        return (b.version || '').localeCompare(a.version || '', undefined, { numeric: true });
+      });
 
     const versionsHtml = versions.map(renderVersion).filter(Boolean).join('');
     const futureHtml = renderFuture(payload.data.future_planned);

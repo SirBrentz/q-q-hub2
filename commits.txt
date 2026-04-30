@@ -1,3 +1,10 @@
+2026-04-30  Changelog: hide unreleased versions
+- Changelog page now filters to is_released === true before render. The
+  amber "unreleased" treatment and planned-status badges still exist in
+  CSS/render code but no longer have anything to attach to. The "On the
+  roadmap" (future_planned) section is left as-is — it's a separate
+  marketing teaser, not a version.
+
 2026-04-30  Embed marketing video; fix Help Center button readability
 - Home: added the Marketing video below the How It Works step cards.
 - Help Center: embedded the same video at the top of the Setup & Installation
