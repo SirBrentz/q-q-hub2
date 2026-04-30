@@ -1,0 +1,11 @@
+2026-04-30  Embed marketing video; fix Help Center button readability
+- Home: added the Marketing video below the How It Works step cards.
+- Help Center: embedded the same video at the top of the Setup & Installation
+  articles "System requirements", "Installing the plugin", and "What the
+  setup wizard does".
+- Help Center: fixed the Download Quidget Plugin button on the Installing
+  the plugin article — text was rendering indigo on indigo (unreadable)
+  because .hc-art-body a was overriding .btn-primary's white color. Scoped
+  override added so .btn variants inside articles keep their proper
+  styling. Replaced the trailing "→" with a download icon to match the
+  Get Started flow's primary download button.
