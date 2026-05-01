@@ -1,3 +1,9 @@
+2026-05-01  Hero video card: rename to "Quick Plugin Walkthrough", drop duration
+- Renamed the hero floating video card title from "Product walkthrough" to
+  "Quick Plugin Walkthrough" on Home and Weight Loss.
+- Removed the hard-coded 2:18 duration label since it didn't match the
+  actual video length. Removed the now-unused .hv-video-duration CSS rule.
+
 2026-05-01  Hero video card + modal player; thank-you Purchase pixel
 - Thank-you page: replaced the Lead pixel with a Purchase event ($500 USD)
   per marketing director's request. Now only fires when invitee_uuid is
