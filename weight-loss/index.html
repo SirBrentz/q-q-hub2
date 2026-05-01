@@ -333,6 +333,27 @@ strong{font-weight:600;color:var(--text)}
 .hv-float-l{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.04em}
 .hv-float-v{font-size:12px;color:var(--ink);font-weight:700;font-family:var(--font-h)}
 
+.hv-video-card{position:absolute;top:230px;left:-30px;width:300px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px;box-shadow:0 20px 50px rgba(77,61,113,.2);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s}
+.hv-video-card:hover{box-shadow:0 24px 60px rgba(77,61,113,.26)}
+.hv-video-head{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 8px}
+.hv-video-title{font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--ink)}
+.hv-video-duration{font-family:var(--font-m);font-size:11px;color:var(--text-lt)}
+.hv-video-thumb{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#0B1B2B}
+.hv-video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hv-video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.hv-video-play span{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(11,27,43,.3);transition:transform .25s}
+.hv-video-card:hover .hv-video-play span{transform:scale(1.08)}
+.hv-video-play svg{margin-left:3px;color:var(--indigo)}
+
+.video-modal{position:fixed;inset:0;background:rgba(11,27,43,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;opacity:0;transition:opacity .2s ease}
+.video-modal.open{display:flex;opacity:1}
+.video-modal-inner{position:relative;width:100%;max-width:960px;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:scale(.96);transition:transform .25s ease}
+.video-modal.open .video-modal-inner{transform:scale(1)}
+.video-modal-inner iframe{width:100%;height:100%;border:0;display:block}
+.video-modal-close{position:absolute;top:-44px;right:-4px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .2s}
+.video-modal-close:hover{transform:scale(1.08)}
+@media (max-width:600px){.video-modal-close{top:-40px;right:0}}
+
 /* ============ MARQUEE ============ */
 .marquee{padding:48px 0;border-top:1px solid var(--border-lt);border-bottom:1px solid var(--border-lt);background:rgba(248,246,251,.5);overflow:hidden}
 .marquee-label{font-family:var(--font-m);font-size:11px;color:var(--text-lt);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:24px}
@@ -802,6 +823,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px}
   .demo-stage{padding:28px}
   .hv-desktop{transform:rotate(0);right:20px;left:20px}
   .hv-phone{position:relative;margin:20px auto 0;right:0;transform:rotate(0)}
+  .hv-video-card{position:relative;top:auto;left:auto;width:auto;max-width:340px;margin:24px auto 0;display:block;animation:none}
   .hero-visual{height:auto}
   .hero h1{font-size:2.2rem}
   .pricing-card{padding:32px 22px}
@@ -1072,6 +1094,19 @@ body.sticky-cta-active{padding-bottom:72px}
           <div class="hv-float-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
           <div><div class="hv-float-l">Pharmacy</div><div class="hv-float-v">Shipped</div></div>
         </div>
+
+        <a class="hv-video-card" href="https://www.youtube.com/watch?v=We4sKXkuvl4" data-video-modal="We4sKXkuvl4" aria-label="Watch the Quidget product walkthrough">
+          <div class="hv-video-head">
+            <span class="hv-video-title">Product walkthrough</span>
+            <span class="hv-video-duration">2:18</span>
+          </div>
+          <div class="hv-video-thumb">
+            <img src="../assets/video-welcome.jpg" alt="Quidget product walkthrough" loading="lazy" width="280" height="158">
+            <div class="hv-video-play">
+              <span><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </div>
@@ -2062,6 +2097,45 @@ document.querySelectorAll('.reveal').forEach(el => rObs.observe(el));
       window.removeEventListener('resize', onScroll);
     });
   }
+})();
+
+// ============ VIDEO MODAL ============
+(function(){
+  const triggers = document.querySelectorAll('[data-video-modal]');
+  if (!triggers.length) return;
+  const modal = document.createElement('div');
+  modal.className = 'video-modal';
+  modal.setAttribute('aria-hidden','true');
+  modal.innerHTML = '<div class="video-modal-inner" role="dialog" aria-modal="true" aria-label="Product walkthrough video">'
+    + '<button type="button" class="video-modal-close" aria-label="Close video">'
+    + '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>'
+    + '</button>'
+    + '<iframe allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen title="Product walkthrough"></iframe>'
+    + '</div>';
+  document.body.appendChild(modal);
+  const iframe = modal.querySelector('iframe');
+  const closeBtn = modal.querySelector('.video-modal-close');
+  function open(id){
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&modestbranding=1&playsinline=1';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    iframe.src = '';
+    document.body.style.overflow = '';
+  }
+  triggers.forEach(t => {
+    t.addEventListener('click', e => {
+      e.preventDefault();
+      open(t.dataset.videoModal);
+    });
+  });
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
 })();
 </script>
 </body>

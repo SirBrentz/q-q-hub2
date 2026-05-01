@@ -1048,21 +1048,18 @@ body.sticky-cta-active{padding-bottom:72px}
 </div>
 </main>
 
-<!-- ============ FACEBOOK PIXEL: LEAD CONVERSION ============ -->
+<!-- ============ FACEBOOK PIXEL: PURCHASE CONVERSION ============ -->
 <script>
-  (function(){
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const eventId = params.get('invitee_uuid') || (window.crypto && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2));
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', {
-          content_name: 'Quidget Demo Booked'
-        }, {
-          eventID: eventId
-        });
-      }
-    } catch (e) { /* fail silently */ }
-  })();
+  const params = new URLSearchParams(window.location.search);
+  const inviteeUuid = params.get('invitee_uuid');
+  if (inviteeUuid && typeof fbq === 'function') {
+    fbq('track', 'Purchase', {
+      value: 500.00,
+      currency: 'USD'
+    }, {
+      eventID: inviteeUuid
+    });
+  }
 </script>
 <footer role="contentinfo">
   <div class="wrap">

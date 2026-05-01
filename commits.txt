@@ -1,3 +1,18 @@
+2026-05-01  Hero video card + modal player; thank-you Purchase pixel
+- Thank-you page: replaced the Lead pixel with a Purchase event ($500 USD)
+  per marketing director's request. Now only fires when invitee_uuid is
+  present in the URL (Calendly redirect parameter), de-duped via eventID.
+- Home + Weight Loss: added a floating "Product walkthrough" card to the
+  hero visual using the new assets/video-welcome.jpg thumbnail with a play
+  button overlay. Card animates with the same float keyframe as the other
+  hero chips and stacks below the device mockups on mobile.
+- Home + Weight Loss: clicking the card opens an in-page lightbox modal
+  with a youtube-nocookie.com embed of We4sKXkuvl4 — closes via X button,
+  backdrop click, or Escape, and clears the iframe src on close so audio
+  stops. Stays on-page so we keep the visitor.
+- Home: removed the standalone .how-video iframe (and its CSS) from the
+  How It Works section since the hero card now carries the video.
+
 2026-04-30  Changelog: hide unreleased versions
 - Changelog page now filters to is_released === true before render. The
   amber "unreleased" treatment and planned-status badges still exist in
