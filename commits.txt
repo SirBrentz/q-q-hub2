@@ -1,3 +1,15 @@
+2026-05-04  Self-host plugin downloads from /downloads/qualiphy.zip
+- Added a downloads/ folder at the repo root with a README explaining the
+  one-file convention: drop the new build in as qualiphy.zip and overwrite
+  on each release. No link changes required between releases.
+- Repointed all nine "Download Plugin" buttons (across home, weight-loss,
+  get-started, changelog, help, thank-you) from
+  github.com/tom-at-Quailiphy/qualiphy-woocommerce/releases/latest/download/qualiphy.zip
+  to /downloads/qualiphy.zip so the site serves the file directly instead
+  of bouncing users to GitHub.
+- Reminder: drop the actual qualiphy.zip into downloads/ before the next
+  deploy or every button 404s.
+
 2026-05-01  Hero video card: rename to "Quick Plugin Walkthrough", drop duration
 - Renamed the hero floating video card title from "Product walkthrough" to
   "Quick Plugin Walkthrough" on Home and Weight Loss.
