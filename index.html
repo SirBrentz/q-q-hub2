@@ -597,7 +597,20 @@ strong{font-weight:600;color:var(--text)}
   font-family:var(--font-m);font-size:10px;color:var(--text-lt);
   text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;
 }
-.wl-preview-email b{color:var(--ink)}
+.wl-preview-email b{color:var(--ink);overflow-wrap:anywhere;word-break:break-word}
+.wl-preview-logo{min-width:0}
+.wl-preview-logo span:not(.wl-preview-logo-mark){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+/* Narrow phones: long brand domains + the faux Shop/About/Cart nav were
+   pushing the white-label preview bar past the viewport. Trim padding,
+   drop the nav, and let the email line wrap on long sender addresses. */
+@media (max-width:600px){
+  .wl-stage{padding:22px}
+  .wl-preview-bar{padding:12px 14px;gap:10px}
+  .wl-preview-nav{display:none}
+  .wl-preview-body{padding:20px}
+  .wl-preview-email{padding:12px}
+}
 
 /* ============ PRICING ============ */
 .pricing{padding:120px 0;background:var(--surface-warm)}

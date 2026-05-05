@@ -1,3 +1,16 @@
+2026-05-05  Fix mobile overflow in white-label preview (home + weight-loss)
+- On narrow phones the white-label preview bar was pushing past the
+  viewport: long brand domains (e.g. medspaaesthetics.com) plus the
+  faux "Shop · About · Cart" nav couldn't fit on a single row, and the
+  long sender email in the demo email block had no break point.
+- Added a max-width:600px media query that trims wl-stage padding to
+  22px, hides the faux nav, and tightens preview-bar / preview-body /
+  preview-email padding.
+- Universally allow the brand-name span to ellipsize and the demo
+  sender email to wrap (overflow-wrap:anywhere on the bold email
+  address) so longer brands don't blow out the layout.
+- Same fix applied to both index.html and weight-loss/index.html.
+
 2026-05-04  Self-host plugin downloads from /downloads/qualiphy.zip
 - Added a downloads/ folder at the repo root with a README explaining the
   one-file convention: drop the new build in as qualiphy.zip and overwrite
