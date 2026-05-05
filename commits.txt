@@ -1,3 +1,10 @@
+2026-05-05  Footer: point Terms of Use at /qualiphy-terms-of-use/
+- The Terms of Use link in every footer was pointing at the same URL
+  as Privacy Policy (the cookies / privacy policy combo page). Updated
+  Terms to https://qualiphy.me/qualiphy-terms-of-use/ across home,
+  weight-loss, treatments, thank-you, help, and changelog. Privacy
+  link unchanged (already correct).
+
 2026-05-05  Fix mobile overflow in white-label preview (home + weight-loss)
 - On narrow phones the white-label preview bar was pushing past the
   viewport: long brand domains (e.g. medspaaesthetics.com) plus the
