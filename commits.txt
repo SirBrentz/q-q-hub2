@@ -1,3 +1,38 @@
+2026-05-08  Overview: full scanner ported inline (no iframe, no API call)
+- Removed the iframe to scanner-zeta-gilt.vercel.app. The whole
+  scanner now runs inside the overview page's own JS.
+- Faithful ports of every Desktop/scanner/ module:
+    fingerprints.js   -> F (~50 patterns covering CMS, ecommerce,
+                         analytics, CDN, page builders, SEO,
+                         payment processors, JS libs, server,
+                         language) + detect()
+    validator.js      -> validate() w/ social-redirect, app-only-
+                         subdomain, parked-domain, error mapping
+    endpointProber.js -> probeEndpoints() over the same 5 WP/WC
+                         routes (/wp-json/, /wp-json/wp/v2/,
+                         /wp-login.php, /wp-admin/, /wp-json/wc/v3/)
+    scorer.js         -> scoreFlags() w/ identical rules and weights
+                         (WP +3, WC +2, ecom-non-WC +1, LegitScript
+                         +1, urgent care -5, custom pharmacy -2)
+    server.js orch    -> scanSite() composes fetch -> validate ->
+                         probe -> detect -> score -> notes, returns
+                         the same JSON shape Express returned
+    public/index.html -> render() with the same score card,
+                         validation banner, all 8 detail cards,
+                         eligibility-flags table, evidence & notes.
+                         Restyled to the page's indigo/violet
+                         palette under a qs-* prefix so it doesn't
+                         collide with the rest of the page.
+- The only piece that still talks off-machine is the prospect-site
+  HTML fetch + endpoint probes, which go through a fallback chain
+  of public CORS proxies (codetabs.com -> allorigins.win ->
+  corsproxy.io). A browser fundamentally cannot fetch arbitrary
+  cross-origin domains; the chain gives us redundancy if any one
+  proxy is down or rate-limiting.
+- The page no longer depends on scanner-zeta-gilt.vercel.app or
+  any deployed Qualiphy service. Independent of where this site is
+  hosted.
+
 2026-05-08  Overview: embed deployed scanner directly via iframe
 - The previous attempts to call the scanner's /api/scan endpoint
   cross-origin kept failing (no CORS on the deployed scanner;

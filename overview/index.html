@@ -281,17 +281,92 @@ strong{font-weight:600;color:var(--text)}
 .ov-glance-list.info li::before{content:'i';background:var(--lavender-mist);color:var(--indigo);font-style:italic}
 .ov-glance-list li strong{color:var(--ink);font-weight:700}
 
-/* ============ EMBEDDED SCANNER ============ */
-.ov-scan-frame-wrap{
-  margin:12px auto 0;max-width:880px;width:100%;
-  border:1px solid var(--border-lt);border-radius:var(--r-lg);
-  overflow:hidden;background:#fff;
-  box-shadow:0 8px 32px rgba(20,18,22,.06);
+/* ============ SCANNER (qs-* prefix to keep it isolated) ============ */
+.qs-form{margin:12px auto 0;max-width:760px;width:100%;text-align:left}
+.qs-input-wrap{
+  position:relative;display:flex;align-items:stretch;
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);
+  box-shadow:0 4px 16px rgba(20,18,22,.05);
+  transition:all .2s var(--ease);
 }
-.ov-scan-frame{display:block;width:100%;height:760px;border:0}
-@media (max-width:720px){
-  .ov-scan-frame{height:680px}
+.qs-input-wrap:focus-within{border-color:var(--indigo);box-shadow:0 0 0 4px rgba(77,61,113,.08),0 4px 16px rgba(77,61,113,.1)}
+.qs-input-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-lt);pointer-events:none;transition:color .2s}
+.qs-input-wrap:focus-within .qs-input-ico{color:var(--indigo)}
+.qs-input{
+  flex:1;min-width:0;padding:14px 14px 14px 44px;
+  font-family:var(--font-b);font-size:15px;color:var(--text);
+  border:0;background:transparent;outline:none;
 }
+.qs-input::placeholder{color:var(--text-lt)}
+.qs-btn{flex-shrink:0;padding:14px 22px;font-size:14.5px;border-radius:0 calc(var(--r-md) - 1px) calc(var(--r-md) - 1px) 0;margin:-1px}
+.qs-btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.qs-status{font-family:var(--font-m);font-size:12.5px;color:var(--text-mid);margin-top:14px;min-height:18px;display:flex;align-items:center;gap:8px;line-height:1.5}
+.qs-status.error{color:var(--rose)}
+.qs-spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--indigo);border-radius:50%;animation:qsspin .7s linear infinite;flex-shrink:0}
+@keyframes qsspin{to{transform:rotate(360deg)}}
+
+.qs-results{margin:24px auto 0;max-width:760px;width:100%;display:none;text-align:left}
+.qs-results.in{display:block;animation:qsfade .35s var(--ease)}
+@keyframes qsfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Score hero card */
+.qs-score-card{
+  background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);
+  padding:24px 28px;margin-bottom:14px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  box-shadow:0 6px 24px rgba(20,18,22,.05);
+}
+.qs-stars{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
+.qs-stars-row{display:flex;gap:2px;font-size:28px;line-height:1}
+.qs-star-on{color:#F59E0B}
+.qs-star-off{color:var(--border-mid)}
+.qs-stars-l{font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-lt);letter-spacing:.06em;text-transform:uppercase}
+.qs-info{flex:1;min-width:220px}
+.qs-domain{font-family:var(--font-h);font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.2;margin-bottom:8px;word-break:break-all}
+.qs-verdict{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-h);font-size:13px;font-weight:700;padding:5px 13px;border-radius:100px;margin-bottom:10px}
+.qs-verdict.yes{background:var(--emerald-bg);color:var(--emerald-deep);box-shadow:inset 0 0 0 1px rgba(5,150,105,.18)}
+.qs-verdict.no{background:var(--rose-bg);color:var(--rose-deep);box-shadow:inset 0 0 0 1px rgba(220,38,38,.18)}
+.qs-verdict.warn{background:var(--amber-bg);color:#92400E;box-shadow:inset 0 0 0 1px rgba(217,119,6,.2)}
+.qs-breakdown{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.qs-pill{font-family:var(--font-m);font-size:11.5px;padding:3px 10px;border-radius:100px;font-weight:600}
+.qs-pill.pos{background:var(--emerald-bg);color:var(--emerald-deep)}
+.qs-pill.neg{background:var(--rose-bg);color:var(--rose-deep)}
+
+.qs-banner{padding:12px 18px;border-radius:var(--r-md);font-family:var(--font-m);font-size:12.5px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.qs-banner.ok{background:var(--emerald-bg);color:var(--emerald-deep);border:1px solid rgba(5,150,105,.2)}
+.qs-banner.warn{background:var(--amber-bg);color:#92400E;border:1px solid rgba(217,119,6,.2)}
+.qs-banner.invalid{background:var(--rose-bg);color:var(--rose-deep);border:1px solid rgba(220,38,38,.2)}
+.qs-banner-final{margin-left:auto;font-weight:400;font-size:11.5px;opacity:.8;word-break:break-all}
+
+.qs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media (max-width:600px){.qs-grid{grid-template-columns:1fr}}
+.qs-card{background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-md);padding:16px 20px}
+.qs-card.full{grid-column:1/-1}
+.qs-card-h{font-family:var(--font-m);font-size:10.5px;font-weight:700;color:var(--text-lt);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+
+.qs-tags{display:flex;flex-wrap:wrap;gap:6px}
+.qs-tag{font-family:var(--font-m);font-size:11.5px;font-weight:500;background:var(--surface-alt);border:1px solid var(--border-lt);border-radius:6px;padding:3px 10px;color:var(--text-mid)}
+.qs-tag.hi{background:var(--lavender-mist);border-color:rgba(77,61,113,.15);color:var(--indigo);font-weight:600}
+.qs-tag.ok{background:var(--emerald-bg);border-color:rgba(5,150,105,.2);color:var(--emerald-deep);font-weight:600}
+.qs-tag.bad{background:var(--rose-bg);border-color:rgba(220,38,38,.2);color:var(--rose-deep);font-weight:600}
+.qs-tag.warn{background:var(--amber-bg);border-color:rgba(217,119,6,.22);color:#92400E;font-weight:600}
+.qs-tag.none{color:var(--text-vlt);font-style:italic;border-style:dashed;background:transparent}
+
+.qs-eps{display:flex;flex-wrap:wrap;gap:7px}
+.qs-ep{font-family:var(--font-m);font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.qs-ep.ok{background:var(--emerald-bg);color:var(--emerald-deep)}
+.qs-ep.no{background:var(--surface-alt);color:var(--text-vlt)}
+
+.qs-flag{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-lt);font-size:13.5px;color:var(--text-mid);gap:12px;flex-wrap:wrap}
+.qs-flag:last-child{border-bottom:none}
+.qs-flag-v{font-family:var(--font-h);font-weight:700;font-size:13px}
+.qs-flag-v.tg{color:var(--emerald-deep)}
+.qs-flag-v.tb{color:var(--rose-deep)}
+.qs-flag-v.fg, .qs-flag-v.fb{color:var(--text-vlt);font-weight:500}
+.qs-flag-v.unk{color:var(--text-vlt);font-style:italic;font-weight:500}
+
+.qs-notes{display:flex;flex-direction:column;gap:6px;list-style:none;padding:0;margin:0}
+.qs-notes li{font-family:var(--font-m);font-size:11.5px;color:var(--text-mid);background:var(--surface-alt);border-left:3px solid var(--indigo);padding:6px 12px;border-radius:0 6px 6px 0;word-break:break-word;line-height:1.5}
+.qs-empty{color:var(--text-vlt);font-size:13px;font-style:italic}
 
 /* ============ INTERNAL NOTE ============ */
 .ov-note{
@@ -440,21 +515,16 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
         <div class="kicker">Internal · Sales reference</div>
         <h1 id="ov-h">Quidget reference</h1>
 
-        <!--
-          Compatibility scanner — embeds the deployed scanner-zeta-gilt.vercel.app
-          directly. Same-origin from the iframe's perspective so its /api/scan
-          calls work without CORS concerns. Update the src if the scanner is ever
-          re-deployed under a different URL.
-        -->
-        <div class="ov-scan-frame-wrap">
-          <iframe
-            class="ov-scan-frame"
-            src="https://scanner-zeta-gilt.vercel.app/"
-            title="Quidget compatibility scanner"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
+        <form class="qs-form" id="qsForm" autocomplete="off">
+          <div class="qs-input-wrap">
+            <svg class="qs-input-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-linecap="round"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-linecap="round"/></svg>
+            <input type="text" id="qsInput" class="qs-input" placeholder="Paste a prospect's URL to check compatibility" aria-label="Prospect website URL" />
+            <button type="submit" id="qsBtn" class="btn btn-primary qs-btn">Scan site</button>
+          </div>
+          <div class="qs-status" id="qsStatus" aria-live="polite"></div>
+        </form>
+
+        <div class="qs-results" id="qsResults"></div>
       </div>
     </div>
   </section>
@@ -640,6 +710,558 @@ const io = new IntersectionObserver(entries => {
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+// ============================================================
+// COMPATIBILITY SCANNER — fully self-contained
+// ------------------------------------------------------------
+// Port of the standalone Qualiphy site-scanner (Node/Express
+// service in Desktop/scanner/). All detection logic runs in the
+// browser. The only piece that has to leave the browser is the
+// raw HTML fetch of the prospect's site, which goes through a
+// fallback chain of public CORS proxies (a browser cannot
+// directly fetch arbitrary cross-origin domains).
+//
+// Faithful ports of:
+//   fingerprints.js  — F (pattern table) + detect()
+//   validator.js     — validate()
+//   endpointProber.js — probeEndpoints()
+//   scorer.js        — scoreFlags()
+//   server.js        — scanSite() orchestrator
+//   public/index.html — render() and helpers
+// ============================================================
+(function scannerModule(){
+  const form    = document.getElementById('qsForm');
+  const input   = document.getElementById('qsInput');
+  const btn     = document.getElementById('qsBtn');
+  const status  = document.getElementById('qsStatus');
+  const results = document.getElementById('qsResults');
+  if (!form) return;
+
+  // ------------ CORS PROXIES (fallback chain) ------------
+  // Each entry: { fetch: (url, opts) => Promise<Response>, name }
+  const PROXIES = [
+    { name: 'codetabs',  build: u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
+    { name: 'allorigins',build: u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u) },
+    { name: 'corsproxy', build: u => 'https://corsproxy.io/?' + encodeURIComponent(u) },
+  ];
+
+  async function proxiedFetch(targetUrl, { method = 'GET', timeoutMs = 18000 } = {}){
+    let lastErr = null;
+    for (const p of PROXIES) {
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), timeoutMs);
+        const r = await fetch(p.build(targetUrl), { method, signal: ctrl.signal });
+        clearTimeout(t);
+        if (!r.ok) { lastErr = new Error(p.name + ': HTTP ' + r.status); continue; }
+        return r;
+      } catch (e) { lastErr = e; }
+    }
+    throw lastErr || new Error('All proxies failed.');
+  }
+
+  // ------------ FINGERPRINTS (port of fingerprints.js F) ------------
+  const F = {
+    WordPress: { category: 'CMS', html: ['/wp-content/','/wp-includes/'], meta: { generator: /WordPress\s*(\d[\d.]*)?/i }, implies: ['PHP','MySQL'], version: /WordPress\s*(\d[\d.]*)/i },
+    Shopify:   { category: 'CMS', html: ['cdn.shopify.com','Shopify.theme','myshopify.com'], headers: { 'x-shopid': /./i }, implies: ['Ecommerce'] },
+    Squarespace:{ category:'CMS', html: ['static.squarespace.com','squarespace-context'] },
+    Wix:        { category:'CMS', html: ['static.wixstatic.com','wix.com/pages/'] },
+    Webflow:    { category:'CMS', html: ['webflow.io','data-wf-page','data-wf-site'] },
+    Drupal:     { category:'CMS', html: ['/sites/default/files/','/misc/drupal.js'], meta: { generator: /Drupal/i }, implies: ['PHP','MySQL'] },
+    Joomla:     { category:'CMS', html: ['/media/jui/','Joomla!'], meta: { generator: /Joomla/i }, implies: ['PHP','MySQL'] },
+    WooCommerce:{ category:'Ecommerce', html: ['woocommerce','/plugins/woocommerce/','/?wc-ajax=','wc-cart-fragments','/wp-json/wc/'], scripts: /woocommerce/i, implies: ['WordPress'], version: /woocommerce[^"]*[?&]ver=([\d.]+)/i },
+    BigCommerce:{ category:'Ecommerce', html: ['bigcommerce.com','data-cart-quantity'] },
+    Magento:    { category:'Ecommerce', html: ['mage/','Mage.Cookies','/magento/'], implies: ['PHP','MySQL'] },
+    'Squarespace Commerce':{ category:'Ecommerce', html: ['squarespace-checkout','sqs-product-quick-view'], implies: ['Squarespace'] },
+    'Google Analytics 4':{ category:'Analytics', html: ['gtag/js?id=G-',"'G-"], scripts: /gtag\/js\?id=G-/i },
+    'Google Universal Analytics':{ category:'Analytics', html: ['analytics.js','UA-'], scripts: /google-analytics\.com\/analytics\.js/i },
+    'Google Tag Manager':{ category:'Analytics', html: ['googletagmanager.com/gtm.js'], scripts: /googletagmanager\.com\/gtm\.js/i },
+    'Facebook Pixel':{ category:'Analytics', html: ['connect.facebook.net/en_US/fbevents.js'], scripts: /fbevents\.js/i },
+    HubSpot:   { category:'Analytics', html: ['hs-analytics.net','hs-scripts.com'], scripts: /hs-scripts\.com/i },
+    Klaviyo:   { category:'Analytics', html: ['klaviyo.com'], scripts: /klaviyo\.com/i },
+    Hotjar:    { category:'Analytics', html: ['static.hotjar.com'], scripts: /hotjar\.com/i },
+    Cloudflare:{ category:'CDN', headers: { 'cf-ray': /./i, 'cf-cache-status': /./i, server: /cloudflare/i } },
+    Fastly:    { category:'CDN', headers: { 'x-served-by': /cache-/i } },
+    'AWS CloudFront':{ category:'CDN', headers: { 'x-amz-cf-id': /./i, 'x-cache': /cloudfront/i } },
+    Sucuri:    { category:'CDN', headers: { 'x-sucuri-id': /./i, 'x-sucuri-cache': /./i } },
+    Elementor: { category:'Page builder', html: ['/plugins/elementor/','elementor-kit-','data-elementor-type'], scripts: /elementor/i, implies: ['WordPress'], version: /elementor[^"]*[?&]ver=([\d.]+)/i },
+    Divi:      { category:'Page builder', html: ['et-core', 'class="et_'], implies: ['WordPress'] },
+    'Beaver Builder':{ category:'Page builder', html: ['fl-builder','fl-row fl-'], implies: ['WordPress'] },
+    WPBakery:  { category:'Page builder', html: ['vc_row','wpb_wrapper','vc-section'], implies: ['WordPress'] },
+    Gutenberg: { category:'Page builder', html: ['wp-block-','has-global-padding','is-layout-flex'], implies: ['WordPress'] },
+    'Yoast SEO':{ category:'SEO', html: ['yoast.com','yoast-schema-graph','>yoast seo<'], implies: ['WordPress'] },
+    'RankMath SEO':{ category:'SEO', html: ['rank-math','rankmath','RankMath'], implies: ['WordPress'] },
+    'All in One SEO':{ category:'SEO', html: ['aioseo','all-in-one-seo'], implies: ['WordPress'] },
+    SEOPress:   { category:'SEO', html: ['seopress','SEOPress'], implies: ['WordPress'] },
+    Stripe:     { category:'Payment processors', html: ['js.stripe.com','stripe-button'], scripts: /js\.stripe\.com/i },
+    PayPal:     { category:'Payment processors', html: ['paypal.com/sdk','paypalobjects.com'], scripts: /paypal\.com\/(sdk|buttons)/i },
+    Square:     { category:'Payment processors', html: ['js.squareup.com','web.squarecdn.com'], scripts: /squareup\.com|squarecdn\.com/i },
+    Braintree:  { category:'Payment processors', html: ['braintreepayments.com','braintree-web'], scripts: /braintreepayments\.com/i },
+    jQuery:     { category:'JavaScript libraries', scripts: /jquery[.-]([\d.]+)(\.min)?\.js/i, html: ['/jquery.min.js','/jquery-'], version: /jquery[.-]([\d.]+)/i },
+    'jQuery UI':{ category:'JavaScript libraries', scripts: /jquery-ui[.-]([\d.]+)(\.min)?\.js/i, html: ['jquery-ui'], version: /jquery-ui[.-]([\d.]+)/i },
+    'jQuery Migrate':{ category:'JavaScript libraries', scripts: /jquery-migrate[.-]([\d.]+)(\.min)?\.js/i, html: ['jquery-migrate'], version: /jquery-migrate[.-]([\d.]+)/i },
+    React:      { category:'JavaScript libraries', html: ['react.production.min.js','react-dom.production'], scripts: /react(\.production\.min|\.min)?\.js/i },
+    Vue:        { category:'JavaScript libraries', scripts: /vue(\.global|\.min)?\.js/i, html: ['vue.min.js','vue.global.js'] },
+    'Alpine.js':{ category:'JavaScript libraries', scripts: /alpinejs/i, html: ['x-data=','x-bind='] },
+    GSAP:       { category:'JavaScript libraries', scripts: /gsap(\.min)?\.js/i, html: ['greensock','gsap.min.js'] },
+    LazySizes:  { category:'JavaScript libraries', scripts: /lazysizes(\.min)?\.js/i, html: ['lazysizes'] },
+    'core-js':  { category:'JavaScript libraries', scripts: /core-js\//i, html: ['core-js/'], version: /core-js\/([\d.]+)/i },
+    'Twemoji (Twitter Emoji)':{ category:'Font scripts', scripts: /twemoji/i, html: ['twemoji'] },
+    PHP:        { category:'Programming languages', headers: { 'x-powered-by': /php\/([\d.]+)/i }, version: /php\/([\d.]+)/i },
+    nginx:      { category:'Web server', headers: { server: /nginx\/?(\S*)/i }, version: /nginx\/?(\S*)/i },
+    Apache:     { category:'Web server', headers: { server: /Apache\/?(\S*)/i }, version: /Apache\/?(\S*)/i },
+    'Microsoft IIS':{ category:'Web server', headers: { server: /Microsoft-IIS\/?(\S*)/i }, version: /Microsoft-IIS\/?(\S*)/i },
+    MySQL:      { category:'Databases' },
+    'Open Graph':{ category:'Miscellaneous', html: ['property="og:'], meta: { 'og:type': /./i } },
+    'Twitter Cards':{ category:'Miscellaneous', meta: { 'twitter:card': /./i } },
+    RSS:        { category:'Miscellaneous', html: ['type="application/rss+xml"'] },
+    'Schema.org':{ category:'Miscellaneous', html: ['schema.org','application/ld+json'] },
+    AMP:        { category:'Miscellaneous', html: ['⚡','amp=1','<html amp'] },
+  };
+
+  // ------------ HELPERS (port of fingerprints.js helpers) ------------
+  function extractScriptSrcs(html){
+    const out = []; const re = /<script[^>]+src=["']([^"']+)["']/gi; let m;
+    while ((m = re.exec(html)) !== null) out.push(m[1]);
+    return out;
+  }
+  function extractMeta(html){
+    const out = {}; const re = /<meta[^>]+>/gi; let m;
+    while ((m = re.exec(html)) !== null) {
+      const tag = m[0];
+      const nm = /(?:name|property)=["']([^"']+)["']/i.exec(tag);
+      const ct = /content=["']([^"']+)["']/i.exec(tag);
+      if (nm && ct) out[nm[1].toLowerCase()] = ct[1];
+    }
+    return out;
+  }
+  function extractWpThemes(html){
+    const out = new Set(); const re = /\/wp-content\/themes\/([^/"'\s&?]+)/gi; let m;
+    while ((m = re.exec(html)) !== null) out.add(m[1].replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase()));
+    return [...out];
+  }
+  function extractWpPlugins(html){
+    const out = new Set(); const re = /\/wp-content\/plugins\/([^/"'\s&?]+)/gi; let m;
+    while ((m = re.exec(html)) !== null) out.add(m[1].replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase()));
+    return [...out];
+  }
+  function extractVersion(html, scripts, re){
+    if (!re) return null;
+    let m = re.exec(html); if (m) return m[1] || null;
+    for (const s of scripts) { m = re.exec(s); if (m) return m[1] || null; }
+    return null;
+  }
+
+  // ------------ DETECT (port of fingerprints.js detect()) ------------
+  function detect(html, headers){
+    const lower = html.toLowerCase();
+    const scripts = extractScriptSrcs(html);
+    const meta = extractMeta(html);
+    const detected = {}; const implied = new Set();
+
+    for (const [name, fp] of Object.entries(F)) {
+      if (!fp.category) continue;
+      let matched = false; let src = '';
+      if (fp.html && !matched) {
+        for (const pat of (Array.isArray(fp.html) ? fp.html : [fp.html])) {
+          if (typeof pat === 'string' && lower.includes(pat.toLowerCase())) { matched = true; src = html; break; }
+          if (pat instanceof RegExp && pat.test(html)) { matched = true; src = html; break; }
+        }
+      }
+      if (fp.headers && !matched) {
+        for (const [hn, hre] of Object.entries(fp.headers)) {
+          const v = headers[hn.toLowerCase()];
+          if (v && hre.test(v)) { matched = true; src = v; break; }
+        }
+      }
+      if (fp.scripts && !matched) {
+        for (const s of scripts) { if (fp.scripts.test(s)) { matched = true; src = s; break; } }
+      }
+      if (fp.meta && !matched) {
+        for (const [mn, mre] of Object.entries(fp.meta)) {
+          const v = meta[mn];
+          if (v && mre.test(v)) { matched = true; src = v; break; }
+        }
+      }
+      if (matched) {
+        const version = extractVersion(src, scripts, fp.version) || null;
+        detected[name] = { category: fp.category, version };
+        if (fp.implies) for (const d of fp.implies) implied.add(d);
+      }
+    }
+    for (const dep of implied) {
+      if (!detected[dep] && F[dep]) detected[dep] = { category: F[dep].category || 'Miscellaneous', version: null };
+    }
+
+    const ecomKw = ['add to cart','shopping cart','view cart','checkout','/cart','/shop"','/store"'];
+    const hasGenericEcom = ecomKw.some(k => lower.includes(k));
+
+    const httpVer = headers['x-http-version'];
+    if (httpVer === '2') detected['HTTP/2'] = { category: 'Miscellaneous', version: null };
+    if (httpVer === '3') detected['HTTP/3'] = { category: 'Miscellaneous', version: null };
+
+    const byCat = {};
+    for (const [n, info] of Object.entries(detected)) {
+      const c = info.category;
+      if (!byCat[c]) byCat[c] = [];
+      byCat[c].push({ name: n, version: info.version });
+    }
+
+    const wpThemes = extractWpThemes(html);
+    const wpPlugins = extractWpPlugins(html);
+
+    const CHECKOUT_CONFLICT_RE = /checkout(field|manager|editor|addon|custom|optimiz|wizard|step|form|flow|modifier|pro)|customcheckout|cartflows?|fluentcheckout|directcheckout|onepagecheckout|checkoutx|checkoutforwoo/i;
+    const checkoutConflictPlugins = wpPlugins.filter(p => CHECKOUT_CONFLICT_RE.test(p.replace(/[^a-z]/gi,'')));
+
+    const isUrgentCare    = /urgent care|walk-?in clinic|immediate care|same-?day care/i.test(html);
+    const isCustomPharma  = /compounding pharmacy|custom compounded|rx compounding|compounded medications/i.test(html);
+    const lsM             = /legitscript/i.exec(html);
+    const hasLegitScript  = !!lsM;
+    const lsEvidence      = hasLegitScript ? html.substring(Math.max(0, lsM.index - 30), lsM.index + 80).replace(/\s+/g,' ').trim() : null;
+
+    let wpVersion = null;
+    const wpTech = detected['WordPress'];
+    if (wpTech) {
+      wpVersion = wpTech.version;
+      if (!wpVersion) {
+        const rss = /<generator>https:\/\/wordpress\.org\/\?v=(\d[\d.]+)<\/generator>/i.exec(html);
+        if (rss) wpVersion = rss[1];
+      }
+    }
+
+    const get = (cat) => (byCat[cat] || []).map(t => t.version ? `${t.name} ${t.version}` : t.name);
+
+    return {
+      cms: get('CMS')[0] || null,
+      cms_version: wpVersion,
+      ecommerce: get('Ecommerce'),
+      analytics: get('Analytics'),
+      cdn: get('CDN'),
+      page_builders: get('Page builder'),
+      seo: get('SEO'),
+      payment: get('Payment processors'),
+      js_libraries: get('JavaScript libraries'),
+      wp_themes: wpThemes,
+      wp_plugins: wpPlugins,
+      misc: get('Miscellaneous'),
+      server: [...get('Web server'), ...get('Programming languages')],
+      raw: byCat,
+      flags: {
+        wordpress_detected: !!detected['WordPress'],
+        woocommerce_detected: !!detected['WooCommerce'],
+        has_ecommerce: !!detected['WooCommerce'] || get('Ecommerce').length > 0 || hasGenericEcom,
+        ecommerce_provider_guess: detected['WooCommerce'] ? 'WooCommerce'
+          : detected['Shopify'] ? 'Shopify'
+          : detected['BigCommerce'] ? 'BigCommerce'
+          : detected['Magento'] ? 'Magento'
+          : hasGenericEcom ? 'unknown' : null,
+        is_urgent_care_likely: isUrgentCare,
+        custom_pharmacy_likely: isCustomPharma,
+        service_model_guess: isCustomPharma ? 'custom' : (hasGenericEcom ? 'ecommerce' : 'basic'),
+        has_legitscript_badge: hasLegitScript,
+        legitscript_evidence: lsEvidence,
+        checkout_conflict_plugins: checkoutConflictPlugins,
+        has_checkout_conflict: checkoutConflictPlugins.length > 0,
+      },
+    };
+  }
+
+  // ------------ VALIDATE (port of validator.js) ------------
+  const SOCIAL_HOSTS = new Set(['facebook.com','www.facebook.com','instagram.com','www.instagram.com','linktr.ee','beacons.ai','twitter.com','x.com','tiktok.com','youtube.com']);
+  const APP_SUBDOMAIN_RE = /^(app|portal|patient|my|login|auth)\./i;
+  const PARKED = ['buy this domain','this domain is for sale','domain is for sale','this domain may be for sale','domain for sale','is available for purchase','godaddy.com/domains/searchresults','hugedomains.com','sedo.com','afternic.com'];
+
+  function validate(domain, fr){
+    const base = { http_status: fr.status, final_url: fr.finalUrl, redirect_chain: [] };
+    if (!fr.ok) return { ...base, status: 'error', reason: fr.error };
+    if (fr.status < 200 || (fr.status >= 400 && fr.status < 600)) return { ...base, status: 'invalid', reason: 'HTTP ' + fr.status };
+    if (!fr.html || fr.html.length < 50) return { ...base, status: 'invalid', reason: 'empty/non-html response' };
+
+    try {
+      const host = new URL(fr.finalUrl).hostname.replace(/^www\./, '');
+      if (SOCIAL_HOSTS.has(host) || SOCIAL_HOSTS.has('www.' + host)) return { ...base, status: 'social_redirect', reason: 'redirected to ' + host };
+    } catch(_){}
+
+    try {
+      const sub = new URL(fr.finalUrl).hostname.split('.')[0];
+      const hasMarketing = /services|about|contact|home|welcome|book|schedule/i.test(fr.html);
+      if (APP_SUBDOMAIN_RE.test(sub + '.') && !hasMarketing) return { ...base, status: 'app_only', reason: 'app-subdomain: ' + sub };
+    } catch(_){}
+
+    const lower = fr.html.toLowerCase();
+    for (const kw of PARKED) if (lower.includes(kw)) return { ...base, status: 'parked', reason: 'keyword: "' + kw + '"' };
+
+    return { ...base, status: 'valid', reason: null };
+  }
+
+  // ------------ ENDPOINT PROBER (port of endpointProber.js) ------------
+  const WP_ENDPOINTS = [
+    { key: 'wp_json',  path: '/wp-json/' },
+    { key: 'wp_v2',    path: '/wp-json/wp/v2/' },
+    { key: 'wp_login', path: '/wp-login.php' },
+    { key: 'wp_admin', path: '/wp-admin/' },
+    { key: 'wc_api',   path: '/wp-json/wc/v3/' },
+  ];
+
+  async function probeEndpoints(finalUrl){
+    const out = {};
+    let baseUrl;
+    try { const u = new URL(finalUrl); baseUrl = u.protocol + '//' + u.host; }
+    catch (_) { baseUrl = finalUrl.replace(/\/+$/, ''); }
+
+    await Promise.all(WP_ENDPOINTS.map(async ({ key, path }) => {
+      try {
+        const r = await proxiedFetch(baseUrl + path, { method: 'GET', timeoutMs: 12000 });
+        out[key] = r.ok;
+      } catch(_){ out[key] = false; }
+    }));
+    return out;
+  }
+
+  // ------------ SCORER (port of scorer.js) ------------
+  function scoreFlags(flags){
+    const breakdown = []; let total = 0;
+    const add = (cond, points, description, id) => { if (cond) { total += points; breakdown.push({ rule: id, points, description }); } };
+    add(flags.wordpress_detected,    3,  'WordPress detected',                              'wordpress');
+    add(flags.woocommerce_detected,  2,  'WooCommerce detected',                            'woocommerce');
+    add(flags.has_ecommerce && !flags.woocommerce_detected, 1, 'Ecommerce detected (non-WooCommerce)', 'ecommerce_non_woo');
+    add(flags.has_legitscript_badge, 1,  'LegitScript badge/mention found',                 'legitscript');
+    add(flags.is_urgent_care_likely, -5, 'Urgent care / walk-in clinic (not target audience)', 'urgent_care');
+    add(flags.custom_pharmacy_likely,-2, 'Heavy custom/compounding pharmacy focus',         'custom_pharmacy');
+    return { score: total, recommended_for_outreach: total >= 3, score_breakdown: breakdown };
+  }
+
+  // ------------ MAIN ENTRY (port of server.js /api/scan) ------------
+  async function scanSite(rawInput){
+    const domain = rawInput.trim().replace(/^https?:\/\//i,'').replace(/\/+$/,'').split('/')[0];
+    if (!/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}/i.test(domain)) throw new Error("That doesn't look like a valid domain.");
+
+    const target = 'https://' + domain;
+    let fetchResult = { ok: false, status: null, html: '', headers: {}, finalUrl: target, error: null };
+
+    try {
+      const r = await proxiedFetch(target, { method: 'GET', timeoutMs: 25000 });
+      const html = await r.text();
+      const headers = {};
+      r.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
+      fetchResult = { ok: true, status: r.status, html, headers, finalUrl: target, error: null };
+    } catch (err) {
+      fetchResult = { ok: false, status: null, html: '', headers: {}, finalUrl: target, error: err.message || 'fetch failed' };
+    }
+
+    const validation = validate(domain, fetchResult);
+
+    const result = {
+      source_domain: domain,
+      candidate_site_url: target,
+      scanned_at: new Date().toISOString(),
+      validation,
+      technology: null,
+      score: 0,
+      recommended_for_outreach: false,
+      score_breakdown: [],
+      notes: [],
+    };
+    if (validation.status !== 'valid') {
+      result.notes = ['Site could not be fully scanned: ' + validation.status + (validation.reason ? ' — ' + validation.reason : '')];
+      return result;
+    }
+
+    const endpoints = await probeEndpoints(validation.final_url || fetchResult.finalUrl);
+    const tech = detect(fetchResult.html, fetchResult.headers);
+
+    if (endpoints) {
+      if (endpoints.wp_json || endpoints.wp_login || endpoints.wp_admin) {
+        tech.flags.wordpress_detected = true;
+        if (!tech.cms) tech.cms = 'WordPress';
+      }
+      if (endpoints.wc_api) {
+        tech.flags.woocommerce_detected = true;
+        tech.flags.has_ecommerce = true;
+        tech.flags.ecommerce_provider_guess = 'WooCommerce';
+        if (!tech.ecommerce.includes('WooCommerce')) tech.ecommerce.unshift('WooCommerce');
+      }
+      tech.flags.wp_endpoints = endpoints;
+    }
+
+    const notes = [];
+    if (tech.flags.wordpress_detected) {
+      const idx = fetchResult.html.toLowerCase().indexOf('/wp-content/');
+      if (idx !== -1) notes.push('found "/wp-content/" in HTML at ~char ' + idx);
+    }
+    if (endpoints) {
+      if (endpoints.wp_json) notes.push('/wp-json/ returned 2xx — WordPress confirmed');
+      if (endpoints.wp_login) notes.push('/wp-login.php reachable — WordPress confirmed');
+      if (endpoints.wc_api) notes.push('/wp-json/wc/v3/ returned 2xx — WooCommerce REST API present');
+    }
+    if (tech.flags.woocommerce_detected) notes.push('WooCommerce assets/classes detected in HTML');
+    if (tech.flags.has_legitscript_badge && tech.flags.legitscript_evidence) notes.push('LegitScript mention: "' + tech.flags.legitscript_evidence + '"');
+    if (tech.cms_version) notes.push('WordPress version detected: ' + tech.cms_version);
+    if (tech.analytics.length) notes.push('Analytics: ' + tech.analytics.join(', '));
+    if (tech.cdn.length) notes.push('CDN: ' + tech.cdn.join(', '));
+
+    const sc = scoreFlags(tech.flags);
+    result.technology = tech;
+    result.score = sc.score;
+    result.recommended_for_outreach = sc.recommended_for_outreach;
+    result.score_breakdown = sc.score_breakdown;
+    result.notes = notes;
+    return result;
+  }
+
+  // ------------ FORM HANDLER ------------
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const raw = (input.value || '').trim();
+    if (!raw) { setStatus('Enter a website URL.', true); input.focus(); return; }
+
+    btn.disabled = true;
+    results.classList.remove('in');
+    results.innerHTML = '';
+    setStatus('<span class="qs-spinner"></span> Scanning ' + esc(raw) + ' &mdash; this takes 15&ndash;30 seconds…');
+
+    try {
+      const data = await scanSite(raw);
+      setStatus('');
+      render(data);
+    } catch (err) {
+      setStatus('Scan failed: ' + err.message, true);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  function setStatus(html, isErr){ status.innerHTML = html; status.classList.toggle('error', !!isErr); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function tag(text, cls = ''){ return '<span class="qs-tag ' + cls + '">' + esc(text) + '</span>'; }
+  function tagList(arr, cls = ''){ if (!arr || !arr.length) return '<span class="qs-tag none">None detected</span>'; return arr.map(t => tag(t, cls)).join(''); }
+  function flagPill(val, goodWhenTrue){
+    if (val === true)  return '<span class="qs-flag-v ' + (goodWhenTrue ? 'tg' : 'tb') + '">✓ Yes</span>';
+    if (val === false) return '<span class="qs-flag-v ' + (goodWhenTrue ? 'fg' : 'fb') + '">✗ No</span>';
+    return '<span class="qs-flag-v unk">Unknown</span>';
+  }
+  function scoreToStars(sc){
+    if (sc <= -1) return 1;
+    if (sc === 0) return 2;
+    if (sc <= 2)  return 3;
+    if (sc <= 4)  return 4;
+    return 5;
+  }
+
+  // ------------ RENDER (port of public/index.html renderResults) ------------
+  function render(d){
+    const t = d.technology || {};
+    const f = t.flags || {};
+    const v = d.validation || {};
+    const ep = f.wp_endpoints || {};
+    const sc = d.score || 0;
+    const conflicts = f.checkout_conflict_plugins || [];
+
+    let stars = scoreToStars(sc);
+    if (!f.woocommerce_detected) stars = Math.min(stars, 4);
+    if (conflicts.length) stars = Math.min(stars, 4);
+    const starsHtml = Array.from({length:5},(_,i)=>'<span class="' + (i<stars?'qs-star-on':'qs-star-off') + '">★</span>').join('');
+
+    let verdictHtml;
+    if (v.status !== 'valid') verdictHtml = '<span class="qs-verdict warn">⚠ Site couldn\'t be fully scanned</span>';
+    else if (d.recommended_for_outreach && f.woocommerce_detected) verdictHtml = '<span class="qs-verdict yes">✓ Recommended for outreach</span>';
+    else verdictHtml = '<span class="qs-verdict no">✗ Not recommended</span>';
+
+    const bpHtml = (d.score_breakdown || []).map(b => {
+      const cls = b.points > 0 ? 'pos' : 'neg';
+      const sign = b.points > 0 ? '+' : '';
+      return '<span class="qs-pill ' + cls + '">' + sign + b.points + ' ' + esc(b.description) + '</span>';
+    }).join('');
+
+    const STATUS_MAP = {
+      valid:           { cls: 'ok',      icon: '✓', text: 'Site reachable and valid' },
+      parked:          { cls: 'invalid', icon: '⛔', text: 'Domain appears parked / for sale' },
+      social_redirect: { cls: 'warn',    icon: '⚠', text: 'Redirects to social media — no standalone site' },
+      app_only:        { cls: 'warn',    icon: '⚠', text: 'App-only subdomain — no marketing site found' },
+      invalid:         { cls: 'invalid', icon: '⛔', text: 'Invalid response (' + (v.http_status || 'N/A') + ')' },
+      error:           { cls: 'invalid', icon: '⛔', text: 'Connection error: ' + (v.reason || 'timeout') },
+    };
+    const bi = STATUS_MAP[v.status] || { cls: 'warn', icon: '?', text: v.status };
+    const showsRedirect = v.final_url && v.final_url !== ('https://' + d.source_domain);
+    const bannerHtml = '<div class="qs-banner ' + bi.cls + '">' + bi.icon + ' <span>' + bi.text + '</span>' + (showsRedirect ? '<span class="qs-banner-final">→ ' + esc(v.final_url) + '</span>' : '') + '</div>';
+
+    const EP_LABELS = [
+      { key: 'wp_json',  label: '/wp-json/' },
+      { key: 'wp_v2',    label: '/wp-json/wp/v2/' },
+      { key: 'wp_login', label: '/wp-login.php' },
+      { key: 'wp_admin', label: '/wp-admin/' },
+      { key: 'wc_api',   label: '/wp-json/wc/v3/' },
+    ];
+    const epHtml = EP_LABELS.map(e => {
+      const ok = ep[e.key];
+      if (ok === undefined) return '';
+      return '<span class="qs-ep ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓' : '✗') + ' ' + esc(e.label) + '</span>';
+    }).join('');
+
+    let cmsBadge;
+    if (t.cms) {
+      cmsBadge = '<span class="qs-tag hi">' + esc(t.cms) + '</span>';
+      if (t.cms_version) cmsBadge += ' <span class="qs-tag">v' + esc(t.cms_version) + '</span>';
+    } else cmsBadge = '<span class="qs-tag none">Not detected</span>';
+
+    const notesHtml = (d.notes && d.notes.length)
+      ? '<ul class="qs-notes">' + d.notes.map(n => '<li>' + esc(n) + '</li>').join('') + '</ul>'
+      : '<span class="qs-empty">No evidence snippets</span>';
+
+    results.innerHTML =
+      '<div class="qs-score-card">' +
+        '<div class="qs-stars"><div class="qs-stars-row">' + starsHtml + '</div><div class="qs-stars-l">' + stars + ' / 5 stars</div></div>' +
+        '<div class="qs-info">' +
+          '<div class="qs-domain">' + esc(d.source_domain) + '</div>' +
+          verdictHtml +
+          '<div class="qs-breakdown">' + (bpHtml || '<span class="qs-empty">No scoring signals triggered</span>') + '</div>' +
+        '</div>' +
+      '</div>' +
+      bannerHtml +
+      '<div class="qs-grid">' +
+        '<div class="qs-card"><div class="qs-card-h">CMS</div><div class="qs-tags">' + cmsBadge + '</div></div>' +
+        '<div class="qs-card"><div class="qs-card-h">Ecommerce</div><div class="qs-tags">' + tagList(t.ecommerce, f.woocommerce_detected ? 'ok' : '') + '</div></div>' +
+      '</div>' +
+      (Object.keys(ep).length ? '<div class="qs-card full" style="margin-bottom:14px"><div class="qs-card-h">WordPress endpoint probes</div><div class="qs-eps">' + epHtml + '</div></div>' : '') +
+      (((t.wp_themes || []).length || (t.wp_plugins || []).length) ? (
+        '<div class="qs-grid">' +
+          '<div class="qs-card"><div class="qs-card-h">WordPress theme</div><div class="qs-tags">' + tagList(t.wp_themes, 'hi') + '</div></div>' +
+          '<div class="qs-card"><div class="qs-card-h">WordPress plugins</div><div class="qs-tags">' + ((t.wp_plugins || []).length ? (t.wp_plugins).map(p => conflicts.includes(p) ? '<span class="qs-tag bad" title="May conflict with Quidget checkout flow">⚠ ' + esc(p) + '</span>' : '<span class="qs-tag">' + esc(p) + '</span>').join('') : '<span class="qs-tag none">None detected</span>') + '</div></div>' +
+        '</div>'
+      ) : '') +
+      '<div class="qs-grid">' +
+        '<div class="qs-card"><div class="qs-card-h">Page builder</div><div class="qs-tags">' + tagList(t.page_builders) + '</div></div>' +
+        '<div class="qs-card"><div class="qs-card-h">SEO plugin</div><div class="qs-tags">' + tagList(t.seo) + '</div></div>' +
+      '</div>' +
+      '<div class="qs-grid">' +
+        '<div class="qs-card"><div class="qs-card-h">Analytics</div><div class="qs-tags">' + tagList(t.analytics) + '</div></div>' +
+        '<div class="qs-card"><div class="qs-card-h">CDN</div><div class="qs-tags">' + tagList(t.cdn) + '</div></div>' +
+      '</div>' +
+      '<div class="qs-grid">' +
+        '<div class="qs-card"><div class="qs-card-h">Payment processors</div><div class="qs-tags">' + tagList(t.payment, 'ok') + '</div></div>' +
+        '<div class="qs-card"><div class="qs-card-h">Server / language</div><div class="qs-tags">' + tagList(t.server) + '</div></div>' +
+      '</div>' +
+      '<div class="qs-grid">' +
+        '<div class="qs-card"><div class="qs-card-h">JS libraries</div><div class="qs-tags">' + tagList(t.js_libraries) + '</div></div>' +
+        '<div class="qs-card"><div class="qs-card-h">Miscellaneous</div><div class="qs-tags">' + tagList(t.misc) + '</div></div>' +
+      '</div>' +
+      '<div class="qs-card full" style="margin-bottom:14px">' +
+        '<div class="qs-card-h">Eligibility flags</div>' +
+        '<div class="qs-flag"><span>WordPress detected</span>' + flagPill(f.wordpress_detected, true) + '</div>' +
+        '<div class="qs-flag"><span>WooCommerce detected</span>' + flagPill(f.woocommerce_detected, true) + '</div>' +
+        '<div class="qs-flag"><span>Has ecommerce</span>' + flagPill(f.has_ecommerce, true) + '</div>' +
+        '<div class="qs-flag"><span>Ecommerce provider</span><span class="qs-flag-v">' + (f.ecommerce_provider_guess ? esc(f.ecommerce_provider_guess) : '<span class="qs-empty">None</span>') + '</span></div>' +
+        '<div class="qs-flag"><span>Urgent care / walk-in clinic</span>' + flagPill(f.is_urgent_care_likely, false) + '</div>' +
+        '<div class="qs-flag"><span>Custom compounding pharmacy</span>' + flagPill(f.custom_pharmacy_likely, false) + '</div>' +
+        '<div class="qs-flag"><span>Checkout-modifying plugins</span>' + (conflicts.length ? '<span class="qs-flag-v tb">⚠ ' + conflicts.map(esc).join(', ') + '</span>' : '<span class="qs-flag-v fg">✗ None detected</span>') + '</div>' +
+        '<div class="qs-flag"><span>LegitScript badge</span>' + flagPill(f.has_legitscript_badge, true) + '</div>' +
+        '<div class="qs-flag"><span>Service model guess</span><span class="qs-flag-v">' + esc(f.service_model_guess || 'unknown') + '</span></div>' +
+      '</div>' +
+      '<div class="qs-card full"><div class="qs-card-h">Evidence &amp; notes</div>' + notesHtml + '</div>';
+
+    results.classList.add('in');
+    results.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+})();
 </script>
 
 </body>
