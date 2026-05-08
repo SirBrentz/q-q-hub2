@@ -1,3 +1,20 @@
+2026-05-08  Overview: simplify for sales + add compatibility scanner widget
+- Removed the "Themes & environment" section listing PHP / WordPress /
+  WooCommerce versions. Sales doesn't speak that language, and the new
+  scanner does the technical check for them.
+- Simplified the requirements checklist from 7 items to 6, in plainer
+  English (e.g. "A secure site (HTTPS)" instead of "SSL certificate").
+- Added section 04: Compatibility scanner. Single URL input, calls the
+  Qualiphy site-scanner API (POST /api/scan), and renders a sales-
+  friendly verdict: ✓ Compatible / ⚠ Caveats / ✗ Not compatible, plus
+  5-star score and 2–5 plain-English reasons. No tech-stack tables, no
+  plugin lists — the noise the standalone scanner shows is hidden here.
+- The scanner endpoint URL is set via a single SCANNER_API constant at
+  the top of the page's JS, defaulting to qualiphy-scanner.vercel.app.
+  Update that line if the scanner is deployed elsewhere.
+- Companion change in the scanner repo: added CORS headers so this
+  cross-origin call from quidget.qualiphy.me works.
+
 2026-05-08  Add /overview/ — internal sales-reference page (unlisted)
 - New /overview/index.html: themed-consistent single source of truth
   for the sales team on what Quidget does, what it doesn't, plugin

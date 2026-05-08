@@ -262,30 +262,6 @@ strong{font-weight:600;color:var(--text)}
   color:var(--text-lt);letter-spacing:.04em;text-transform:uppercase;
 }
 
-/* ============ COMPATIBILITY ============ */
-.ov-compat{
-  background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);
-  padding:28px;box-shadow:0 4px 24px rgba(20,18,22,.04);
-}
-.ov-compat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
-.ov-compat-row{
-  display:flex;flex-direction:column;gap:6px;
-  padding:18px 24px;border-right:1px solid var(--border-lt);border-bottom:1px solid var(--border-lt);
-}
-.ov-compat-row:nth-child(2n){border-right:none}
-.ov-compat-row:nth-last-child(-n+2){border-bottom:none}
-.ov-compat-label{
-  font-family:var(--font-m);font-size:11px;color:var(--text-lt);
-  letter-spacing:.06em;text-transform:uppercase;font-weight:600;
-}
-.ov-compat-val{font-family:var(--font-h);font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.4}
-.ov-compat-val .pill{
-  display:inline-block;padding:3px 9px;margin:2px 6px 2px 0;
-  background:var(--lavender-mist);border:1px solid rgba(77,61,113,.1);
-  border-radius:100px;font-size:13px;font-weight:600;color:var(--indigo);
-}
-.ov-compat-note{font-family:var(--font-m);font-size:11.5px;color:var(--text-lt);font-weight:400;margin-top:2px;line-height:1.5}
-
 /* ============ REQUIREMENTS CHECKLIST ============ */
 .ov-checklist{
   background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);
@@ -317,6 +293,141 @@ strong{font-weight:600;color:var(--text)}
 .ov-check-tag.required{background:rgba(77,61,113,.1);color:var(--indigo)}
 .ov-check-tag.optional{background:var(--surface-alt);color:var(--text-lt);border:1px solid var(--border-lt)}
 .ov-check-tag.process{background:var(--amber-bg);color:var(--amber)}
+
+/* ============ COMPATIBILITY SCANNER ============ */
+.ov-scan{
+  background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-lg);
+  padding:28px 28px 24px;box-shadow:0 4px 24px rgba(20,18,22,.04);
+  position:relative;overflow:hidden;
+}
+.ov-scan::before{
+  content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;
+  background:radial-gradient(circle,rgba(206,200,254,.22),transparent 65%);
+  pointer-events:none;
+}
+.ov-scan-intro{position:relative;z-index:1;margin-bottom:18px}
+.ov-scan-intro p{font-size:14.5px;color:var(--text-mid);line-height:1.6;max-width:600px}
+.ov-scan-form{position:relative;z-index:1}
+.ov-scan-input-wrap{
+  display:flex;gap:10px;align-items:center;
+  position:relative;
+}
+.ov-scan-input-ico{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;color:var(--text-lt);pointer-events:none;
+  transition:color .2s;
+}
+.ov-scan-input{
+  flex:1;width:100%;
+  padding:14px 18px 14px 46px;
+  font-family:var(--font-b);font-size:15px;
+  border:1.5px solid var(--border);border-radius:var(--r-md);
+  background:#fff;color:var(--text);outline:none;
+  transition:all .2s var(--ease);
+  box-shadow:0 2px 8px rgba(20,18,22,.03);
+}
+.ov-scan-input::placeholder{color:var(--text-lt)}
+.ov-scan-input:focus{border-color:var(--indigo);box-shadow:0 0 0 4px rgba(77,61,113,.08),0 4px 12px rgba(77,61,113,.08)}
+.ov-scan-input:focus ~ .ov-scan-input-ico,.ov-scan-input-wrap:focus-within .ov-scan-input-ico{color:var(--indigo)}
+.ov-scan-btn{flex-shrink:0;padding:14px 22px;font-size:14px}
+.ov-scan-btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.ov-scan-status{
+  font-family:var(--font-m);font-size:12px;color:var(--text-mid);
+  margin-top:14px;min-height:18px;display:flex;align-items:center;gap:8px;
+}
+.ov-scan-status.error{color:var(--rose)}
+.ov-scan-spinner{
+  width:14px;height:14px;border:2px solid var(--border);
+  border-top-color:var(--indigo);border-radius:50%;
+  animation:ovspin .7s linear infinite;flex-shrink:0;
+}
+@keyframes ovspin{to{transform:rotate(360deg)}}
+
+.ov-scan-foot{
+  position:relative;z-index:1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  margin-top:18px;padding-top:18px;border-top:1px solid var(--border-lt);
+}
+.ov-scan-foot-l{
+  font-family:var(--font-m);font-size:11px;color:var(--text-lt);
+  letter-spacing:.05em;text-transform:uppercase;font-weight:600;
+  margin-right:4px;
+}
+.ov-scan-chip{
+  font-family:var(--font-m);font-size:11.5px;color:var(--text-mid);
+  background:var(--surface-alt);border:1px solid var(--border-lt);
+  padding:4px 10px;border-radius:6px;font-weight:500;
+}
+
+/* Results */
+.ov-scan-results{
+  margin-top:18px;background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-lg);overflow:hidden;
+  animation:ovFadeUp .4s var(--ease);
+  position:relative;z-index:1;
+}
+@keyframes ovFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.ov-verdict{
+  display:flex;align-items:center;gap:24px;padding:24px 28px;
+  border-bottom:1px solid var(--border-lt);flex-wrap:wrap;
+}
+.ov-verdict-stars{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
+.ov-verdict-stars-row{display:flex;gap:3px;font-size:24px;line-height:1}
+.ov-verdict-star-on{color:#F59E0B}
+.ov-verdict-star-off{color:var(--border-mid)}
+.ov-verdict-stars-l{
+  font-family:var(--font-m);font-size:10px;font-weight:700;
+  color:var(--text-lt);letter-spacing:.08em;text-transform:uppercase;
+}
+.ov-verdict-info{flex:1;min-width:200px}
+.ov-verdict-domain{
+  font-family:var(--font-h);font-size:17px;font-weight:800;
+  color:var(--ink);letter-spacing:-.01em;line-height:1.2;
+  margin-bottom:8px;word-break:break-word;
+}
+.ov-verdict-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:100px;
+  font-family:var(--font-h);font-size:13px;font-weight:700;letter-spacing:-.005em;
+  margin-bottom:8px;
+}
+.ov-verdict-pill svg{width:14px;height:14px;flex-shrink:0}
+.ov-verdict-pill.go{background:var(--emerald-bg);color:var(--emerald-deep);box-shadow:inset 0 0 0 1px rgba(5,150,105,.18)}
+.ov-verdict-pill.warn{background:var(--amber-bg);color:#92400E;box-shadow:inset 0 0 0 1px rgba(217,119,6,.2)}
+.ov-verdict-pill.no{background:var(--rose-bg);color:var(--rose-deep);box-shadow:inset 0 0 0 1px rgba(220,38,38,.18)}
+
+.ov-verdict-summary{
+  font-size:13.5px;color:var(--text-mid);line-height:1.55;
+  max-width:560px;
+}
+
+.ov-reasons{padding:20px 28px}
+.ov-reasons-h{
+  font-family:var(--font-m);font-size:11px;color:var(--text-lt);
+  letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+  margin-bottom:12px;
+}
+.ov-reasons-list{display:flex;flex-direction:column;gap:8px}
+.ov-reason{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;line-height:1.5;
+}
+.ov-reason-mark{
+  flex-shrink:0;width:18px;height:18px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.ov-reason-mark svg{width:10px;height:10px;stroke-width:3.5}
+.ov-reason.pos .ov-reason-mark{background:var(--emerald-bg);color:var(--emerald-deep)}
+.ov-reason.neg .ov-reason-mark{background:var(--rose-bg);color:var(--rose-deep)}
+.ov-reason.info .ov-reason-mark{background:var(--lavender-mist);color:var(--indigo)}
+.ov-reason-text{color:var(--text);font-weight:500}
+.ov-reason-text strong{color:var(--ink);font-weight:700}
+
+.ov-scan-empty{
+  padding:24px 28px;text-align:center;
+  color:var(--text-lt);font-size:13.5px;font-style:italic;
+}
 
 /* ============ INTERNAL NOTE ============ */
 .ov-note{
@@ -370,9 +481,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
   .hamburger{display:flex}
   .ov-split{grid-template-columns:1fr;gap:14px}
   .ov-limits{grid-template-columns:1fr;gap:12px}
-  .ov-compat-grid{grid-template-columns:1fr}
-  .ov-compat-row{border-right:none}
-  .ov-compat-row:last-child{border-bottom:none}
   .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
 }
 @media (max-width:720px){
@@ -381,9 +489,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
   .ov-section{margin-bottom:48px}
   .ov-col{padding:22px}
   .ov-limit{padding:20px}
-  .ov-compat{padding:18px}
   .ov-check{grid-template-columns:auto 1fr;padding:14px 18px;gap:14px}
   .ov-check-tag{grid-column:2;justify-self:flex-start;margin-top:6px}
+  .ov-scan{padding:22px 20px}
+  .ov-scan-input-wrap{flex-direction:column;align-items:stretch}
+  .ov-scan-btn{width:100%}
+  .ov-verdict{padding:20px;gap:18px}
+  .ov-reasons{padding:18px 20px}
   .nav-actions .btn-outline{display:none}
 }
 @media (max-width:600px){
@@ -590,111 +702,100 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
       </div>
     </section>
 
-    <!-- ============ SECTION 3: COMPATIBILITY ============ -->
+    <!-- ============ SECTION 3: REQUIREMENTS TO GET STARTED ============ -->
     <section class="ov-section reveal" aria-labelledby="ov-s3">
       <div class="ov-section-h">
         <div class="ov-section-h-l">
           <span class="ov-section-num">03</span>
-          <h2 id="ov-s3">Themes &amp; environment</h2>
+          <h2 id="ov-s3">Requirements to get started</h2>
         </div>
-        <span class="ov-section-h-sub">What the plugin runs on</span>
-      </div>
-
-      <div class="ov-compat">
-        <div class="ov-compat-grid">
-          <div class="ov-compat-row">
-            <span class="ov-compat-label">Supported themes</span>
-            <span class="ov-compat-val">
-              <span class="pill">Hello Theme by Elementor</span>
-              <span class="pill">Twenty Twenty-Five</span>
-            </span>
-            <span class="ov-compat-note">Other themes may work but aren't actively tested.</span>
-          </div>
-          <div class="ov-compat-row">
-            <span class="ov-compat-label">PHP version</span>
-            <span class="ov-compat-val">7.4 or higher</span>
-            <span class="ov-compat-note">Plugin enforces this minimum at install time.</span>
-          </div>
-          <div class="ov-compat-row">
-            <span class="ov-compat-label">WordPress</span>
-            <span class="ov-compat-val">5.0 or higher</span>
-            <span class="ov-compat-note">Required core version.</span>
-          </div>
-          <div class="ov-compat-row">
-            <span class="ov-compat-label">WooCommerce</span>
-            <span class="ov-compat-val">5.0 or higher · required</span>
-            <span class="ov-compat-note">WooCommerce must be installed and active.</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SECTION 4: REQUIREMENTS TO GET STARTED ============ -->
-    <section class="ov-section reveal" aria-labelledby="ov-s4">
-      <div class="ov-section-h">
-        <div class="ov-section-h-l">
-          <span class="ov-section-num">04</span>
-          <h2 id="ov-s4">Requirements to get started</h2>
-        </div>
-        <span class="ov-section-h-sub">What a prospect needs in place before onboarding</span>
+        <span class="ov-section-h-sub">What a prospect needs in place</span>
       </div>
 
       <div class="ov-checklist">
         <div class="ov-check">
           <div class="ov-check-num">1</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">WooCommerce setup</div>
-            <div class="ov-check-d">Installed, active, and configured for storefront checkout.</div>
+            <div class="ov-check-t">A WordPress site with WooCommerce</div>
+            <div class="ov-check-d">Their site needs to be on WordPress with WooCommerce installed and handling their checkout.</div>
           </div>
           <span class="ov-check-tag required">Required</span>
         </div>
         <div class="ov-check">
           <div class="ov-check-num">2</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">WordPress site</div>
-            <div class="ov-check-d">Self-hosted or managed WordPress install on their own domain.</div>
+            <div class="ov-check-t">A Qualiphy account</div>
+            <div class="ov-check-d">Active account with API key access — that's how Quidget talks to Qualiphy.</div>
           </div>
           <span class="ov-check-tag required">Required</span>
         </div>
         <div class="ov-check">
           <div class="ov-check-num">3</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">Qualiphy account with API key access</div>
-            <div class="ov-check-d">Active Qualiphy account with API credentials provisioned.</div>
+            <div class="ov-check-t">A secure site (HTTPS)</div>
+            <div class="ov-check-d">Their domain needs a valid SSL certificate. Most modern hosts include this by default.</div>
           </div>
           <span class="ov-check-tag required">Required</span>
         </div>
         <div class="ov-check">
           <div class="ov-check-num">4</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">SSL certificate</div>
-            <div class="ov-check-d">Valid SSL on the domain. The plugin auto-disables on repeated SSL failures.</div>
+            <div class="ov-check-t">A single clinic location</div>
+            <div class="ov-check-d">Quidget is one clinic per install today. Multi-location franchises aren't supported yet.</div>
           </div>
           <span class="ov-check-tag required">Required</span>
         </div>
         <div class="ov-check">
           <div class="ov-check-num">5</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">Single location</div>
-            <div class="ov-check-d">One clinic location. Multi-location franchise setups aren't supported today.</div>
-          </div>
-          <span class="ov-check-tag required">Required</span>
-        </div>
-        <div class="ov-check">
-          <div class="ov-check-num">6</div>
-          <div class="ov-check-body">
-            <div class="ov-check-t">PNG-formatted logos for branding</div>
-            <div class="ov-check-d">Provide on a transparent background for white-label branding inside the widget.</div>
+            <div class="ov-check-t">Logo on a transparent background (PNG)</div>
+            <div class="ov-check-d">For white-label branding inside the widget. Nice to have, not a blocker.</div>
           </div>
           <span class="ov-check-tag optional">Optional</span>
         </div>
         <div class="ov-check">
-          <div class="ov-check-num">7</div>
+          <div class="ov-check-num">6</div>
           <div class="ov-check-body">
-            <div class="ov-check-t">Domain compatibility check</div>
-            <div class="ov-check-d">Audit the prospect's site against the known incompatible-plugins list, theme, and PHP / WP / WooCommerce versions before greenlighting onboarding.</div>
+            <div class="ov-check-t">Run the compatibility scanner below</div>
+            <div class="ov-check-d">Drop their domain into the scanner before pitching a launch — it flags conflicts in seconds.</div>
           </div>
           <span class="ov-check-tag process">Pre-launch</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4: COMPATIBILITY SCANNER ============ -->
+    <section class="ov-section reveal" aria-labelledby="ov-s4">
+      <div class="ov-section-h">
+        <div class="ov-section-h-l">
+          <span class="ov-section-num">04</span>
+          <h2 id="ov-s4">Compatibility scanner</h2>
+        </div>
+        <span class="ov-section-h-sub">Paste a prospect's domain — get an instant verdict</span>
+      </div>
+
+      <div class="ov-scan">
+        <div class="ov-scan-intro">
+          <p>Drop in any prospect's website and we'll check the things that actually matter: is it a WordPress site, is it running WooCommerce, and is anything on the site likely to conflict with Quidget. Takes 15&ndash;30 seconds.</p>
+        </div>
+
+        <form class="ov-scan-form" id="ovScanForm" autocomplete="off">
+          <div class="ov-scan-input-wrap">
+            <svg class="ov-scan-input-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-linecap="round"/></svg>
+            <input type="text" id="ovScanInput" class="ov-scan-input" placeholder="e.g. driphydration.com" aria-label="Prospect website URL" />
+            <button type="submit" id="ovScanBtn" class="btn btn-primary ov-scan-btn">Scan site</button>
+          </div>
+          <div class="ov-scan-status" id="ovScanStatus" aria-live="polite"></div>
+        </form>
+
+        <div class="ov-scan-results" id="ovScanResults" hidden></div>
+
+        <div class="ov-scan-foot">
+          <span class="ov-scan-foot-l">What gets checked:</span>
+          <span class="ov-scan-chip">WordPress + WooCommerce</span>
+          <span class="ov-scan-chip">Conflicting plugins</span>
+          <span class="ov-scan-chip">Site is reachable</span>
+          <span class="ov-scan-chip">Ecommerce platform</span>
         </div>
       </div>
 
@@ -703,7 +804,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="ov-note-text">
-          <strong>Internal use only.</strong> This page is a living reference for the sales team. If you spot something out of date or a prospect raises a scenario not covered here, flag it so the page stays accurate.
+          <strong>Internal use only.</strong> If a prospect raises a scenario this page doesn't cover, flag it so we can keep the page accurate.
         </div>
       </div>
     </section>
@@ -816,6 +917,187 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ============================================================
+// COMPATIBILITY SCANNER WIDGET
+// ------------------------------------------------------------
+// The scanner runs as a Node/Express service (see /scanner repo).
+// Set SCANNER_API to wherever it's deployed — Vercel/Render/etc.
+// The endpoint is the full URL to the /api/scan POST endpoint.
+// ============================================================
+const SCANNER_API = "https://qualiphy-scanner.vercel.app/api/scan"; // <-- update if deployed elsewhere
+
+(function scannerWidget(){
+  const form    = document.getElementById('ovScanForm');
+  const input   = document.getElementById('ovScanInput');
+  const btn     = document.getElementById('ovScanBtn');
+  const status  = document.getElementById('ovScanStatus');
+  const results = document.getElementById('ovScanResults');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const raw = (input.value || '').trim();
+    if (!raw) { setStatus('Enter a website URL.', true); input.focus(); return; }
+
+    btn.disabled = true;
+    results.hidden = true;
+    results.innerHTML = '';
+    setStatus('<span class="ov-scan-spinner"></span> Scanning ' + escapeHtml(raw) + ' — takes 15–30 seconds…');
+
+    try {
+      const r = await fetch(SCANNER_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: raw }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+      setStatus('');
+      render(data);
+    } catch (err) {
+      setStatus('Scan failed: ' + err.message + '. The scanner service may be offline.', true);
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  function setStatus(html, isError){
+    status.innerHTML = html;
+    status.classList.toggle('error', !!isError);
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function scoreToStars(sc){
+    if (sc <= -1) return 1;
+    if (sc === 0) return 2;
+    if (sc <= 2)  return 3;
+    if (sc <= 4)  return 4;
+    return 5;
+  }
+
+  function pickVerdict(d){
+    const v = d.validation || {};
+    const f = (d.technology && d.technology.flags) || {};
+    if (v.status !== 'valid') {
+      return {
+        cls: 'no',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+        label: "Couldn't reach the site",
+        summary: "We couldn't load the prospect's site to check it. Confirm the URL with the prospect or try again."
+      };
+    }
+    const conflicts = (f.checkout_conflict_plugins || []).length;
+    if (d.recommended_for_outreach && f.woocommerce_detected && conflicts === 0) {
+      return {
+        cls: 'go',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+        label: 'Compatible',
+        summary: 'This site looks like a clean fit for Quidget. Safe to pitch a launch.'
+      };
+    }
+    if (f.woocommerce_detected || f.wordpress_detected) {
+      return {
+        cls: 'warn',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        label: 'Compatible with caveats',
+        summary: 'Foundation is right but something needs attention before launch — see reasons below.'
+      };
+    }
+    return {
+      cls: 'no',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+      label: 'Not compatible',
+      summary: "This site isn't on WordPress + WooCommerce, so Quidget can't run on it as-is."
+    };
+  }
+
+  function buildReasons(d){
+    const v = d.validation || {};
+    const t = d.technology || {};
+    const f = t.flags || {};
+    const out = [];
+
+    if (v.status !== 'valid') {
+      out.push({ kind:'neg', text:"Site couldn't be loaded — verify the URL with the prospect." });
+      return out;
+    }
+
+    // WordPress + WooCommerce — the two requirements
+    if (f.woocommerce_detected) out.push({ kind:'pos', text:'<strong>WooCommerce</strong> is installed — required for Quidget.' });
+    else if (f.wordpress_detected) out.push({ kind:'neg', text:'WordPress is here, but <strong>WooCommerce is missing</strong>. They need it before Quidget can run.' });
+    else out.push({ kind:'neg', text:"Site isn't on <strong>WordPress</strong> — Quidget only runs on WordPress + WooCommerce sites." });
+
+    // Conflicting plugins
+    const conflicts = f.checkout_conflict_plugins || [];
+    if (conflicts.length) {
+      out.push({ kind:'neg', text:'Found checkout-conflicting plugin(s): <strong>' + conflicts.map(escapeHtml).join(', ') + '</strong>. These usually need to be removed or worked around.' });
+    } else if (f.wordpress_detected) {
+      out.push({ kind:'pos', text:'No known conflicting checkout plugins detected.' });
+    }
+
+    // Other ecommerce platforms (Shopify/etc.) → would need to migrate
+    const otherEcom = (t.ecommerce || []).filter(e => e && !/woocommerce/i.test(e));
+    if (otherEcom.length && !f.woocommerce_detected) {
+      out.push({ kind:'info', text:'They use <strong>' + escapeHtml(otherEcom[0]) + '</strong> for ecommerce. They\'d need to switch to WooCommerce to use Quidget.' });
+    }
+
+    // Urgent care / pharmacy hints
+    if (f.is_urgent_care_likely) out.push({ kind:'info', text:'Looks like an urgent care / walk-in clinic — confirm the GFE workflow is the right fit.' });
+    if (f.custom_pharmacy_likely) out.push({ kind:'info', text:'Site mentions a custom compounding pharmacy — flag for clinical/legal review.' });
+
+    return out.slice(0, 5);
+  }
+
+  function render(d){
+    const verdict = pickVerdict(d);
+    const stars = scoreToStars(d.score || 0);
+    const reasons = buildReasons(d);
+
+    const starsHtml = Array.from({length:5},(_,i) =>
+      '<span class="' + (i < stars ? 'ov-verdict-star-on' : 'ov-verdict-star-off') + '">&#9733;</span>'
+    ).join('');
+
+    const reasonsHtml = reasons.length
+      ? '<div class="ov-reasons-list">' + reasons.map(r =>
+          '<div class="ov-reason ' + r.kind + '">' +
+            '<span class="ov-reason-mark">' +
+              (r.kind === 'pos'
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+                : r.kind === 'neg'
+                  ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+                  : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+              ) +
+            '</span>' +
+            '<span class="ov-reason-text">' + r.text + '</span>' +
+          '</div>'
+        ).join('') + '</div>'
+      : '<div class="ov-scan-empty">No additional notes for this site.</div>';
+
+    results.innerHTML =
+      '<div class="ov-verdict">' +
+        '<div class="ov-verdict-stars">' +
+          '<div class="ov-verdict-stars-row">' + starsHtml + '</div>' +
+          '<div class="ov-verdict-stars-l">' + stars + ' / 5 stars</div>' +
+        '</div>' +
+        '<div class="ov-verdict-info">' +
+          '<div class="ov-verdict-domain">' + escapeHtml(d.source_domain || '') + '</div>' +
+          '<div class="ov-verdict-pill ' + verdict.cls + '">' + verdict.icon + verdict.label + '</div>' +
+          '<div class="ov-verdict-summary">' + escapeHtml(verdict.summary) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ov-reasons">' +
+        '<div class="ov-reasons-h">What we found</div>' +
+        reasonsHtml +
+      '</div>';
+
+    results.hidden = false;
+    results.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+})();
 </script>
 
 </body>
