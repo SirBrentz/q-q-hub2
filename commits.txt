@@ -1,3 +1,20 @@
+2026-05-08  Overview: wire scanner widget to the deployed scanner
+- Wired the widget to the deployed scanner at
+  scanner-zeta-gilt.vercel.app/api/scan, which has full feature
+  parity (WP endpoint probes, plugin/theme extraction, version
+  freshness, payment processors, JS libs, etc.) vs the in-browser
+  port that only matched signals from the homepage HTML.
+- The deployed scanner doesn't emit CORS headers yet (verified via
+  curl: no Access-Control-Allow-Origin in the OPTIONS response), so
+  routed the call through corsproxy.io to bypass CORS.
+- Once the scanner repo gets the CORS commit deployed
+  (server.js change is ready locally on this machine, push pending
+  ElectricMangoDev gh auth), drop CORS_PROXY and call SCANNER_API
+  directly. Comment in the file flags this.
+- Removed the in-browser scanner port (~200 lines): the deployed
+  service is the source of truth and reflects future scanner
+  improvements automatically.
+
 2026-05-08  Overview: scanner now runs entirely in-browser
 - The "Scan failed" error was because the SCANNER_API constant was
   pointing at a Vercel URL the standalone scanner had never actually
