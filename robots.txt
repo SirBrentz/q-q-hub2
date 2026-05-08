@@ -7,6 +7,9 @@ Allow: /
 # Cloudflare internal endpoints — not content
 Disallow: /cdn-cgi/
 
+# Internal-only pages (sales reference / not for public consumption)
+Disallow: /overview/
+
 # AI crawlers — context file
 # See /llms.txt for site summary
 

@@ -1,3 +1,22 @@
+2026-05-08  Add /overview/ — internal sales-reference page (unlisted)
+- New /overview/index.html: themed-consistent single source of truth
+  for the sales team on what Quidget does, what it doesn't, plugin
+  limitations, supported themes, and the prospect-readiness checklist.
+- Closes the spirit of QUID-4 ("Quidget Do's and Don'ts sheet").
+- Sections: Hero (Sales Reference kicker) · DOs/DON'Ts split (GFEs,
+  single-Rx, instant video, linking to existing products / no multi-Rx,
+  no multi-location, no payment splitting) · Plugin limitations
+  (multi-Rx, compatibility, custom exams) · Themes + PHP 7.4+ / WP 5.0+
+  / WC 5.0+ · 7-step requirements checklist (WooCommerce, WordPress,
+  Qualiphy account/API key, SSL, single location, PNG logos optional,
+  pre-launch domain compatibility check).
+- Unlisted: meta robots noindex/nofollow on the page itself, NOT added
+  to sitemap.xml, and Disallow: /overview/ added to robots.txt. Not
+  linked from any nav, footer, or other page on the site — sales team
+  shares the URL directly.
+- Reuses the site's existing nav, footer, color tokens, and typography
+  so it visually belongs to the rest of quidget.qualiphy.me.
+
 2026-05-05  Footer: point Terms of Use at /qualiphy-terms-of-use/
 - The Terms of Use link in every footer was pointing at the same URL
   as Privacy Policy (the cookies / privacy policy combo page). Updated
