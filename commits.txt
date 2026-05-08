@@ -1,3 +1,19 @@
+2026-05-08  Overview: scanner now a sticky sidebar — less scrolling
+- Restructured the page into a 2-column layout on desktop: reference
+  content (DOs/DON'Ts, plugin limitations, requirements) on the left,
+  compatibility scanner sticky-pinned on the right. The scanner stays
+  visible no matter where the user is on the page.
+- On mobile / narrow screens (≤1100px), the layout collapses to a
+  single column with the scanner moved to the TOP via order:-1, so
+  it's the first thing sales sees.
+- Trimmed hero padding, tighter section margins (64px → 44px), dropped
+  the inline "What gets checked" introductory paragraph in favor of
+  compact chips at the bottom of the scanner card. Less vertical real
+  estate for the same information.
+- Compact scanner-results card: domain + stars on one row, verdict
+  pill below, then a tight "What we found" reasons list. Same data
+  the previous full-width version showed, in roughly half the height.
+
 2026-05-08  Overview: simplify for sales + add compatibility scanner widget
 - Removed the "Themes & environment" section listing PHP / WordPress /
   WooCommerce versions. Sales doesn't speak that language, and the new
