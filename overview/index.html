@@ -185,12 +185,7 @@ strong{font-weight:600;color:var(--text)}
 }
 .ov-hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1}
 .ov-hero .kicker{margin-bottom:18px;justify-content:center}
-.ov-hero h1{font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:14px;font-weight:800}
-.ov-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--indigo),var(--violet) 70%,var(--lavender));-webkit-background-clip:text;background-clip:text;color:transparent}
-.ov-hero-sub{font-size:17.5px;color:var(--text-mid);line-height:1.6;margin-bottom:18px;max-width:560px;margin-left:auto;margin-right:auto}
-.ov-hero-meta{display:inline-flex;align-items:center;gap:14px;padding:8px 16px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:100px;font-family:var(--font-m);font-size:11.5px;color:var(--text-mid);letter-spacing:.02em;backdrop-filter:blur(6px)}
-.ov-hero-meta-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald)}
-.ov-hero-meta b{color:var(--ink);font-weight:700}
+.ov-hero h1{font-size:clamp(1.9rem,4vw,2.6rem);letter-spacing:-.03em;line-height:1.1;margin-bottom:24px;font-weight:800}
 
 /* ============ BODY WRAPPER ============ */
 .ov-body{max-width:840px;margin:0 auto;padding:24px clamp(1.25rem,4vw,2.5rem) 80px}
@@ -244,7 +239,7 @@ strong{font-weight:600;color:var(--text)}
 }
 .ov-required-d{font-size:13px;color:var(--text-mid);line-height:1.5}
 
-/* ============ AT A GLANCE — list section ============ */
+/* ============ LISTS ============ */
 .ov-glance{margin-bottom:28px}
 .ov-glance-section-h{
   font-family:var(--font-h);font-size:13px;font-weight:700;
@@ -286,76 +281,28 @@ strong{font-weight:600;color:var(--text)}
 .ov-glance-list.info li::before{content:'i';background:var(--lavender-mist);color:var(--indigo);font-style:italic}
 .ov-glance-list li strong{color:var(--ink);font-weight:700}
 
-/* ============ FLOATING SCANNER ============ */
-.ov-float{position:fixed;bottom:24px;right:24px;z-index:90}
-.ov-float-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--indigo);color:#fff;
-  font-family:var(--font-h);font-size:14px;font-weight:700;
-  padding:13px 20px;border-radius:100px;cursor:pointer;
-  box-shadow:0 8px 24px rgba(77,61,113,.32),0 2px 6px rgba(77,61,113,.18),inset 0 1px 0 rgba(255,255,255,.14);
-  transition:all .25s var(--ease);
-}
-.ov-float-pill:hover{background:var(--indigo-hover);transform:translateY(-2px);box-shadow:0 12px 32px rgba(77,61,113,.4),0 3px 8px rgba(77,61,113,.22),inset 0 1px 0 rgba(255,255,255,.14)}
-.ov-float-pill svg{width:16px;height:16px}
-.ov-float-pill-t{letter-spacing:-.005em}
-.ov-float[data-state="open"] .ov-float-pill{display:none}
-
-.ov-float-panel{
-  position:absolute;bottom:0;right:0;
-  width:min(420px,calc(100vw - 48px));
-  background:#fff;border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:0 24px 60px rgba(20,18,22,.22),0 8px 24px rgba(77,61,113,.15);
-  overflow:hidden;
-  animation:ovFloatIn .28s var(--ease);
-}
-@keyframes ovFloatIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-
-.ov-float-panel-h{
-  display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
-  padding:18px 20px 14px;
-  background:linear-gradient(135deg,var(--indigo) 0%,var(--indigo-deep) 100%);
-  color:#fff;
-}
-.ov-float-panel-h-l{flex:1;min-width:0}
-.ov-float-panel-t{font-family:var(--font-h);font-size:15px;font-weight:800;letter-spacing:-.01em;color:#fff;line-height:1.2}
-.ov-float-panel-s{font-family:var(--font-m);font-size:11px;color:rgba(255,255,255,.72);margin-top:3px;letter-spacing:.01em;line-height:1.4}
-.ov-float-close{
-  flex-shrink:0;width:30px;height:30px;border-radius:8px;
-  background:rgba(255,255,255,.12);color:#fff;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:background .15s;
-}
-.ov-float-close:hover{background:rgba(255,255,255,.22)}
-.ov-float-close svg{width:14px;height:14px}
-
-.ov-float-panel-body{padding:18px 20px}
-
-/* ============ COMPATIBILITY SCANNER FORM (inside panel) ============ */
-.ov-scan-form{}
-.ov-scan-input-wrap{
-  display:flex;gap:8px;
-}
+/* ============ COMPATIBILITY SCANNER (inline in hero) ============ */
+.ov-scan-form{margin:8px auto 0;max-width:640px;width:100%;text-align:left}
+.ov-scan-input-wrap{display:flex;gap:8px;align-items:stretch}
 .ov-scan-input-field{position:relative;flex:1;min-width:0}
 .ov-scan-input-ico{
-  position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  width:16px;height:16px;color:var(--text-lt);pointer-events:none;
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;color:var(--text-lt);pointer-events:none;
   transition:color .2s;
 }
 .ov-scan-input{
   width:100%;
-  padding:12px 14px 12px 38px;
-  font-family:var(--font-b);font-size:14px;
+  padding:14px 16px 14px 44px;
+  font-family:var(--font-b);font-size:15px;
   border:1.5px solid var(--border);border-radius:var(--r-md);
   background:#fff;color:var(--text);outline:none;
   transition:all .2s var(--ease);
-  box-shadow:0 2px 8px rgba(20,18,22,.03);
+  box-shadow:0 4px 16px rgba(20,18,22,.05);
 }
 .ov-scan-input::placeholder{color:var(--text-lt)}
-.ov-scan-input:focus{border-color:var(--indigo);box-shadow:0 0 0 4px rgba(77,61,113,.08),0 4px 12px rgba(77,61,113,.08)}
+.ov-scan-input:focus{border-color:var(--indigo);box-shadow:0 0 0 4px rgba(77,61,113,.08),0 4px 16px rgba(77,61,113,.1)}
 .ov-scan-input-field:focus-within .ov-scan-input-ico{color:var(--indigo)}
-.ov-scan-btn{flex-shrink:0;padding:12px 18px;font-size:14px}
+.ov-scan-btn{flex-shrink:0;padding:14px 22px;font-size:14.5px}
 .ov-scan-btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
 .ov-scan-status{
   font-family:var(--font-m);font-size:11.5px;color:var(--text-mid);
@@ -506,16 +453,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
 }
 @media (max-width:720px){
   .ov-hero{padding:96px 0 28px}
-  .ov-body{padding:20px 16px 100px}
+  .ov-body{padding:20px 16px 56px}
   .ov-required{padding:20px}
   .ov-required-item{padding:14px}
   .ov-glance-list li{font-size:14px;padding-left:26px}
-  .ov-float{bottom:16px;right:16px;left:16px}
-  .ov-float-pill{width:100%;justify-content:center;font-size:14.5px;padding:14px}
-  .ov-float-panel{
-    position:fixed;left:16px;right:16px;bottom:16px;width:auto;
-    max-height:calc(100vh - 100px);overflow-y:auto;
-  }
+  .ov-scan-input-wrap{flex-direction:column;gap:10px}
+  .ov-scan-btn{width:100%}
   .nav-actions .btn-outline{display:none}
 }
 @media (max-width:600px){
@@ -598,13 +541,21 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
   <section class="ov-hero" aria-labelledby="ov-h">
     <div class="wrap">
       <div class="ov-hero-inner">
-        <div class="kicker">Sales Reference · Internal</div>
-        <h1 id="ov-h">Quidget at <em>a glance</em></h1>
-        <p class="ov-hero-sub">A single source of truth for what Quidget does today, what it doesn't, and what a clinic needs to launch. Use this when scoping a new prospect.</p>
-        <div class="ov-hero-meta">
-          <span class="ov-hero-meta-dot"></span>
-          <span><b>Live with partners</b> · Plugin v1.0.6</span>
-        </div>
+        <div class="kicker">Internal · Sales reference</div>
+        <h1 id="ov-h">Quidget reference</h1>
+
+        <form class="ov-scan-form" id="ovScanForm" autocomplete="off">
+          <div class="ov-scan-input-wrap">
+            <div class="ov-scan-input-field">
+              <svg class="ov-scan-input-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-linecap="round"/></svg>
+              <input type="text" id="ovScanInput" class="ov-scan-input" placeholder="Paste a prospect's URL to check compatibility" aria-label="Prospect website URL" />
+            </div>
+            <button type="submit" id="ovScanBtn" class="btn btn-primary ov-scan-btn">Scan site</button>
+          </div>
+          <div class="ov-scan-status" id="ovScanStatus" aria-live="polite"></div>
+        </form>
+
+        <div class="ov-scan-results" id="ovScanResults" hidden></div>
       </div>
     </div>
   </section>
@@ -639,10 +590,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
       </div>
     </section>
 
-    <!-- ============ AT A GLANCE — single unified list ============ -->
-    <section class="ov-glance reveal" aria-labelledby="ov-glance-h">
-      <h2 class="ov-glance-section-h" id="ov-glance-h">At a glance</h2>
-
+    <!-- ============ LISTS ============ -->
+    <section class="ov-glance reveal">
       <div class="ov-glance-block">
         <h3 class="ov-glance-h good">What Quidget does</h3>
         <ul class="ov-glance-list good">
@@ -668,7 +617,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
         <ul class="ov-glance-list info">
           <li>Site needs HTTPS &mdash; most modern hosts include this by default</li>
           <li>Single clinic location only &mdash; multi-location franchises aren't supported yet</li>
-          <li>Some WordPress plugins conflict with Quidget &mdash; use the floating <strong>Scan a site</strong> button to check before pitching</li>
+          <li>Some WordPress plugins conflict with Quidget &mdash; run the scanner above before pitching</li>
         </ul>
       </div>
     </section>
@@ -686,48 +635,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:64px 0 32px;marg
 </div>
 </main>
 
-<!-- ============ FLOATING SCANNER WIDGET ============ -->
-<div class="ov-float" id="ovFloat" data-state="closed">
-  <button type="button" class="ov-float-pill" id="ovFloatPill" aria-expanded="false" aria-controls="ovFloatPanel">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <span class="ov-float-pill-t">Scan a site</span>
-  </button>
-
-  <div class="ov-float-panel" id="ovFloatPanel" role="dialog" aria-modal="false" aria-labelledby="ov-float-t" hidden>
-    <div class="ov-float-panel-h">
-      <div class="ov-float-panel-h-l">
-        <div class="ov-float-panel-t" id="ov-float-t">Compatibility scanner</div>
-        <div class="ov-float-panel-s">Paste a prospect's domain &mdash; verdict in 15&ndash;30s</div>
-      </div>
-      <button type="button" class="ov-float-close" id="ovFloatClose" aria-label="Close scanner">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-
-    <div class="ov-float-panel-body">
-      <form class="ov-scan-form" id="ovScanForm" autocomplete="off">
-        <div class="ov-scan-input-wrap">
-          <div class="ov-scan-input-field">
-            <svg class="ov-scan-input-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-linecap="round" stroke-linejoin="round"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-linecap="round"/></svg>
-            <input type="text" id="ovScanInput" class="ov-scan-input" placeholder="e.g. driphydration.com" aria-label="Prospect website URL" />
-          </div>
-          <button type="submit" id="ovScanBtn" class="btn btn-primary ov-scan-btn">Scan</button>
-        </div>
-        <div class="ov-scan-status" id="ovScanStatus" aria-live="polite"></div>
-      </form>
-
-      <div class="ov-scan-results" id="ovScanResults" hidden></div>
-
-      <div class="ov-scan-foot">
-        <span class="ov-scan-foot-l">What we check</span>
-        <span class="ov-scan-chip">WordPress</span>
-        <span class="ov-scan-chip">WooCommerce</span>
-        <span class="ov-scan-chip">Plugin conflicts</span>
-        <span class="ov-scan-chip">Reachable</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ============ FOOTER ============ -->
 <footer role="contentinfo">
@@ -842,34 +749,6 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 // The endpoint is the full URL to the /api/scan POST endpoint.
 // ============================================================
 const SCANNER_API = "https://qualiphy-scanner.vercel.app/api/scan"; // <-- update if deployed elsewhere
-
-// Floating widget open/close
-(function floatingWidget(){
-  const root  = document.getElementById('ovFloat');
-  const pill  = document.getElementById('ovFloatPill');
-  const panel = document.getElementById('ovFloatPanel');
-  const close = document.getElementById('ovFloatClose');
-  const input = document.getElementById('ovScanInput');
-  if (!root || !pill || !panel || !close) return;
-
-  function open(){
-    panel.hidden = false;
-    root.dataset.state = 'open';
-    pill.setAttribute('aria-expanded','true');
-    setTimeout(() => input && input.focus(), 50);
-  }
-  function shut(){
-    panel.hidden = true;
-    root.dataset.state = 'closed';
-    pill.setAttribute('aria-expanded','false');
-  }
-
-  pill.addEventListener('click', open);
-  close.addEventListener('click', shut);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && root.dataset.state === 'open') shut();
-  });
-})();
 
 (function scannerWidget(){
   const form    = document.getElementById('ovScanForm');

@@ -1,3 +1,22 @@
+2026-05-08  Overview: scanner now lives in the hero, fluff trimmed
+- Scanner moved out of the floating bottom-right widget and back
+  into the hero section as an inline URL input + Scan button.
+  Results render directly under the form. The widget had been an
+  iteration that didn't land - sales liked the scanner, just not
+  the hide-and-seek interaction model.
+- Removed all floating-widget HTML / CSS / JS (the pill, the panel,
+  the open/close toggle, the Escape-to-close handler).
+- Trimmed marketing-style copy:
+  * H1 "Quidget at a glance" -> "Quidget reference"
+  * Dropped the long subtitle ("A single source of truth ...").
+  * Dropped the "Live with partners . Plugin v1.0.6" status pill.
+  * Dropped the "At a glance" section header.
+  * Kicker simplified to "Internal . Sales reference".
+- The three lists (does / doesn't / other) remain intact; only the
+  framing around them was cut. Inline reference to the scanner now
+  reads "run the scanner above" instead of pointing at the dead
+  floating button.
+
 2026-05-08  Overview: list-driven layout + floating scanner widget
 - Replaced the multi-block layout (DOs/DON'Ts split cards + 3-card
   plugin limitations + 6-row requirements checklist + sticky aside)
