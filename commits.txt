@@ -1,3 +1,21 @@
+2026-05-08  Overview: embed deployed scanner directly via iframe
+- The previous attempts to call the scanner's /api/scan endpoint
+  cross-origin kept failing (no CORS on the deployed scanner;
+  corsproxy.io rejected the POST). Each "fix" introduced a new
+  point of failure.
+- Switched to embedding scanner-zeta-gilt.vercel.app directly
+  via iframe in the hero. The iframe loads the deployed scanner's
+  full UI; calls to /api/scan happen same-origin from the iframe's
+  perspective so there is no CORS path to break.
+- This means the scanner on the overview page is literally the
+  same code, the same scoring, the same output as the standalone
+  test page Brent shared screenshots of. Updates pushed to the
+  scanner repo show up here automatically with no page changes.
+- Removed: the SCANNER_API + CORS_PROXY constants, the scannerWidget
+  IIFE, the inline render / pickVerdict / buildReasons / scoreToStars
+  / escapeHtml helpers, all the .ov-scan-form / .ov-verdict /
+  .ov-reasons CSS. Net file size dropped ~200 lines.
+
 2026-05-08  Overview: wire scanner widget to the deployed scanner
 - Wired the widget to the deployed scanner at
   scanner-zeta-gilt.vercel.app/api/scan, which has full feature
