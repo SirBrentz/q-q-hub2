@@ -1,4 +1,23 @@
-2026-05-08  Overview: scanner now a sticky sidebar — less scrolling
+2026-05-08  Overview: list-driven layout + floating scanner widget
+- Replaced the multi-block layout (DOs/DON'Ts split cards + 3-card
+  plugin limitations + 6-row requirements checklist + sticky aside)
+  with a single 840px column of plain content:
+  * Top "Required to use Quidget" callout - two visually prominent
+    items (Qualiphy account / WooCommerce-which-implies-WordPress).
+    Sales should see this first.
+  * Single "At a glance" section with three plain bulleted lists:
+    What Quidget does (green check) - What it doesn't (red x) -
+    Other things to know (info). All previous sections folded in.
+  * Dropped the PNG-logo line - already explained inside the plugin.
+- Compatibility scanner moved out of the sidebar into a fixed-position
+  floating widget anchored bottom-right. Closed state is a small
+  indigo pill ("Scan a site"); opens into a card with the same
+  scanner UI. Closes via X button or Escape. On mobile the pill is
+  full-width along the bottom; the panel becomes a near-fullscreen
+  bottom sheet.
+- Fixed the now-stale "Run the compatibility scanner below" copy -
+  the inline reference now points to the floating "Scan a site"
+  button.
 - Restructured the page into a 2-column layout on desktop: reference
   content (DOs/DON'Ts, plugin limitations, requirements) on the left,
   compatibility scanner sticky-pinned on the right. The scanner stays
