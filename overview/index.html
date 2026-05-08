@@ -742,13 +742,13 @@ const io = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // ============================================================
-// COMPATIBILITY SCANNER WIDGET
+// COMPATIBILITY SCANNER — runs entirely in the browser.
 // ------------------------------------------------------------
-// The scanner runs as a Node/Express service (see /scanner repo).
-// Set SCANNER_API to wherever it's deployed — Vercel/Render/etc.
-// The endpoint is the full URL to the /api/scan POST endpoint.
+// Fetches the prospect site through a public CORS proxy
+// (corsproxy.io, with allorigins.win as a fallback) and runs
+// the same WordPress / WooCommerce / conflict-plugin detection
+// the standalone scanner does. No backend service required.
 // ============================================================
-const SCANNER_API = "https://qualiphy-scanner.vercel.app/api/scan"; // <-- update if deployed elsewhere
 
 (function scannerWidget(){
   const form    = document.getElementById('ovScanForm');
@@ -766,24 +766,231 @@ const SCANNER_API = "https://qualiphy-scanner.vercel.app/api/scan"; // <-- updat
     btn.disabled = true;
     results.hidden = true;
     results.innerHTML = '';
-    setStatus('<span class="ov-scan-spinner"></span> Scanning ' + escapeHtml(raw) + ' — takes 15–30 seconds…');
+    setStatus('<span class="ov-scan-spinner"></span> Scanning ' + escapeHtml(raw) + ' — usually under 10 seconds…');
 
     try {
-      const r = await fetch(SCANNER_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: raw }),
-      });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+      const data = await scanSite(raw);
       setStatus('');
       render(data);
     } catch (err) {
-      setStatus('Scan failed: ' + err.message + '. The scanner service may be offline.', true);
+      setStatus('Scan failed: ' + err.message, true);
     } finally {
       btn.disabled = false;
     }
   });
+
+  // ---------- IN-BROWSER SCANNER ----------
+
+  async function scanSite(rawInput){
+    const domain = rawInput.trim()
+      .replace(/^https?:\/\//i,'')
+      .replace(/\/+$/,'')
+      .split('/')[0];
+
+    if (!/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}/i.test(domain)) {
+      throw new Error('That doesn\'t look like a valid domain.');
+    }
+
+    const target = 'https://' + domain;
+    let html = '', finalStatus = null, finalUrl = target, fetchErr = null;
+
+    try {
+      const out = await fetchThroughProxy(target);
+      html = out.html;
+      finalStatus = out.status;
+      finalUrl = out.finalUrl;
+    } catch (err) {
+      fetchErr = err;
+    }
+
+    const result = {
+      source_domain: domain,
+      candidate_site_url: target,
+      scanned_at: new Date().toISOString(),
+      validation: validate(domain, { html, status: finalStatus, finalUrl, error: fetchErr }),
+      technology: null,
+      score: 0,
+      recommended_for_outreach: false,
+      score_breakdown: [],
+      notes: [],
+    };
+
+    if (result.validation.status !== 'valid') return result;
+
+    const tech = analyzeHtml(html);
+    const { score, recommended, breakdown } = scoreFlags(tech.flags);
+
+    result.technology = tech;
+    result.score = score;
+    result.recommended_for_outreach = recommended;
+    result.score_breakdown = breakdown;
+    return result;
+  }
+
+  async function fetchThroughProxy(targetUrl){
+    // Primary: corsproxy.io (returns body verbatim with CORS headers)
+    // Fallback: allorigins.win (wraps body in JSON: { contents })
+    const proxies = [
+      { url: 'https://corsproxy.io/?' + encodeURIComponent(targetUrl), unwrap: r => r.text() },
+      { url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl), unwrap: r => r.text() },
+    ];
+    let lastErr = null;
+    for (const p of proxies) {
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 20000);
+        const r = await fetch(p.url, { signal: ctrl.signal });
+        clearTimeout(t);
+        if (!r.ok) { lastErr = new Error('HTTP ' + r.status); continue; }
+        const body = await p.unwrap(r);
+        return { html: body || '', status: r.status, finalUrl: targetUrl };
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("Couldn't reach the site through any available proxy.");
+  }
+
+  // ---------- VALIDATION ----------
+  const SOCIAL_HOSTS = new Set(['facebook.com','instagram.com','linktr.ee','beacons.ai','twitter.com','x.com','tiktok.com','youtube.com']);
+  const PARKED_KEYWORDS = ['buy this domain','this domain is for sale','domain is for sale','this domain may be for sale','domain for sale','is available for purchase','godaddy.com/domains/searchresults','hugedomains.com','sedo.com','afternic.com'];
+
+  function validate(domain, fr){
+    if (fr.error) return { status: 'error', reason: fr.error.message || 'fetch failed', http_status: null, final_url: 'https://' + domain };
+    if (!fr.html) return { status: 'invalid', reason: 'empty response', http_status: fr.status, final_url: fr.finalUrl };
+    if (fr.status && (fr.status < 200 || fr.status >= 400)) return { status: 'invalid', reason: 'HTTP ' + fr.status, http_status: fr.status, final_url: fr.finalUrl };
+
+    try {
+      const host = new URL(fr.finalUrl).hostname.replace(/^www\./, '');
+      if (SOCIAL_HOSTS.has(host)) return { status: 'social_redirect', reason: 'redirected to ' + host, http_status: fr.status, final_url: fr.finalUrl };
+    } catch(_) {}
+
+    const lower = fr.html.toLowerCase();
+    for (const kw of PARKED_KEYWORDS) {
+      if (lower.includes(kw)) return { status: 'parked', reason: 'parked-page keyword', http_status: fr.status, final_url: fr.finalUrl };
+    }
+
+    return { status: 'valid', reason: null, http_status: fr.status, final_url: fr.finalUrl };
+  }
+
+  // ---------- TECH DETECTION ----------
+  function analyzeHtml(html){
+    const lower = html.toLowerCase();
+
+    // CMS detection
+    const isWP =
+      lower.includes('/wp-content/') ||
+      lower.includes('/wp-includes/') ||
+      lower.includes('wp-json') ||
+      /<meta[^>]+name=["']generator["'][^>]+content=["']wordpress/i.test(html);
+
+    const isShopify   = lower.includes('cdn.shopify.com') || lower.includes('myshopify.com') || lower.includes('shopify.theme');
+    const isSquare    = lower.includes('static.squarespace.com') || lower.includes('squarespace-context');
+    const isWix       = lower.includes('static.wixstatic.com') || lower.includes('wix.com/pages/');
+    const isWebflow   = lower.includes('webflow.io') || lower.includes('data-wf-page');
+    const isDrupal    = lower.includes('/sites/default/files/') || /<meta[^>]+name=["']generator["'][^>]+content=["']drupal/i.test(html);
+
+    // Ecommerce detection
+    const isWoo =
+      lower.includes('woocommerce') ||
+      lower.includes('/plugins/woocommerce/') ||
+      lower.includes('wc-cart-fragments') ||
+      lower.includes('/wp-json/wc/');
+    const isBigCommerce = lower.includes('bigcommerce.com');
+    const isMagento     = lower.includes('mage/') || lower.includes('mage.cookies');
+    const isSquareCommerce = lower.includes('squarespace-checkout');
+
+    const ecommerceList = [];
+    if (isWoo) ecommerceList.push('WooCommerce');
+    if (isShopify) ecommerceList.push('Shopify');
+    if (isBigCommerce) ecommerceList.push('BigCommerce');
+    if (isMagento) ecommerceList.push('Magento');
+    if (isSquareCommerce) ecommerceList.push('Squarespace Commerce');
+
+    const ecomKeywords = ['add to cart','shopping cart','view cart','checkout','/cart'];
+    const hasGenericEcom = ecomKeywords.some(k => lower.includes(k));
+
+    // CMS string
+    let cms = null;
+    if (isWP) cms = 'WordPress';
+    else if (isShopify) cms = 'Shopify';
+    else if (isSquare) cms = 'Squarespace';
+    else if (isWix) cms = 'Wix';
+    else if (isWebflow) cms = 'Webflow';
+    else if (isDrupal) cms = 'Drupal';
+
+    // WordPress version (if detectable)
+    let cmsVersion = null;
+    const verMatch = /<meta[^>]+name=["']generator["'][^>]+content=["']wordpress\s*([\d.]+)/i.exec(html);
+    if (verMatch) cmsVersion = verMatch[1];
+
+    // WP themes + plugins
+    const wpThemes = uniqueMatches(html, /\/wp-content\/themes\/([^/"'\s&?]+)/gi).map(prettify);
+    const wpPlugins = uniqueMatches(html, /\/wp-content\/plugins\/([^/"'\s&?]+)/gi).map(prettify);
+
+    // Checkout-conflict plugins (same regex as the standalone scanner)
+    const CHECKOUT_CONFLICT_RE = /checkout(field|manager|editor|addon|custom|optimiz|wizard|step|form|flow|modifier|pro)|customcheckout|cartflows?|fluentcheckout|directcheckout|onepagecheckout|checkoutx|checkoutforwoo/i;
+    const checkoutConflictPlugins = wpPlugins.filter(p => CHECKOUT_CONFLICT_RE.test(p.replace(/[^a-z]/gi,'')));
+
+    // Clinic flags
+    const isUrgentCare     = /urgent care|walk-?in clinic|immediate care|same-?day care/i.test(html);
+    const isCustomPharmacy = /compounding pharmacy|custom compounded|rx compounding|compounded medications/i.test(html);
+    const lsMatch          = /legitscript/i.exec(html);
+    const hasLegitScript   = !!lsMatch;
+    const lsEvidence       = hasLegitScript ? html.substring(Math.max(0, lsMatch.index - 30), lsMatch.index + 80).replace(/\s+/g,' ').trim() : null;
+
+    // Provider guess
+    let ecomGuess = null;
+    if (isWoo) ecomGuess = 'WooCommerce';
+    else if (isShopify) ecomGuess = 'Shopify';
+    else if (isBigCommerce) ecomGuess = 'BigCommerce';
+    else if (isMagento) ecomGuess = 'Magento';
+    else if (hasGenericEcom) ecomGuess = 'unknown';
+
+    return {
+      cms,
+      cms_version: cmsVersion,
+      ecommerce: ecommerceList,
+      wp_themes: wpThemes,
+      wp_plugins: wpPlugins,
+      flags: {
+        wordpress_detected: isWP,
+        woocommerce_detected: isWoo,
+        has_ecommerce: isWoo || ecommerceList.length > 0 || hasGenericEcom,
+        ecommerce_provider_guess: ecomGuess,
+        is_urgent_care_likely: isUrgentCare,
+        custom_pharmacy_likely: isCustomPharmacy,
+        has_legitscript_badge: hasLegitScript,
+        legitscript_evidence: lsEvidence,
+        checkout_conflict_plugins: checkoutConflictPlugins,
+        has_checkout_conflict: checkoutConflictPlugins.length > 0,
+      },
+    };
+  }
+
+  function uniqueMatches(str, re){
+    const out = new Set();
+    let m;
+    while ((m = re.exec(str)) !== null) out.add(m[1]);
+    return [...out];
+  }
+
+  function prettify(slug){
+    return slug.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ---------- SCORING ----------
+  function scoreFlags(f){
+    const breakdown = [];
+    let score = 0;
+    if (f.wordpress_detected) { score += 3; breakdown.push({ points: 3, description: 'WordPress detected' }); }
+    if (f.woocommerce_detected) { score += 2; breakdown.push({ points: 2, description: 'WooCommerce detected' }); }
+    if (f.has_ecommerce && !f.woocommerce_detected) { score += 1; breakdown.push({ points: 1, description: 'Ecommerce detected (non-WooCommerce)' }); }
+    if (f.has_legitscript_badge) { score += 1; breakdown.push({ points: 1, description: 'LegitScript badge/mention found' }); }
+    if (f.is_urgent_care_likely) { score -= 5; breakdown.push({ points: -5, description: 'Urgent care / walk-in (not target audience)' }); }
+    if (f.custom_pharmacy_likely) { score -= 2; breakdown.push({ points: -2, description: 'Heavy custom/compounding pharmacy focus' }); }
+    return { score, recommended: score >= 3, breakdown };
+  }
 
   function setStatus(html, isError){
     status.innerHTML = html;

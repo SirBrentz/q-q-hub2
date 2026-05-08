@@ -1,3 +1,24 @@
+2026-05-08  Overview: scanner now runs entirely in-browser
+- The "Scan failed" error was because the SCANNER_API constant was
+  pointing at a Vercel URL the standalone scanner had never actually
+  been deployed to. Probed candidates (qualiphy-scanner.vercel.app,
+  scanner-electricmangodev.vercel.app) all 404'd.
+- Rather than introduce a new hosted dependency, ported the scanner
+  logic directly into the page. The browser fetches the prospect
+  site through a public CORS proxy (corsproxy.io with allorigins.win
+  as a fallback) and runs WordPress / WooCommerce / conflict-plugin
+  detection client-side. No backend service required.
+- Detection covers the same signals the standalone Node scanner
+  does for sales' purposes: CMS (WordPress/Shopify/Squarespace/Wix/
+  Webflow/Drupal), WooCommerce, ecommerce-non-Woo, WP plugins +
+  themes, the checkout-conflict regex, urgent-care/compounding
+  pharmacy heuristics, LegitScript badge, parked-domain detection,
+  social-redirect detection. Scoring rules and 5-star mapping
+  unchanged.
+- Removed the SCANNER_API constant. The widget is now fully
+  self-contained and the page is independent of the hosting
+  underneath quidget.qualiphy.me.
+
 2026-05-08  Overview: scanner now lives in the hero, fluff trimmed
 - Scanner moved out of the floating bottom-right widget and back
   into the hero section as an inline URL input + Scan button.
