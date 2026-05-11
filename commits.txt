@@ -269,3 +269,35 @@
   Diagnostic only. Once Caitlin confirms whether/where the event fires,
   eventID should move back to the 4th-arg slot so server-side
   deduplication with CAPI works again.
+
+2026-05-11  Changelog: switch to dev-supplied public endpoint + bust stale cache
+- Switched the changelog page from /api/v1/roadmap (JSON) as the
+  primary source to a combined fetch: /api/v1/plugin/changelog (HTML,
+  the public-facing feed the dev pointed Brent at — server-filtered,
+  cleaner editorial copy, "Added/Update/Fixed" prefixes) for the
+  entries themselves, and /api/v1/roadmap for the version numbers,
+  release dates, and the "On the roadmap" future-planned list.
+- Pairing strategy: parse the two <ul> blocks from the new endpoint
+  in document order (newest first), then zip against the JSON's
+  released-versions list (also newest first) to attach version + date
+  metadata. Server-side filtering means private items never leave
+  the API, removing the client-side trust on is_private.
+- Parses each <li>'s "Type - Description" prefix to map into the
+  existing Features / Improvements / Bug fixes groupings with their
+  icons. Lost on the public view: priority and status badges (the
+  new endpoint doesn't carry them; not needed for the public-facing
+  page).
+- Root cause of v1.1.0 not appearing on Brent's page: the old code's
+  24h localStorage cache returned EARLY when the cache was within
+  TTL, so even though v1.1.0 released today, anyone who'd loaded the
+  page in the last 24h kept seeing the stale render. Fixed two ways:
+    * Bumped CACHE_KEY (qdgt_changelog_v1 -> qdgt_changelog_v2) so
+      every existing browser cache is invalidated on next visit.
+    * Switched to stale-while-revalidate: render the cache instantly
+      if present, ALWAYS fetch fresh in the background, re-render
+      with the new payload when it arrives. No early returns.
+    * Cut cache TTL from 24h to 1h.
+- "Force refresh now" link now also nukes the cache key before
+  re-fetching, so it's a hard reset rather than a re-fetch on top of
+  the old cache.
+- Updated the refresh note copy from "every 24 hours" -> "every hour".

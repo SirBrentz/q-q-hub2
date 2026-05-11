@@ -1048,7 +1048,7 @@ body.sticky-cta-active{padding-bottom:72px}
       </div>
     </div>
     <div class="cl-refetch-note">
-      Data refreshes automatically every 24 hours. <a id="clRefetch">Force refresh now</a>
+      Data refreshes automatically every hour. <a id="clRefetch">Force refresh now</a>
     </div>
   </div>
 </section>
@@ -1154,10 +1154,15 @@ if (hamburger) {
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // ============ CHANGELOG: FETCH + CACHE + RENDER ============
+// Source of truth: /api/v1/plugin/changelog (HTML, public-facing copy, server-filtered)
+// Version metadata + future-planned list: /api/v1/roadmap (JSON)
+// Pairing strategy: both sources order versions newest-first; we zip <ul> blocks
+// from the HTML against released versions from the JSON by index.
 (function changelog(){
-  const ENDPOINT = 'https://qualiphyapi.gttn.co/api/v1/roadmap';
-  const CACHE_KEY = 'qdgt_changelog_v1';
-  const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+  const ENDPOINT_HTML = 'https://qualiphyapi.gttn.co/api/v1/plugin/changelog';
+  const ENDPOINT_META = 'https://qualiphyapi.gttn.co/api/v1/roadmap';
+  const CACHE_KEY = 'qdgt_changelog_v2';
+  const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour — short enough that fresh releases appear same-day
   const root = document.getElementById('clRoot');
   const refetchBtn = document.getElementById('clRefetch');
   if (!root) return;
@@ -1165,14 +1170,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const escapeHtml = (s) => String(s == null ? '' : s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-
-  const formatDate = (ts) => {
-    if (!ts) return 'not yet';
-    const d = new Date(ts);
-    if (isNaN(d.getTime())) return 'not yet';
-    return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' })
-         + ' · ' + d.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
-  };
 
   const formatReleaseDate = (s) => {
     if (!s) return '';
@@ -1189,24 +1186,57 @@ document.getElementById('year').textContent = new Date().getFullYear();
     bug_fix: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.88 1.88"/><path d="M14.12 3.88L16 2"/><path d="M9 7.13v-1a3.003 3.003 0 116 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 014-4h4a4 4 0 014 4v3c0 3.3-2.7 6-6 6z"/><path d="M12 20v-9"/><path d="M6 13H2"/><path d="M22 13h-4"/><path d="M6 6l-2-2"/><path d="M20 6l-2 2"/></svg>'
   };
 
-  const renderItem = (it) => {
-    const type = it.type || 'feature';
-    const highPriority = it.priority === 'high';
-    const planned = it.status && it.status !== 'completed';
-    return `<div class="cl-item cl-item--${escapeHtml(type)}">
-      <span class="cl-item-marker"></span>
-      <div class="cl-item-body">
-        <div class="cl-item-t">${escapeHtml(it.title)}${highPriority ? '<span class="cl-item-hi">high priority</span>' : ''}${planned ? `<span class="cl-item-planned">${escapeHtml(it.status)}</span>` : ''}</div>
-      </div>
-    </div>`;
+  // Dev's endpoint uses these prefixes; map to our type buckets.
+  const PREFIX_TO_TYPE = {
+    'added': 'feature', 'add': 'feature', 'new': 'feature',
+    'update': 'improvement', 'updated': 'improvement', 'changed': 'improvement', 'change': 'improvement', 'improved': 'improvement', 'improvement': 'improvement',
+    'fixed': 'bug_fix', 'fix': 'bug_fix', 'bug': 'bug_fix'
   };
 
-  const renderVersion = (v) => {
-    // Public items only
-    const items = (v.items || []).filter(i => !i.is_private);
-    if (items.length === 0) return '';
+  const decodeEntities = (s) => {
+    const t = document.createElement('textarea');
+    t.innerHTML = s;
+    return t.value;
+  };
 
-    // Group by type
+  const parseItem = (liInner) => {
+    const text = decodeEntities(liInner.replace(/<[^>]+>/g, '')).trim();
+    const m = text.match(/^([A-Za-z]+)\s*[-–—:]\s*(.+)$/);
+    if (m) {
+      const t = PREFIX_TO_TYPE[m[1].toLowerCase()] || 'feature';
+      return { type: t, title: m[2].trim() };
+    }
+    return { type: 'feature', title: text };
+  };
+
+  const parseChangelogHtml = (html) => {
+    // Returns array of arrays of items, one inner array per <ul>, in document order.
+    const groups = [];
+    const ulRe = /<ul[^>]*>([\s\S]*?)<\/ul>/gi;
+    const liRe = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+    let ulM;
+    while ((ulM = ulRe.exec(html)) !== null) {
+      const items = [];
+      let liM;
+      liRe.lastIndex = 0;
+      while ((liM = liRe.exec(ulM[1])) !== null) {
+        items.push(parseItem(liM[1]));
+      }
+      if (items.length) groups.push(items);
+    }
+    return groups;
+  };
+
+  const renderItem = (it) => `<div class="cl-item cl-item--${escapeHtml(it.type)}">
+      <span class="cl-item-marker"></span>
+      <div class="cl-item-body">
+        <div class="cl-item-t">${escapeHtml(it.title)}</div>
+      </div>
+    </div>`;
+
+  const renderVersion = (items, versionMeta) => {
+    if (!items || items.length === 0) return '';
+
     const byType = {};
     items.forEach(i => {
       const t = i.type || 'feature';
@@ -1224,13 +1254,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
         <div class="cl-items">${byType[t].map(renderItem).join('')}</div>
       </div>`).join('');
 
-    const released = v.is_released === true;
-    const dateStr = v.release_date ? formatReleaseDate(v.release_date) : (released ? 'Released' : 'Upcoming');
+    const versionLabel = versionMeta && versionMeta.version
+      ? `<div class="cl-version-num"><span class="prefix">v</span>${escapeHtml(versionMeta.version)}</div>` : '';
+    const dateStr = versionMeta && versionMeta.release_date ? formatReleaseDate(versionMeta.release_date) : 'Released';
 
-    return `<article class="cl-version${released ? '' : ' cl-version--unreleased'}">
+    return `<article class="cl-version">
       <div class="cl-version-dot" aria-hidden="true"></div>
       <div class="cl-version-head">
-        <div class="cl-version-num"><span class="prefix">v</span>${escapeHtml(v.version || '')}</div>
+        ${versionLabel}
         <div class="cl-version-meta">
           <span class="cl-version-date">${escapeHtml(dateStr)}</span>
         </div>
@@ -1253,24 +1284,28 @@ document.getElementById('year').textContent = new Date().getFullYear();
     </div>`;
   };
 
-  const render = (payload, fetchedAt) => {
-    if (!payload || !payload.success || !payload.data || !Array.isArray(payload.data.versions)) {
+  const render = (payload) => {
+    if (!payload || !payload.html || !payload.meta) {
       root.innerHTML = '<div class="cl-error">Couldn\'t load the changelog right now. Please try again in a moment.</div>';
       return;
     }
 
-    // Released versions only, newest-first by release_date then version
-    const versions = payload.data.versions
-      .filter(v => v.is_released === true)
-      .sort((a, b) => {
-        if (a.release_date && b.release_date) return new Date(b.release_date) - new Date(a.release_date);
-        if (a.release_date) return -1;
-        if (b.release_date) return 1;
-        return (b.version || '').localeCompare(a.version || '', undefined, { numeric: true });
-      });
+    const groups = parseChangelogHtml(payload.html);
 
-    const versionsHtml = versions.map(renderVersion).filter(Boolean).join('');
-    const futureHtml = renderFuture(payload.data.future_planned);
+    // Released versions from JSON, newest-first — used purely for version+date labels.
+    const versions = (payload.meta && payload.meta.data && Array.isArray(payload.meta.data.versions))
+      ? payload.meta.data.versions
+          .filter(v => v.is_released === true)
+          .sort((a, b) => {
+            if (a.release_date && b.release_date) return new Date(b.release_date) - new Date(a.release_date);
+            if (a.release_date) return -1;
+            if (b.release_date) return 1;
+            return (b.version || '').localeCompare(a.version || '', undefined, { numeric: true });
+          })
+      : [];
+
+    const versionsHtml = groups.map((items, idx) => renderVersion(items, versions[idx])).filter(Boolean).join('');
+    const futureHtml = renderFuture(payload.meta && payload.meta.data && payload.meta.data.future_planned);
 
     if (!versionsHtml && !futureHtml) {
       root.innerHTML = '<div class="cl-empty">No public changelog entries yet. Check back soon.</div>';
@@ -1284,41 +1319,39 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const raw = localStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
-      if (!parsed || !parsed.data || !parsed.fetchedAt) return null;
+      if (!parsed || !parsed.payload || !parsed.fetchedAt) return null;
       return parsed;
     } catch(e) { return null; }
   };
 
-  const writeCache = (data, fetchedAt) => {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data, fetchedAt })); } catch(e) {}
+  const writeCache = (payload, fetchedAt) => {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ payload, fetchedAt })); } catch(e) {}
   };
 
   const fetchFresh = async () => {
-    const res = await fetch(ENDPOINT, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
+    const [htmlRes, metaRes] = await Promise.all([
+      fetch(ENDPOINT_HTML, { cache: 'no-store' }),
+      fetch(ENDPOINT_META, { cache: 'no-store' })
+    ]);
+    if (!htmlRes.ok) throw new Error('changelog HTTP ' + htmlRes.status);
+    if (!metaRes.ok) throw new Error('roadmap HTTP ' + metaRes.status);
+    const [html, meta] = await Promise.all([htmlRes.text(), metaRes.json()]);
+    return { html, meta };
   };
 
+  // Stale-while-revalidate: paint cache instantly, always fetch fresh in the background,
+  // and re-render when the fresh data arrives. Force=true skips the cache paint.
   const load = async (force) => {
     const cache = readCache();
-    const fresh = cache && (Date.now() - cache.fetchedAt < CACHE_TTL_MS);
+    if (cache && !force) render(cache.payload);
 
-    // Use cache immediately if we have it and it's not a forced refresh
-    if (cache && !force) {
-      render(cache.data, cache.fetchedAt);
-      if (fresh) return; // Nothing more to do, cache is within TTL
-    }
-
-    // Otherwise (or in the background) fetch fresh
     try {
-      const data = await fetchFresh();
-      const now = Date.now();
-      writeCache(data, now);
-      render(data, now);
+      const payload = await fetchFresh();
+      writeCache(payload, Date.now());
+      render(payload);
     } catch(err) {
-      // If we already showed cached content, leave it. Otherwise show error.
       if (!cache) {
-        root.innerHTML = '<div class="cl-error">Couldn\'t reach the roadmap service. Please refresh the page in a moment.</div>';
+        root.innerHTML = '<div class="cl-error">Couldn\'t reach the changelog service. Please refresh the page in a moment.</div>';
       }
     }
   };
@@ -1327,6 +1360,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
     refetchBtn.addEventListener('click', (e) => {
       e.preventDefault();
       root.innerHTML = '<div class="cl-loading"><span class="cl-loading-dot"></span>Refreshing…</div>';
+      try { localStorage.removeItem(CACHE_KEY); } catch(e) {}
       load(true);
     });
   }
