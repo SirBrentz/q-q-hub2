@@ -1050,16 +1050,27 @@ body.sticky-cta-active{padding-bottom:72px}
 
 <!-- ============ FACEBOOK PIXEL: PURCHASE CONVERSION ============ -->
 <script>
+window.addEventListener('load', function () {
+
+  if (typeof fbq !== 'function') {
+    console.log('fbq not initialized');
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const inviteeUuid = params.get('invitee_uuid');
-  if (inviteeUuid && typeof fbq === 'function') {
-    fbq('track', 'Purchase', {
-      value: 500.00,
-      currency: 'USD'
-    }, {
-      eventID: inviteeUuid
-    });
-  }
+
+  console.log('inviteeUuid:', inviteeUuid);
+
+  fbq('track', 'Purchase', {
+    value: 500,
+    currency: 'USD',
+    eventID: inviteeUuid
+  });
+
+  console.log('Purchase event fired');
+
+});
 </script>
 <footer role="contentinfo">
   <div class="wrap">

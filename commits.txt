@@ -250,3 +250,22 @@
   override added so .btn variants inside articles keep their proper
   styling. Replaced the trailing "→" with a download icon to match the
   Get Started flow's primary download button.
+
+2026-05-11  Thank-you: diagnostic Meta Purchase pixel per Caitlin
+- Replaced the Purchase fbq() block with the diagnostic version Caitlin
+  (marketing) asked us to ship while she troubleshoots the Meta
+  conversion event:
+    * Wrapped in window.addEventListener('load', ...) so the script
+      doesn't race the Pixel base code.
+    * Early-return + console.log('fbq not initialized') if fbq isn't a
+      function (was a silent no-op before).
+    * Dropped the inviteeUuid guard so we can see the event fire even
+      when the param is absent.
+    * Moved eventID INTO the custom-data object (3rd arg) instead of
+      the 4th-arg dedup object — explicitly to rule out browser
+      handling of the 4th fbq() parameter, per her hypothesis #3.
+    * console.log inviteeUuid and "Purchase event fired" for live
+      debugging in DevTools.
+  Diagnostic only. Once Caitlin confirms whether/where the event fires,
+  eventID should move back to the 4th-arg slot so server-side
+  deduplication with CAPI works again.
