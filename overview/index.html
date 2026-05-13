@@ -737,13 +737,26 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   // ------------ CORS PROXIES (fallback chain) ------------
   // Each entry: { fetch: (url, opts) => Promise<Response>, name }
+  // Proxy list ordered by current reliability (verified 2026-05-13).
+  // corsproxy.io went paid-only ("Server-side requests are not allowed on your
+  // plan"); codetabs is intermittently 503. cors.lol + allorigins are the two
+  // that actually return full upstream HTML. codetabs stays as last-resort.
   const PROXIES = [
-    { name: 'codetabs',  build: u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
-    { name: 'allorigins',build: u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u) },
-    { name: 'corsproxy', build: u => 'https://corsproxy.io/?' + encodeURIComponent(u) },
+    { name: 'cors.lol',   build: u => 'https://api.cors.lol/?url=' + encodeURIComponent(u) },
+    { name: 'allorigins', build: u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u) },
+    { name: 'codetabs',   build: u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
   ];
 
-  async function proxiedFetch(targetUrl, { method = 'GET', timeoutMs = 18000, allowNonOk = false } = {}){
+  // proxiedFetch — tries proxies in order. Caller can set:
+  //   allowNonOk:   accept non-2xx responses (endpoint probes want this — real
+  //                 WC REST returns 401 with "woocommerce_rest_cannot_view" JSON
+  //                 which IS the proof WC is installed).
+  //   minBodySize:  reject responses with bodies smaller than N bytes and fail
+  //                 over to the next proxy. Catches the case where a proxy
+  //                 "succeeds" (200) but returns a truncated/empty body —
+  //                 happens occasionally with allorigins on slow upstreams.
+  //                 Set to 2000 for main-page fetches; leave 0 for probes.
+  async function proxiedFetch(targetUrl, { method = 'GET', timeoutMs = 18000, allowNonOk = false, minBodySize = 0 } = {}){
     let lastErr = null;
     for (const p of PROXIES) {
       try {
@@ -751,10 +764,21 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
         const t = setTimeout(() => ctrl.abort(), timeoutMs);
         const r = await fetch(p.build(targetUrl), { method, signal: ctrl.signal });
         clearTimeout(t);
-        // For endpoint probes, return any response — body verification handles status codes.
-        // WP/WC REST endpoints often return 401/403 with body markers that prove the endpoint
-        // exists ("woocommerce_rest_cannot_view", etc.). Bailing on !r.ok would miss those.
         if (!r.ok && !allowNonOk) { lastErr = new Error(p.name + ': HTTP ' + r.status); continue; }
+
+        if (minBodySize > 0) {
+          // Consume body now to validate size, then re-wrap so callers can still
+          // read .text()/.headers as if it were a fresh Response.
+          const text = await r.text();
+          if (text.length < minBodySize) {
+            lastErr = new Error(p.name + ': body too small (' + text.length + ' bytes; need ' + minBodySize + ')');
+            continue;
+          }
+          const headers = new Headers();
+          r.headers.forEach((v, k) => headers.set(k, v));
+          return new Response(text, { status: r.status, headers });
+        }
+
         return r;
       } catch (e) { lastErr = e; }
     }
@@ -1117,7 +1141,9 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     let fetchResult = { ok: false, status: null, html: '', headers: {}, finalUrl: target, error: null };
 
     try {
-      const r = await proxiedFetch(target, { method: 'GET', timeoutMs: 25000 });
+      // minBodySize 2000: real website homepages are always >2KB. If a proxy
+      // returns a tiny error/truncated body we skip it and try the next.
+      const r = await proxiedFetch(target, { method: 'GET', timeoutMs: 25000, minBodySize: 2000 });
       const html = await r.text();
       const headers = {};
       r.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });

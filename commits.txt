@@ -1,3 +1,26 @@
+2026-05-13  Overview: scanner — replace dead proxies + body-size validation
+- Root cause of the persistent WP/WC false-negatives: the three CORS
+  proxies were broken. corsproxy.io switched to paid-only and rejects
+  all server-side requests now ("Server-side requests are not allowed
+  on your plan, upgrade at corsproxy.io/pricing"). codetabs has been
+  intermittently 503ing. allorigins works most of the time but
+  occasionally returns truncated bodies (177 bytes for what should be
+  a 144KB page). The scanner couldn't see the page HTML, so even
+  perfectly-correct detection logic returned "not WP, not WC".
+- Reordered PROXIES list. cors.lol (api.cors.lol/?url=) is now
+  primary — empirically the most reliable. allorigins stays as
+  fallback. codetabs as last-resort. Removed corsproxy.io entirely.
+- proxiedFetch grew a minBodySize option. When set, validates the
+  body length after fetch and falls through to the next proxy if the
+  response is smaller than minBodySize. Re-wraps the consumed Response
+  with a new Response so callers can still .text()/.headers normally.
+- Main-page fetch in scanSite now passes minBodySize: 2000. Real
+  website homepages are always larger than 2KB; truncated/error
+  proxy responses get rejected and the scanner moves to the next.
+- Probe fetches keep minBodySize: 0 — real WP/WC REST endpoints
+  legitimately return tiny responses (401 with WC auth-error JSON
+  is ~100 bytes).
+
 2026-05-13  Overview: scanner — layered confidence + urgent-care rebalance
 - Real WP+WC sites (naturalinjections.net, ivdrdrip.com,
   sizemattersnow.com — all Qualiphy plugin customers) were still
