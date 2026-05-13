@@ -1,3 +1,11 @@
+2026-05-13  Get Started: reassure on Q1 — free signup, walked-through
+- First question (Do you have a Qualiphy account?) now leads with
+  the same "no signup fees / no monthly charges / we'll walk you
+  through it" framing that the no-account branch uses, shown before
+  the user picks Yes/No. Goal: reduce Q1 drop-off for people who
+  don't yet have an account and aren't sure what they're committing
+  to by clicking "No".
+
 2026-05-08  Overview: full scanner ported inline (no iframe, no API call)
 - Removed the iframe to scanner-zeta-gilt.vercel.app. The whole
   scanner now runs inside the overview page's own JS.
