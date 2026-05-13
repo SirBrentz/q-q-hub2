@@ -1,3 +1,10 @@
+2026-05-13  Get Started: tighten Q1 hint
+- Trimmed the Q1 hint down to: "No account yet? Signup is free —
+  no monthly charges — and we'll walk you through it next."
+  Dropped the provider-network/pharmacy preamble; the only signal
+  that matters on Q1 is reassuring no-account users it's free and
+  guided.
+
 2026-05-13  Get Started: reassure on Q1 — free signup, walked-through
 - First question (Do you have a Qualiphy account?) now leads with
   the same "no signup fees / no monthly charges / we'll walk you
