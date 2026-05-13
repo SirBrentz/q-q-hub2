@@ -1,3 +1,24 @@
+2026-05-13  Overview: fix WooCommerce false-positive in the site scanner
+- Tightened the WooCommerce HTML fingerprint. Previously the first
+  pattern was the bare word "woocommerce", which the first-match-wins
+  detector matched against any incidental mention — theme classes,
+  leftover copy, LegitScript blurbs, page-builder demo content — and
+  flagged sites without WooCommerce as having it. That dropped sales
+  on at least one clinic that had to have WC installed manually after
+  the scanner labeled them ready.
+- New patterns require structural anchors only: /plugins/woocommerce/,
+  /?wc-ajax=, wc-cart-fragments, /wp-json/wc/, class="woocommerce,
+  id="woocommerce, woocommerce_params, wc-add-to-cart.
+- Also made the /wp-json/wc/v3/ endpoint probe authoritative on the
+  negative side: if WP REST is reachable but the WC route is not, the
+  HTML-side woocommerce_detected flag gets downgraded to false. Before
+  this change the probe could only upgrade, never override an HTML
+  false positive.
+- Net effect: scorer no longer awards +2 "WooCommerce detected" points
+  to sites that don't actually have WC, and "Recommended for outreach"
+  badging stops firing on sites sales would otherwise pitch as
+  plug-and-play installs.
+
 2026-05-13  Get Started: drop "Import Consultations" + "Configure Settings"
             from the wizard step list
 - Plugin's initial setup wizard had those two steps removed to cut

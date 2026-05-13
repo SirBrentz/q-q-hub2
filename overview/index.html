@@ -767,7 +767,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     Webflow:    { category:'CMS', html: ['webflow.io','data-wf-page','data-wf-site'] },
     Drupal:     { category:'CMS', html: ['/sites/default/files/','/misc/drupal.js'], meta: { generator: /Drupal/i }, implies: ['PHP','MySQL'] },
     Joomla:     { category:'CMS', html: ['/media/jui/','Joomla!'], meta: { generator: /Joomla/i }, implies: ['PHP','MySQL'] },
-    WooCommerce:{ category:'Ecommerce', html: ['woocommerce','/plugins/woocommerce/','/?wc-ajax=','wc-cart-fragments','/wp-json/wc/'], scripts: /woocommerce/i, implies: ['WordPress'], version: /woocommerce[^"]*[?&]ver=([\d.]+)/i },
+    WooCommerce:{ category:'Ecommerce', html: ['/plugins/woocommerce/','/?wc-ajax=','wc-cart-fragments','/wp-json/wc/','class="woocommerce','id="woocommerce','woocommerce_params','wc-add-to-cart'], scripts: /woocommerce/i, implies: ['WordPress'], version: /woocommerce[^"]*[?&]ver=([\d.]+)/i },
     BigCommerce:{ category:'Ecommerce', html: ['bigcommerce.com','data-cart-quantity'] },
     Magento:    { category:'Ecommerce', html: ['mage/','Mage.Cookies','/magento/'], implies: ['PHP','MySQL'] },
     'Squarespace Commerce':{ category:'Ecommerce', html: ['squarespace-checkout','sqs-product-quick-view'], implies: ['Squarespace'] },
@@ -1078,6 +1078,14 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
         tech.flags.has_ecommerce = true;
         tech.flags.ecommerce_provider_guess = 'WooCommerce';
         if (!tech.ecommerce.includes('WooCommerce')) tech.ecommerce.unshift('WooCommerce');
+      } else if (tech.flags.woocommerce_detected && (endpoints.wp_json || endpoints.wp_v2)) {
+        // WP REST is reachable but /wp-json/wc/v3/ is not — WooCommerce is NOT actually installed.
+        // The HTML positive was almost certainly an artifact (theme classes, leftover copy, etc.).
+        tech.flags.woocommerce_detected = false;
+        tech.ecommerce = tech.ecommerce.filter(t => !/woocommerce/i.test(t));
+        if (tech.flags.ecommerce_provider_guess === 'WooCommerce') {
+          tech.flags.ecommerce_provider_guess = tech.ecommerce[0] || null;
+        }
       }
       tech.flags.wp_endpoints = endpoints;
     }
