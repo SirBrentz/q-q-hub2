@@ -1,3 +1,26 @@
+2026-05-13  Overview: scanner — fix false-negative regression from earlier patch
+- Earlier body-verification fix broke detection on real WordPress +
+  WooCommerce sites. Cause: probeEndpoints called proxiedFetch
+  which itself bails on !r.ok and tries the next proxy. WC's
+  /wp-json/wc/v3/ returns HTTP 401 with body
+  {"code":"woocommerce_rest_cannot_view",...} for unauthenticated
+  requests — that 401 IS the proof WC is installed, but proxiedFetch
+  was treating it as a failure and falling through.
+- Added allowNonOk option to proxiedFetch. When true, returns the
+  response regardless of status (still fails over on actual network
+  errors). probeEndpoints now passes allowNonOk: true.
+- probeEndpoints now only hard-rejects on 404, 410, or 5xx —
+  everything else gets body-inspected. 401/403 with WP/WC auth-error
+  JSON is treated as positive evidence (the endpoint exists, just
+  auth-locked).
+- endpointBodyMatches grew two new positive checks:
+    isWpAuthError → JSON with "code":"rest_*" or "jwt_*"
+    isWcAuthError → JSON with "code":"woocommerce_rest_*"
+  wp_json now accepts either; wc_api accepts wc-auth-error too.
+- Net: real WP+WC sites detect correctly again, catch-all storefronts
+  (which return 200 with HTML, not JSON auth errors) still get
+  filtered out.
+
 2026-05-13  Overview: kill the root cause of WP/WC false positives
 - Endpoint probe was checking only HTTP status, never the body.
   Catch-all routing on Shopify, Squarespace, Wix, Webflow returns
