@@ -1,3 +1,33 @@
+2026-05-13  Overview: scanner — layered confidence + urgent-care rebalance
+- Real WP+WC sites (naturalinjections.net, ivdrdrip.com,
+  sizemattersnow.com — all Qualiphy plugin customers) were still
+  failing to detect after v3. Root cause: the merge logic trusted
+  failed endpoint probes more than the HTML evidence. When CORS
+  proxies mangled the WP REST response (varies per proxy + per
+  site's REST hardening), all probes came back unverified and the
+  downgrade fired, turning WP+WC sites into "not WP, not WC".
+- Refactored to a layered-confidence model. Two new categories of
+  HTML patterns added (STRONG_WP_PATTERNS, STRONG_WC_PATTERNS) that
+  real WP/WC sites emit but catch-all storefronts never do:
+    WP strong: <link rel="https://api.w.org/">, meta generator,
+               wp-emoji-release, /wp-includes/js/, theme-file
+               paths under /wp-content/themes/X/, plugin-asset
+               paths under /wp-content/plugins/X/assets|css|js
+    WC strong: wc-cart-fragments, woocommerce_params, wc-ajax,
+               woocommerce body class, single_add_to_cart_button,
+               wp-block-woocommerce-, /plugins/woocommerce/
+- detect() now exposes wordpress_detected_strong and
+  woocommerce_detected_strong as separate flags.
+- Merge logic only downgrades when the HTML positive came from
+  WEAK signals (bare /wp-content/ etc.) AND endpoint probes failed.
+  Strong-signal positives are now protected — proxy mangling and
+  REST hardening can no longer turn real WP/WC into false negatives.
+- Urgent-care penalty changed from -5 to -2. Old penalty
+  single-handedly disqualified real WP+WC clinics that happened to
+  mention urgent care in passing. New value lets the mention show
+  up as a flag without auto-rejecting (a real WP+WC UC clinic now
+  nets +3, which still clears the outreach threshold).
+
 2026-05-13  Overview: scanner — fix false-negative regression from earlier patch
 - Earlier body-verification fix broke detection on real WordPress +
   WooCommerce sites. Cause: probeEndpoints called proxiedFetch

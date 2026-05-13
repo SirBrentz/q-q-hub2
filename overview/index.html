@@ -853,6 +853,32 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     return null;
   }
 
+  // ------------ STRONG SIGNALS ------------
+  // Patterns emitted by real WordPress installs that effectively never appear on
+  // non-WP catch-all storefronts (Shopify, Squarespace, Wix, Webflow). Any single
+  // match locks wordpress_detected = true and protects it from being downgraded
+  // by failed endpoint probes (which can fail for proxy/REST-hardening reasons
+  // even on real WP sites).
+  const STRONG_WP_PATTERNS = [
+    /<link[^>]+rel=["']https?:\/\/api\.w\.org\/?["']/i,
+    /<meta[^>]+name=["']generator["'][^>]+WordPress/i,
+    /wp-emoji-release(?:\.min)?\.js/i,
+    /\/wp-includes\/js\//i,
+    /\/wp-content\/themes\/[^\/"'\s]+\/(?:style\.css|functions\.php|assets\/)/i,
+    /\/wp-content\/plugins\/[^\/"'\s]+\/(?:assets\/|css\/|js\/)/i,
+  ];
+
+  // Patterns emitted by real WooCommerce installs. Same protection idea.
+  const STRONG_WC_PATTERNS = [
+    /\bwc-cart-fragments\b/i,
+    /\bwoocommerce_params\b/i,
+    /\?wc-ajax=/i,
+    /class=["'][^"']*\bwoocommerce\b[^"']*["']/i,
+    /\bsingle_add_to_cart_button\b/i,
+    /\bwp-block-woocommerce-/i,
+    /\/plugins\/woocommerce\//i,
+  ];
+
   // ------------ DETECT (port of fingerprints.js detect()) ------------
   function detect(html, headers){
     const lower = html.toLowerCase();
@@ -947,23 +973,29 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       misc: get('Miscellaneous'),
       server: [...get('Web server'), ...get('Programming languages')],
       raw: byCat,
-      flags: {
-        wordpress_detected: !!detected['WordPress'],
-        woocommerce_detected: !!detected['WooCommerce'],
-        has_ecommerce: !!detected['WooCommerce'] || get('Ecommerce').length > 0 || hasGenericEcom,
-        ecommerce_provider_guess: detected['WooCommerce'] ? 'WooCommerce'
-          : detected['Shopify'] ? 'Shopify'
-          : detected['BigCommerce'] ? 'BigCommerce'
-          : detected['Magento'] ? 'Magento'
-          : hasGenericEcom ? 'unknown' : null,
-        is_urgent_care_likely: isUrgentCare,
-        custom_pharmacy_likely: isCustomPharma,
-        service_model_guess: isCustomPharma ? 'custom' : (hasGenericEcom ? 'ecommerce' : 'basic'),
-        has_legitscript_badge: hasLegitScript,
-        legitscript_evidence: lsEvidence,
-        checkout_conflict_plugins: checkoutConflictPlugins,
-        has_checkout_conflict: checkoutConflictPlugins.length > 0,
-      },
+      flags: (() => {
+        const wpStrong = STRONG_WP_PATTERNS.some(re => re.test(html));
+        const wcStrong = STRONG_WC_PATTERNS.some(re => re.test(html));
+        return {
+          wordpress_detected: !!detected['WordPress'] || wpStrong,
+          wordpress_detected_strong: wpStrong,
+          woocommerce_detected: !!detected['WooCommerce'] || wcStrong,
+          woocommerce_detected_strong: wcStrong,
+          has_ecommerce: !!detected['WooCommerce'] || wcStrong || get('Ecommerce').length > 0 || hasGenericEcom,
+          ecommerce_provider_guess: (detected['WooCommerce'] || wcStrong) ? 'WooCommerce'
+            : detected['Shopify'] ? 'Shopify'
+            : detected['BigCommerce'] ? 'BigCommerce'
+            : detected['Magento'] ? 'Magento'
+            : hasGenericEcom ? 'unknown' : null,
+          is_urgent_care_likely: isUrgentCare,
+          custom_pharmacy_likely: isCustomPharma,
+          service_model_guess: isCustomPharma ? 'custom' : (hasGenericEcom ? 'ecommerce' : 'basic'),
+          has_legitscript_badge: hasLegitScript,
+          legitscript_evidence: lsEvidence,
+          checkout_conflict_plugins: checkoutConflictPlugins,
+          has_checkout_conflict: checkoutConflictPlugins.length > 0,
+        };
+      })(),
     };
   }
 
@@ -1071,7 +1103,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     add(flags.woocommerce_detected,  2,  'WooCommerce detected',                            'woocommerce');
     add(flags.has_ecommerce && !flags.woocommerce_detected, 1, 'Ecommerce detected (non-WooCommerce)', 'ecommerce_non_woo');
     add(flags.has_legitscript_badge, 1,  'LegitScript badge/mention found',                 'legitscript');
-    add(flags.is_urgent_care_likely, -5, 'Urgent care / walk-in clinic (not target audience)', 'urgent_care');
+    add(flags.is_urgent_care_likely, -2, 'Urgent care / walk-in clinic (not target audience)', 'urgent_care');
     add(flags.custom_pharmacy_likely,-2, 'Heavy custom/compounding pharmacy focus',         'custom_pharmacy');
     return { score: total, recommended_for_outreach: total >= 3, score_breakdown: breakdown };
   }
@@ -1117,36 +1149,37 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     if (endpoints) {
       const anyWpProbeHit = endpoints.wp_json || endpoints.wp_v2 || endpoints.wp_login || endpoints.wp_admin;
-      const hasWpMetaGenerator = /<meta[^>]+name=["']generator["'][^>]+WordPress/i.test(fetchResult.html);
 
       if (anyWpProbeHit) {
+        // Endpoint probe confirms WordPress.
         tech.flags.wordpress_detected = true;
         if (!tech.cms) tech.cms = 'WordPress';
-      } else if (tech.flags.woocommerce_detected || tech.flags.wordpress_detected) {
-        // No WP endpoint probe came back body-verified. Most likely scenarios:
+      } else if (tech.flags.wordpress_detected && !tech.flags.wordpress_detected_strong) {
+        // No WP endpoint probe came back body-verified AND we only had WEAK HTML
+        // signals (bare /wp-content/, /wp-includes/). Most likely scenarios:
         //   (a) the host is not WordPress at all and was returning catch-all HTML
-        //       (Shopify, Squarespace, Wix, Webflow all do this — they HTTP 200
-        //       every unknown path and serve the storefront homepage), or
-        //   (b) the HTML-side bare-substring match (/wp-content/, /wp-includes/)
-        //       hit an incidental reference (CDN URL, embed, theme markup).
-        // Trust the comprehensive probe negative over the HTML positive UNLESS
-        // the WP meta generator tag is present — that's a forgery-proof signal
-        // we'd rather preserve for the rare hardened-WP-with-REST-disabled case.
-        if (!hasWpMetaGenerator) {
-          tech.flags.wordpress_detected = false;
-          if (tech.cms === 'WordPress') tech.cms = null;
-        }
+        //       (Shopify, Squarespace, Wix, Webflow all do this), or
+        //   (b) the bare-substring match hit an incidental reference (CDN URL,
+        //       embed, comment).
+        // Trust the comprehensive probe negative over the weak HTML positive.
+        // Strong HTML signals (api.w.org link, wp-emoji, wp-includes/js/, theme
+        // or plugin asset paths, meta generator) are protected — they don't
+        // appear on catch-all storefronts, so a strong-only positive should
+        // survive even a fully failed probe (proxy mangling, REST hardening).
+        tech.flags.wordpress_detected = false;
+        if (tech.cms === 'WordPress') tech.cms = null;
       }
 
       if (endpoints.wc_api) {
+        // Endpoint probe confirms WooCommerce.
         tech.flags.woocommerce_detected = true;
         tech.flags.has_ecommerce = true;
         tech.flags.ecommerce_provider_guess = 'WooCommerce';
         if (!tech.ecommerce.includes('WooCommerce')) tech.ecommerce.unshift('WooCommerce');
-      } else if (tech.flags.woocommerce_detected) {
-        // /wp-json/wc/v3/ failed body verification — not actually WooCommerce.
-        // The HTML positive was either incidental (theme classes, leftover copy)
-        // or a catch-all 200 that wouldn't have survived the body check anyway.
+      } else if (tech.flags.woocommerce_detected && !tech.flags.woocommerce_detected_strong) {
+        // /wp-json/wc/v3/ failed body verification AND we only had WEAK HTML
+        // signals. Strong HTML signals (wc-cart-fragments, woocommerce_params,
+        // wc-ajax, woocommerce body class, etc.) are protected.
         tech.flags.woocommerce_detected = false;
         tech.ecommerce = tech.ecommerce.filter(t => !/woocommerce/i.test(t));
         if (tech.flags.ecommerce_provider_guess === 'WooCommerce') {
