@@ -1247,15 +1247,6 @@ function GuideScreen({ answers, onRestart }) {
             <div><strong style={{ fontSize: 14, color: C.text }}>Set Service Area</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Select which U.S. states you serve. This creates a WooCommerce shipping zone automatically. 48 states + D.C. available (Alabama and Mississippi excluded).{needsRx ? " For Rx consultations, only select states where your pharmacies can fulfill." : ""}</p></div>
           </div>
 
-          <div style={{ display: "flex", gap: 12 }}>
-            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>5</div>
-            <div><strong style={{ fontSize: 14, color: C.text }}>Import Consultations</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Your available consultations appear as cards. Click any card to import it as a WooCommerce product — the import wizard guides you through {hasProds ? "linking to an existing product or creating a new one, " : ""}pricing, {needsRx ? "pharmacy selection, " : ""}and publishing. Repeat for each consultation you want to offer.</p></div>
-          </div>
-
-          <div style={{ display: "flex", gap: 12 }}>
-            <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "rgba(77,61,113,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.accent }}>6</div>
-            <div><strong style={{ fontSize: 14, color: C.text }}>Configure Settings</strong><p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.6, margin: "2px 0 0" }}>Set clinical access controls (who can view patient data), email notifications, and auto-refund settings.{needsRx ? " Default return fee is $30 — the amount retained if a consultation is deferred." : ""}</p></div>
-          </div>
         </div>
       </Card>
 

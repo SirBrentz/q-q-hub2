@@ -1,3 +1,13 @@
+2026-05-13  Get Started: drop "Import Consultations" + "Configure Settings"
+            from the wizard step list
+- Plugin's initial setup wizard had those two steps removed to cut
+  onboarding friction. Docs page was still listing them. Trimmed
+  the "Quidget Plugin Wizard" Card on the guide screen from 6 steps
+  down to 4: Accept Terms → Upload Branding → Connect API Key →
+  Set Service Area. Importing consultations still happens post-
+  wizard via the Qualiphy → Consultations admin page (described in
+  the "Key admin pages" block below, unchanged).
+
 2026-05-13  Get Started: tighten Q1 hint
 - Trimmed the Q1 hint down to: "No account yet? Signup is free —
   no monthly charges — and we'll walk you through it next."
