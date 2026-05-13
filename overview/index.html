@@ -1010,10 +1010,41 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     await Promise.all(WP_ENDPOINTS.map(async ({ key, path }) => {
       try {
         const r = await proxiedFetch(baseUrl + path, { method: 'GET', timeoutMs: 12000 });
-        out[key] = r.ok;
+        if (!r.ok) { out[key] = false; return; }
+        // Catch-all routing on platforms like Shopify/Squarespace/Wix/Webflow returns
+        // HTTP 200 on every unknown path with the storefront homepage. A status check
+        // alone is not enough — verify the response body actually looks like the
+        // resource a real WordPress/WooCommerce install would return.
+        const body = (await r.text()).slice(0, 8000);
+        out[key] = endpointBodyMatches(key, body);
       } catch(_){ out[key] = false; }
     }));
     return out;
+  }
+
+  function endpointBodyMatches(key, body){
+    const looksJson = /^\s*[\{\[]/.test(body);
+    switch (key) {
+      case 'wp_json':
+        // WordPress REST API root returns JSON with "namespaces", "routes", or wp/v2 refs.
+        return looksJson && (/"namespaces"\s*:/.test(body) || /"wp\/v2"/.test(body) || /"routes"\s*:\s*\{/.test(body));
+      case 'wp_v2':
+        // /wp-json/wp/v2/ returns JSON with WP v2 namespace or routes.
+        return looksJson && (/"namespace"\s*:\s*"wp\/v2"/.test(body) || /wp\/v2\//.test(body));
+      case 'wp_login':
+      case 'wp_admin':
+        // wp-login.php returns HTML with unique WP login-page markers.
+        // /wp-admin/ either follows-redirects to wp-login.php (same body), or returns the
+        // admin login page directly. Any one of these is strong enough on its own.
+        return /name=["']wp-submit["']/.test(body)
+          || /id=["']loginform["']/.test(body)
+          || /wp-core-ui/.test(body);
+      case 'wc_api':
+        // WooCommerce REST returns JSON: either auth error ("woocommerce_rest_*") or wc/v3 routes.
+        return looksJson && (/"woocommerce_rest_/.test(body) || /"namespace"\s*:\s*"wc\/v3"/.test(body) || /\/wc\/v3\//.test(body));
+      default:
+        return false;
+    }
   }
 
   // ------------ SCORER (port of scorer.js) ------------
@@ -1069,24 +1100,50 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     const tech = detect(fetchResult.html, fetchResult.headers);
 
     if (endpoints) {
-      if (endpoints.wp_json || endpoints.wp_login || endpoints.wp_admin) {
+      const anyWpProbeHit = endpoints.wp_json || endpoints.wp_v2 || endpoints.wp_login || endpoints.wp_admin;
+      const hasWpMetaGenerator = /<meta[^>]+name=["']generator["'][^>]+WordPress/i.test(fetchResult.html);
+
+      if (anyWpProbeHit) {
         tech.flags.wordpress_detected = true;
         if (!tech.cms) tech.cms = 'WordPress';
+      } else if (tech.flags.woocommerce_detected || tech.flags.wordpress_detected) {
+        // No WP endpoint probe came back body-verified. Most likely scenarios:
+        //   (a) the host is not WordPress at all and was returning catch-all HTML
+        //       (Shopify, Squarespace, Wix, Webflow all do this — they HTTP 200
+        //       every unknown path and serve the storefront homepage), or
+        //   (b) the HTML-side bare-substring match (/wp-content/, /wp-includes/)
+        //       hit an incidental reference (CDN URL, embed, theme markup).
+        // Trust the comprehensive probe negative over the HTML positive UNLESS
+        // the WP meta generator tag is present — that's a forgery-proof signal
+        // we'd rather preserve for the rare hardened-WP-with-REST-disabled case.
+        if (!hasWpMetaGenerator) {
+          tech.flags.wordpress_detected = false;
+          if (tech.cms === 'WordPress') tech.cms = null;
+        }
       }
+
       if (endpoints.wc_api) {
         tech.flags.woocommerce_detected = true;
         tech.flags.has_ecommerce = true;
         tech.flags.ecommerce_provider_guess = 'WooCommerce';
         if (!tech.ecommerce.includes('WooCommerce')) tech.ecommerce.unshift('WooCommerce');
-      } else if (tech.flags.woocommerce_detected && (endpoints.wp_json || endpoints.wp_v2)) {
-        // WP REST is reachable but /wp-json/wc/v3/ is not — WooCommerce is NOT actually installed.
-        // The HTML positive was almost certainly an artifact (theme classes, leftover copy, etc.).
+      } else if (tech.flags.woocommerce_detected) {
+        // /wp-json/wc/v3/ failed body verification — not actually WooCommerce.
+        // The HTML positive was either incidental (theme classes, leftover copy)
+        // or a catch-all 200 that wouldn't have survived the body check anyway.
         tech.flags.woocommerce_detected = false;
         tech.ecommerce = tech.ecommerce.filter(t => !/woocommerce/i.test(t));
         if (tech.flags.ecommerce_provider_guess === 'WooCommerce') {
           tech.flags.ecommerce_provider_guess = tech.ecommerce[0] || null;
         }
       }
+
+      // has_ecommerce was set off by woocommerce_detected too — recompute now
+      // that the flag has settled, so non-WC sites don't show stale ecommerce flags.
+      tech.flags.has_ecommerce = tech.flags.woocommerce_detected
+        || tech.ecommerce.length > 0
+        || /\b(add to cart|shopping cart|view cart|checkout)\b/i.test(fetchResult.html);
+
       tech.flags.wp_endpoints = endpoints;
     }
 

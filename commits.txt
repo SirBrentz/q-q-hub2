@@ -1,3 +1,36 @@
+2026-05-13  Overview: kill the root cause of WP/WC false positives
+- Endpoint probe was checking only HTTP status, never the body.
+  Catch-all routing on Shopify, Squarespace, Wix, Webflow returns
+  HTTP 200 on every unknown path and serves the storefront homepage,
+  so /wp-json/, /wp-login.php, /wp-admin/, and /wp-json/wc/v3/ all
+  came back "ok" and the scanner declared every catch-all site to be
+  WordPress + WooCommerce. (Brent's Spotify-linked store flagged as
+  WP — that's what surfaced this.)
+- probeEndpoints now reads the response body (capped at 8KB) and
+  verifies it against per-endpoint signatures:
+    wp_json/wp_v2  → must be JSON with WP REST markers (namespaces,
+                     "wp/v2", routes)
+    wp_login/wp_admin → must contain wp-submit, loginform, or
+                     wp-core-ui markup
+    wc_api         → must be JSON with WC REST markers
+                     (woocommerce_rest_, wc/v3 namespace/routes)
+- Merge logic in scanSite now also DOWNGRADES wordpress_detected when
+  every WP probe failed body verification AND the WP meta-generator
+  tag is absent. Without this, the HTML-side bare-substring matches
+  (/wp-content/, /wp-includes/) could still false-positive on sites
+  that incidentally reference WordPress assets (CDN URLs, embeds).
+- WooCommerce downgrade is now unguarded: if wc_api fails body
+  verification, woocommerce_detected flips to false. Previously
+  guarded on (wp_json || wp_v2), which (after the body-check fix)
+  meant catch-all sites whose probes all failed would skip the
+  downgrade and stay flagged.
+- has_ecommerce recomputed at end so it reflects the settled flag
+  values; previously stale-true if woocommerce_detected flipped.
+- Net effect: catch-all storefronts (Shopify et al.) no longer
+  inherit a WordPress/WooCommerce verdict, scorer no longer hands
+  out +3 WP / +2 WC points to non-WP/non-WC sites, and "Recommended
+  for outreach" stops mis-firing.
+
 2026-05-13  Overview: fix WooCommerce false-positive in the site scanner
 - Tightened the WooCommerce HTML fingerprint. Previously the first
   pattern was the bare word "woocommerce", which the first-match-wins
