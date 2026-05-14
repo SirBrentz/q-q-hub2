@@ -788,6 +788,7 @@ function IntakeScreen({ onComplete }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [showCalendly, setShowCalendly] = useState(false);
   const [confirmedVal, setConfirmedVal] = useState(null);
+  const [showExpert, setShowExpert] = useState(false);
 
   const q = QUESTIONS[currentQ];
   const allDone = Object.keys(answers).length === QUESTIONS.length;
@@ -1071,6 +1072,48 @@ function IntakeScreen({ onComplete }) {
                 <Btn variant="secondary" onClick={() => { const skip = (currentQ === 0 && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
               ) : null}
             </div>
+
+            {/* Expert path — first slide only. Skip the wizard for users who already have an account + API key. */}
+            {currentQ === 0 && (
+              <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid " + C.border }}>
+                <button
+                  onClick={() => {
+                    setShowExpert(s => {
+                      const next = !s;
+                      if (next && window.track) window.track('expert_panel_expanded');
+                      return next;
+                    });
+                  }}
+                  aria-expanded={showExpert}
+                  style={{
+                    width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
+                    background: "transparent", border: "none", padding: "6px 0", cursor: "pointer",
+                    fontFamily: "inherit", fontSize: 13, fontWeight: 600, color: C.textMuted,
+                  }}
+                >
+                  <span>Already know what you're doing? Skip ahead</span>
+                  <span style={{ display: "inline-block", transition: "transform .2s ease", transform: showExpert ? "rotate(180deg)" : "rotate(0deg)", fontSize: 14, lineHeight: 1 }}>⌄</span>
+                </button>
+                {showExpert && (
+                  <div className="fade-in" style={{ marginTop: 12, padding: "16px 18px", borderRadius: 10, background: C.bgMuted, border: "1px solid " + C.border }}>
+                    <p style={{ fontSize: 13, color: C.textBody, lineHeight: 1.55, margin: "0 0 14px" }}>
+                      Grab the plugin and install it yourself. <strong>Only recommended if you already have a Qualiphy account</strong> — you'll need your API key handy to finish setup. If either is missing, the regular flow above is faster.
+                    </p>
+                    <a
+                      href="/downloads/qualiphy.zip"
+                      onClick={() => { if (window.track) window.track('clicked_download_plugin', { source: 'expert_panel' }); }}
+                      style={{
+                        display: "inline-flex", alignItems: "center", gap: 8,
+                        padding: "11px 20px", borderRadius: 8, background: C.accent, color: "#fff",
+                        fontFamily: "inherit", fontSize: 14, fontWeight: 600, textDecoration: "none",
+                      }}
+                    >
+                      Download qualiphy.zip ↓
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>

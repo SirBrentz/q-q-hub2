@@ -1,3 +1,21 @@
+2026-05-14  Get Started: add expert-path collapsible on the first slide
+- Below the Yes/No options on the very first question ("Do you
+  have a Qualiphy account?"), a subtle bordered divider opens up
+  to a collapsible row labeled "Already know what you're doing?
+  Skip ahead" (textMuted, 13px, with a rotating ⌄ chevron). Only
+  rendered on currentQ === 0.
+- Expanding reveals a small bgMuted panel with copy that states
+  the path is "Only recommended if you already have a Qualiphy
+  account" and a primary purple "Download qualiphy.zip ↓" button
+  pointing at the existing /downloads/qualiphy.zip artifact.
+- New tracking events:
+    * expert_panel_expanded — fires once on first expansion
+    * clicked_download_plugin with { source: 'expert_panel' } —
+      lets the existing download-funnel metric distinguish
+      regular-flow downloads from skip-ahead downloads
+- showExpert state hook added to IntakeScreen; no impact on the
+  main wizard flow when collapsed.
+
 2026-05-14  Get Started: widen API-key gate so the embedded video isn't tiny
 - Outer wrapper maxWidth bumped from 480 to 760 specifically when
   the user is on the "Not yet, I need to grab it" blocking gate
