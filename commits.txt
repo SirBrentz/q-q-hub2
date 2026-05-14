@@ -1,3 +1,23 @@
+2026-05-14  Get Started: embed API-key walkthrough video on Q + gate
+- Marketing made a short YouTube walkthrough on finding the API key
+  in the Qualiphy dashboard. Surfaced it in two places on the Get
+  Started flow so users can self-serve before bouncing:
+    * "Do you have your API key ready?" question screen — small
+      inline link with a tiny play-icon chip sits right under the
+      hint text ("▶ Watch the 30-sec walkthrough ↗"), accent
+      purple, so it's discoverable without pulling attention from
+      the Yes/No options.
+    * "Not yet, I need to grab it" blocking gate — responsive
+      16:9 YouTube embed (la8ZF-nYigo) at the top of the white
+      panel, above the existing three numbered steps and the Open
+      Dashboard / View help article buttons. Gradient subtitle
+      updated from "Open your Qualiphy dashboard and follow these
+      steps" to "Watch the walkthrough below or follow the steps"
+      so the video is signposted.
+- Video URL: https://www.youtube.com/watch?v=la8ZF-nYigo
+- Embed wrapper uses padding-top: 56.25% for aspect-ratio without
+  layout shift; iframe is absolutely positioned to fill.
+
 2026-05-13  Overview: scanner — replace dead proxies + body-size validation
 - Root cause of the persistent WP/WC false-negatives: the three CORS
   proxies were broken. corsproxy.io switched to paid-only and rejects
