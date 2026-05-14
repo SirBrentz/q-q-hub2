@@ -1,3 +1,14 @@
+2026-05-14  Get Started: widen API-key gate so the embedded video isn't tiny
+- Outer wrapper maxWidth bumped from 480 to 760 specifically when
+  the user is on the "Not yet, I need to grab it" blocking gate
+  (isBlocked && q.id === "hasApiKey"). All other questions and
+  gates keep the original 480px max-width. Calendly's 680px
+  override still takes precedence when its embed is open.
+- Net effect: the YouTube embed now renders at ~712px wide
+  (760 - 48px panel padding) and ~400px tall at 16:9, instead of
+  the previous ~432x243. Three numbered steps and the action
+  buttons get the extra breathing room too.
+
 2026-05-14  Get Started: embed API-key walkthrough video on Q + gate
 - Marketing made a short YouTube walkthrough on finding the API key
   in the Qualiphy dashboard. Surfaced it in two places on the Get

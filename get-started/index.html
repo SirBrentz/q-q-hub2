@@ -888,7 +888,7 @@ function IntakeScreen({ onComplete }) {
       minHeight: "100vh", display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center", padding: "40px 20px",
     }}>
-      <div style={{ maxWidth: showCalendly ? 680 : 480, width: "100%", transition: "max-width 0.3s ease" }}>
+      <div style={{ maxWidth: showCalendly ? 680 : (isBlocked && q.id === "hasApiKey") ? 760 : 480, width: "100%", transition: "max-width 0.3s ease" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <Logo size={36} />
