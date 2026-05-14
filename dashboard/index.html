@@ -331,6 +331,17 @@ a:hover{text-decoration:underline}
 }
 .funnel-drop strong{color:var(--red);font-weight:600}
 .funnel-drop:last-child{border-bottom:none}
+.funnel-skip-ahead{
+  margin:14px 16px 4px;padding:10px 14px;
+  background:var(--bg-3);border:1px solid var(--border);
+  border-radius:6px;font-size:11.5px;color:var(--text-dim);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.funnel-skip-ahead .fsa-label{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--text)}
+.funnel-skip-ahead .fsa-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px rgba(59,194,194,.5)}
+.funnel-skip-ahead .fsa-metrics{display:flex;gap:14px;font-family:var(--mono);font-size:11px}
+.funnel-skip-ahead .fsa-metric strong{color:var(--text-bright);font-weight:700;margin-right:4px}
+.funnel-skip-ahead .fsa-rate{color:var(--text-faint)}
 
 /* ============ CHART ============ */
 .chart-body{padding:10px 14px 14px}
@@ -957,6 +968,7 @@ a:hover{text-decoration:underline}
         <div class="panel-meta">all → demo</div>
       </div>
       <div class="panel-body-tight" id="funnel"></div>
+      <div id="funnelSkipAhead" class="funnel-skip-ahead" style="display:none"></div>
     </div>
   </div>
 
@@ -1218,6 +1230,8 @@ function normalizeSession(s) {
     intakeCompleted: s['Intake Completed'] === 'Yes',
     furthestGuideStep: Number(s['Furthest Guide Step']) || 0,
     downloadedPlugin: s['Downloaded Plugin'] === 'Yes',
+    expertPanelExpanded: s['Expert Panel Expanded'] === 'Yes',
+    skipAheadDownload: s['Skip-Ahead Download'] === 'Yes',
     printedGuide: s['Printed Guide'] === 'Yes',
     guideCompleted: s['Guide Completed'] === 'Yes',
     abandonedAt: s['Abandoned At'] || '',
@@ -1495,6 +1509,27 @@ function renderFunnel(rows) {
       `;
     }
   });
+
+  // Skip-ahead path — users who expanded the expert collapsible on the first slide
+  // and the subset that actually downloaded. These bypass the funnel entirely so
+  // they live as a footnote rather than a step.
+  const expanded = rows.filter(r => r.expertPanelExpanded).length;
+  const skipDl = rows.filter(r => r.skipAheadDownload).length;
+  const sa = $('funnelSkipAhead');
+  if (expanded > 0 || skipDl > 0) {
+    const convRate = expanded > 0 ? Math.round((skipDl/expanded)*100) : 0;
+    sa.style.display = 'flex';
+    sa.innerHTML = `
+      <div class="fsa-label"><span class="fsa-dot"></span>Skip-ahead path</div>
+      <div class="fsa-metrics">
+        <span class="fsa-metric"><strong>${expanded}</strong>expanded</span>
+        <span class="fsa-metric"><strong>${skipDl}</strong>downloaded</span>
+        <span class="fsa-rate">${convRate}% convert</span>
+      </div>
+    `;
+  } else {
+    sa.style.display = 'none';
+  }
 }
 
 /* ---- BREAKDOWNS ---- */
@@ -2239,6 +2274,7 @@ function exportCSV() {
     'Gates Hit','Booked Demo','Demo Scheduled','API Quickstart',
     'Furthest Question','Intake Completed',
     'Furthest Guide Step','Downloaded Plugin','Guide Completed',
+    'Expert Panel Expanded','Skip-Ahead Download',
     'Abandoned At','Question Times','Duration (sec)','Total Events','Variant',
   ];
 
@@ -2269,6 +2305,8 @@ function exportCSV() {
       r.furthestGuideStep,
       r.downloadedPlugin ? 'Yes' : '',
       r.guideCompleted ? 'Yes' : '',
+      r.expertPanelExpanded ? 'Yes' : '',
+      r.skipAheadDownload ? 'Yes' : '',
       r.abandonedAt, r.questionTimes,
       r.duration, r.totalEvents, r.variant,
     ].map(esc).join(','));

@@ -1,3 +1,20 @@
+2026-05-14  Dashboard: track skip-ahead path metric beneath the funnel
+- Reads two new sheet columns ("Expert Panel Expanded" and
+  "Skip-Ahead Download") into the session model. Empty/missing on
+  older rows; no migration needed dashboard-side because the
+  parse falls back to false when the keys aren't present.
+- New footnote element under the conversion funnel (#funnelSkipAhead):
+  "Skip-ahead path · N expanded · M downloaded · K% convert".
+  Hidden when both counts are zero so old data ranges stay clean.
+  Cyan dot matches the spirit of "this is a separate path, not a
+  funnel step" — these users bypass the entire funnel.
+- CSV export schema bumped to include the two new columns,
+  positioned between Guide Completed and Abandoned At so existing
+  consumers parsing by name keep working.
+- Paired with the App Script update (new switch cases for
+  expert_panel_expanded and clicked_download_plugin source ===
+  'expert_panel', TOTAL_COLS 34 → 36).
+
 2026-05-14  Get Started: add expert-path collapsible on the first slide
 - Below the Yes/No options on the very first question ("Do you
   have a Qualiphy account?"), a subtle bordered divider opens up
