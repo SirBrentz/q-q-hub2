@@ -1,3 +1,14 @@
+2026-05-14  Help: embed API-key walkthrough video on the Finding-API-Key article
+- Added a second video-embed constant (API_KEY_VIDEO_EMBED) at
+  the top of the help-center article catalog, pointing at the
+  marketing-recorded YouTube video (la8ZF-nYigo). Same hc-art-video
+  wrapper as the existing Quidget overview embed, so it inherits
+  responsive sizing + lazy load + the modestbranding params.
+- Prepended the new embed to the "Finding your Qualiphy API key"
+  article body so the video appears above the existing text
+  instructions, matching the pattern other Setup-section
+  articles use with the Quidget overview clip.
+
 2026-05-14  Apps Script: vendor Code.gs in-repo for paste-over reference
 - Added apps-script/Code.gs as the single source of truth for the
   Google Apps Script that backs the Sessions sheet + dashboard
