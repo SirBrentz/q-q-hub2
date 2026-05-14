@@ -1,3 +1,11 @@
+2026-05-14  Apps Script: vendor Code.gs in-repo for paste-over reference
+- Added apps-script/Code.gs as the single source of truth for the
+  Google Apps Script that backs the Sessions sheet + dashboard
+  API + weekly digest. Repo copy is the master; paste it into the
+  Apps Script editor whenever the schema or event handling
+  changes. Currently aligned with TOTAL_COLS = 36 (includes the
+  new Expert Panel Expanded + Skip-Ahead Download columns).
+
 2026-05-14  Dashboard: track skip-ahead path metric beneath the funnel
 - Reads two new sheet columns ("Expert Panel Expanded" and
   "Skip-Ahead Download") into the session model. Empty/missing on
