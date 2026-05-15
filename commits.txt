@@ -1,3 +1,15 @@
+2026-05-15  Resources: remove editorial calendar, retitle hero "Insights from Quidget"
+- Dropped the entire "On the editorial calendar" section
+  (Next-6-of-19 planned articles, drops-weekly-through-Q3,
+  20-articles-across-4-sprints footer, editorial@qualiphy.me
+  CTA). The about section right after still has its own
+  editorial@qualiphy.me CTA, so we don't lose the email
+  link — just the public roadmap and release-cadence claim.
+- Hero H1 swapped from "The Quidget Blog." → "Insights
+  from Quidget." Blog felt too generic, but the short-line
+  + single-em-word shape is the right balance. Kicker chip
+  stays "Blog" as a category label.
+
 2026-05-15  Resources: reframe hero as a conventional blog landing
 - Hero kicker chip swaps "Library" → "Blog" so it matches
   the new H1 and reads like a standard branded-blog hero.
