@@ -1,3 +1,53 @@
+2026-05-15  Articles: scrub fabricated specifics + reframe 48-states claim per Compliance 101
+- Reviewed both live articles against the Compliance 101
+  reference doc (Reference documents/Compliance 101 (1).pdf
+  on the Claude folder). Most content aligns; a few claims
+  I'd written too confidently or fabricated outright got
+  rewritten conservatively.
+- GFE article §05: dropped the "telehealth GFEs explicitly
+  permitted in 48 of 50 states · AL/MS require in-person"
+  framing. That conflated Qualiphy's network coverage
+  (which excludes AL/MS) with a state-by-state regulatory
+  statement the doc doesn't support. Rewritten as "most
+  states allow synchronous telehealth GFEs subject to
+  scope-of-practice and standard-of-care rules; check your
+  state board before assuming universal acceptance."
+- GFE article §07 "Cost of a missed GFE" callout: removed
+  the made-up "$5,000–$50,000 fines · two 2024 criminal
+  referral cases · Stripe/Square freezing accounts"
+  specifics. Now describes the consequences in general
+  terms (cease-and-desist, fines, license suspension,
+  practice-of-medicine charges in some jurisdictions).
+- GFE article §03 laser-hair-removal row: dropped the
+  fabricated "(FL, NY among others)" specifics — those
+  states weren't in the compliance doc and I'd invented
+  them as a plausible example.
+- GFE article §03 GLP-1 row: dropped "(compounded or brand)"
+  from the tirzepatide entry and added a note that
+  compounded tirzepatide is not FDA-approved per the
+  compliance doc, with a callout to verify against current
+  FDA guidance.
+- GFE article §07 mistake #3: softened "illegal in every
+  state" for questionnaire-only intake to "not a substitute
+  for a GFE in any state" — same point, less prosecutorial.
+- GFE article FAQ "Can a Good Faith Exam be done over
+  telehealth?" and matching JSON-LD: rewritten to mirror
+  the §05 reframe.
+- GFE article FAQ "What happens if my clinic skips the
+  GFE?": dropped the $5,000–$50,000 figures, kept the
+  general consequence list.
+- Add-Telemedicine article §01 first paragraph: softened
+  "Every state in the country requires a GFE on file"
+  to acknowledge that every state expects a documented
+  evaluation by a licensed prescriber, but what that looks
+  like varies state to state.
+- Add-Telemedicine FAQ "What does telemedicine for a
+  medspa actually replace?" and matching JSON-LD:
+  reframed the "satisfies the same state-board requirement
+  in 48 states" line to acknowledge state variance and
+  attribute the 48-state count to Qualiphy's network
+  coverage, not state regulation.
+
 2026-05-15  Resources hub: split Latest from a paginated archive grid
 - Latest section now shows just the single most-recent
   featured card (No. 02, Add Telemedicine). Subhead copy
