@@ -1,3 +1,18 @@
+2026-05-15  Resources: hero H1 → "Quidget Articles" with "by Qualiphy" sub-line
+- H1 changes to "Quidget Articles." with "Articles" still
+  carrying the indigo→lavender gradient em treatment so the
+  visual shape matches the rest of the marketing site.
+- Added a small uppercase mono "by Qualiphy" line directly
+  under the H1 — same JetBrains-Mono + uppercase + letter-
+  spaced styling the nav-bar home button uses for its
+  "by Qualiphy" sublabel, scaled up to 12px so it reads at
+  hero size. Pulled tight against the H1 (-14px top margin
+  negates h1's 24px bottom margin to give a ~10px gap) and
+  spaced 32px below before the hero-sub.
+- Kicker chip left as "Blog" — it acts as a category badge
+  rather than a title echo, so the "Blog" label still
+  reads as a section type alongside the new H1.
+
 2026-05-15  Resources: hero H1 → "The Quidget Notebook"
 - "Insights from Quidget" overlapped too closely with how
   competitors brand their content hubs (Insights is the
