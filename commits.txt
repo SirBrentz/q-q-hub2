@@ -1,3 +1,14 @@
+2026-05-15  Resources: hero H1 → "The Quidget Notebook"
+- "Insights from Quidget" overlapped too closely with how
+  competitors brand their content hubs (Insights is the
+  default SaaS blog noun right now). Swapped to "The
+  Quidget Notebook." — distinct, has voice, signals
+  working-notes-from-the-people-building-this rather than
+  generic thought leadership. Pairs with the About
+  section's "working knowledge, not the marketing version"
+  framing. Same compact 3-word + em shape so the small-
+  text feel stays.
+
 2026-05-15  Resources: scrub editorial@qualiphy.me — that inbox doesn't exist
 - Removed the About section's editorial@qualiphy.me CTA
   button on the Resources hub, plus the dangling "the
