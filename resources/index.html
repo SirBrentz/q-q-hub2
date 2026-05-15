@@ -333,6 +333,76 @@ strong{font-weight:600;color:var(--text)}
 }
 .feat-cta svg{transition:transform .2s}
 
+/* ============ ARCHIVE (previous articles grid) ============ */
+.archive{padding:64px 0 32px}
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+.archive-card{
+  display:flex;flex-direction:column;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px 24px 22px;
+  transition:all .25s var(--ease);
+  box-shadow:0 1px 0 var(--border-lt);
+  min-height:240px;
+}
+.archive-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--border-mid);
+  box-shadow:0 20px 44px -22px rgba(77,61,113,.22);
+}
+.archive-card:hover .archive-card-title{color:var(--indigo)}
+.archive-card:hover .archive-card-arrow{transform:translateX(4px);color:var(--indigo)}
+.archive-card-top{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-m);font-size:11px;font-weight:500;
+  color:var(--text-lt);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.archive-card-num{color:var(--indigo);font-weight:600}
+.archive-card-dot{width:3px;height:3px;border-radius:50%;background:var(--border-mid)}
+.archive-card-title{
+  font-family:var(--font-d);font-weight:700;
+  font-size:1.15rem;line-height:1.25;letter-spacing:-.018em;
+  color:var(--ink);text-wrap:balance;margin-bottom:10px;
+  transition:color .15s;
+}
+.archive-card-lede{
+  font-size:14.5px;line-height:1.55;color:var(--text-mid);
+  display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:auto;
+}
+.archive-card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:18px;padding-top:14px;border-top:1px solid var(--border-lt);
+  font-family:var(--font-m);font-size:11.5px;color:var(--text-lt);letter-spacing:.04em;
+}
+.archive-card-arrow{
+  font-family:var(--font-h);font-weight:600;font-size:13px;color:var(--text-mid);
+  display:inline-flex;align-items:center;gap:6px;transition:all .2s;
+}
+
+/* Pagination — only renders when total > 6 articles */
+.pagination{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:40px;font-family:var(--font-m);
+}
+.pagination-btn{
+  min-width:36px;height:36px;padding:0 12px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border-radius:8px;border:1px solid var(--border);background:#fff;
+  font-family:var(--font-h);font-size:13px;font-weight:600;color:var(--text-mid);
+  transition:all .15s;cursor:pointer;
+}
+.pagination-btn:hover{border-color:var(--border-mid);color:var(--ink);background:var(--surface)}
+.pagination-btn.current{background:var(--indigo);border-color:var(--indigo);color:#fff;cursor:default}
+.pagination-btn[aria-disabled="true"]{opacity:.4;cursor:not-allowed;pointer-events:none}
+.pagination-gap{padding:0 4px;color:var(--text-lt);font-size:12px}
+
 /* ============ CALENDAR (upcoming articles list) ============ */
 .cal{padding:72px 0 32px}
 .cal-list{
@@ -438,6 +508,7 @@ strong{font-weight:600;color:var(--text)}
   .featured{grid-template-columns:1fr}
   .feat-cover{min-height:280px;padding:36px 32px}
   .feat-body{padding:36px 32px}
+  .archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cal-row{grid-template-columns:60px 1fr;gap:14px;padding:18px 24px}
   .cal-row > .cal-date,.cal-row > .cal-status{grid-column:2}
   .cal-row > .cal-date{margin-top:6px}
@@ -457,6 +528,8 @@ strong{font-weight:600;color:var(--text)}
   .feat-body{padding:32px 24px;gap:16px}
   .feat-byline{flex-wrap:wrap;gap:12px}
   .feat-cta{margin-left:0;width:100%;justify-content:space-between;padding-top:12px;border-top:1px dashed var(--border-lt)}
+  .archive-grid{grid-template-columns:1fr;gap:14px}
+  .archive-card{min-height:0;padding:22px 22px 20px}
   .cal{padding:48px 0 24px}
   .about{padding:56px 0}
   .footer-grid{grid-template-columns:1fr;gap:32px}
@@ -535,12 +608,12 @@ strong{font-weight:600;color:var(--text)}
     <header class="section-head">
       <div class="section-head-l">
         <h2 id="latest-h">Latest</h2>
-        <span class="section-head-count">02 pieces published</span>
+        <span class="section-head-count">Just published</span>
       </div>
-      <span class="section-head-r">Guides for clinic operators</span>
+      <span class="section-head-r">May 15, 2026</span>
     </header>
 
-    <a href="guides/add-telemedicine-to-medspa-website/" class="featured" aria-label="Read the full guide: How to Add Telemedicine to Your Medspa Website" style="margin-bottom:24px">
+    <a href="guides/add-telemedicine-to-medspa-website/" class="featured" aria-label="Read the full guide: How to Add Telemedicine to Your Medspa Website">
       <div class="feat-cover" aria-hidden="true">
         <div class="feat-cover-top">
           <span class="feat-cover-mark">
@@ -572,37 +645,38 @@ strong{font-weight:600;color:var(--text)}
       </div>
     </a>
 
-    <a href="guides/what-is-a-good-faith-exam/" class="featured" aria-label="Read the full guide: What Is a Good Faith Exam?">
-      <div class="feat-cover" aria-hidden="true">
-        <div class="feat-cover-top">
-          <span class="feat-cover-mark">
-            <svg width="14" height="14" viewBox="0 0 800 800" fill="currentColor"><circle cx="420.1" cy="40.1" r="40.1"/><circle cx="207.9" cy="40.1" r="40.1"/><path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/></svg>
-            Quidget Library
-          </span>
-          <span>No. 01</span>
-        </div>
-        <h3 class="feat-cover-art">Good<br>Faith<br><em>Exam.</em></h3>
-        <div class="feat-cover-foot">
-          <span class="feat-cover-chip">Compliance · TOFU</span>
-          <span>2,800 words · 14 min</span>
-        </div>
+  </div>
+</section>
+
+<!-- ============ ARCHIVE (previous articles) ============ -->
+<section class="archive" aria-labelledby="archive-h" data-show-for="all,guides">
+  <div class="wrap">
+    <header class="section-head">
+      <div class="section-head-l">
+        <h2 id="archive-h">More articles</h2>
+        <span class="section-head-count">01 piece</span>
       </div>
-      <div class="feat-body">
-        <div class="feat-tags">
-          <span class="feat-tag">Guides</span>
-          <span class="feat-tag feat-tag-outline">Pillar</span>
-          <span class="feat-tag feat-tag-outline">GFE Cluster</span>
+      <span class="section-head-r">The rest of the library</span>
+    </header>
+
+    <div class="archive-grid">
+      <a href="guides/what-is-a-good-faith-exam/" class="archive-card" aria-label="Read: What Is a Good Faith Exam?">
+        <div class="archive-card-top">
+          <span class="archive-card-num">No. 01</span>
+          <span class="archive-card-dot"></span>
+          <span>Guides · Pillar</span>
         </div>
-        <h3 class="feat-title">What Is a Good Faith Exam? Complete 2026 Guide for Medspas &amp; Clinics.</h3>
-        <p class="feat-lede">Before a single unit of Botox hits a patient or a single GLP-1 prescription leaves your store, someone has to perform a Good Faith Exam. Here's what that means in 2026 — and how to run one without losing two hours per patient.</p>
-        <div class="feat-byline">
-          <div class="feat-byline-text">
-            <span class="feat-byline-meta">May 14, 2026 · 14 min read</span>
-          </div>
-          <span class="feat-cta">Read the guide <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        <h3 class="archive-card-title">What Is a Good Faith Exam? Complete 2026 Guide for Medspas &amp; Clinics.</h3>
+        <p class="archive-card-lede">Before a single unit of Botox hits a patient or a single GLP-1 prescription leaves your store, someone has to perform a Good Faith Exam. Here's what that means in 2026.</p>
+        <div class="archive-card-foot">
+          <span>May 14, 2026 · 14 min</span>
+          <span class="archive-card-arrow">Read →</span>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
+
+    <!-- Pagination renders only when more than 6 archive cards exist; with 1 card today, nothing to paginate. -->
+
   </div>
 </section>
 

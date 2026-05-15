@@ -1,3 +1,20 @@
+2026-05-15  Resources hub: split Latest from a paginated archive grid
+- Latest section now shows just the single most-recent
+  featured card (No. 02, Add Telemedicine). Subhead copy
+  swapped from a total-count badge to "Just published"
+  with the publish date on the right.
+- New /resources/ archive section below Latest: a 3-wide
+  × 2-tall grid of compact .archive-card tiles (number,
+  category, title, 3-line clamped lede, date + Read →).
+  Currently holds the GFE pillar (No. 01) as the only
+  previous article. Grid collapses to 2 cols at 980px
+  and a single column on mobile.
+- Pagination scaffolding (.pagination + .pagination-btn)
+  styled and ready: current/disabled/gap states defined,
+  not rendered while total ≤ 6 prev articles. Comment
+  in the HTML marks where the controls drop in once we
+  exceed one page.
+
 2026-05-15  Resources: publish article 02 — How to Add Telemedicine to Your Medspa Website
 - New long-form guide at /resources/guides/add-telemedicine
   -to-medspa-website/ — built from the SEO content
