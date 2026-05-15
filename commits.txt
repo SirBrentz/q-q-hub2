@@ -1,3 +1,25 @@
+2026-05-15  Resources: trim hero, fix featured-card title contrast, drop byline name
+- Hero kicker on the Resources hub trimmed: drops the
+  "weekly through Q3 2026" cadence claim and shows just
+  "1 article live" alongside the Library chip — easier to
+  edit as the library grows, doesn't make a release promise
+  we have to keep.
+- Hero H1 rewritten from "Field notes on running a modern
+  clinic" to "What we know about running telehealth." —
+  echoes the working-knowledge framing in the About section
+  and ditches the "modern clinic" phrasing.
+- Featured-card cover art "Good Faith Exam." was inheriting
+  the global h3 dark color and rendering near-black on the
+  indigo background. Added explicit color:#fff to
+  .feat-cover-art so it reads as white-on-purple.
+- Removed the byline name from both the Resources hub
+  featured card and the GFE article itself — only the
+  publish date stays. Scrubbed the meta author + JSON-LD
+  Person author from the article head (replaced with the
+  Qualiphy Organization as the author). Dropped the
+  margin-left:auto on .art-meta-stack since there's no
+  longer an author block to push against.
+
 2026-05-15  Resources: launch the Resources hub + first guide, swap top-nav Changelog → Resources
 - New /resources/ hub page (built in Claude Design) — full
   marketing-site styling (Plus Jakarta + Gilroy + DM Sans
