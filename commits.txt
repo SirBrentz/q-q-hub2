@@ -1,3 +1,13 @@
+2026-05-15  Resources: scrub editorial@qualiphy.me — that inbox doesn't exist
+- Removed the About section's editorial@qualiphy.me CTA
+  button on the Resources hub, plus the dangling "the
+  editor reads every email" line that lost its referent
+  when the link came out. About paragraph now ends on
+  "We publish when there's something worth saying."
+- Removed the "Tip the editor" mailto link from the Library
+  footer column on both the hub and the GFE article so the
+  fake address isn't lingering in the footer either.
+
 2026-05-15  GFE article: fix mid-article CTA text rendering dark on purple
 - The "Quidget runs the full GFE workflow…" mid-article
   CTA aside lives inside .art-content, and the article
