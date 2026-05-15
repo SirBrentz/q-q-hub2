@@ -1,3 +1,26 @@
+2026-05-15  Resources: launch the Resources hub + first guide, swap top-nav Changelog → Resources
+- New /resources/ hub page (built in Claude Design) — full
+  marketing-site styling (Plus Jakarta + Gilroy + DM Sans
+  + JetBrains Mono, indigo/lavender tokens, same nav and
+  footer). Has a "Library" hero, a Latest section with the
+  GFE guide as the featured card, an editorial-calendar
+  block of upcoming topics, and the standard About/footer
+  Quidget chrome. Drops v1/v2 design drafts (kept only
+  the final index.html).
+- New /resources/guides/what-is-a-good-faith-exam/ — first
+  long-form guide article matching the hub's typography.
+- Top nav across every page swaps "Changelog" for
+  "Resources" (the Changelog page itself stays put and is
+  still linked from the footer — just no longer in the
+  primary nav). Touched: index, overview, treatments,
+  weight-loss, help, thank-you, changelog (its own nav
+  highlights Resources now too, and gets a Resources Hub
+  link in its footer).
+- Footer Resources column on every page gains a
+  "Resources Hub →" link pointing at /resources/.
+- sitemap.xml gains /resources/ (priority 0.8) and the
+  GFE guide (priority 0.7).
+
 2026-05-15  Get Started: lead the no-account gate with Book a Demo, demote Create Account
 - On the "Let's get you set up" gate (shown when the user
   answers "no" to having a Qualiphy account), Book a Demo is
