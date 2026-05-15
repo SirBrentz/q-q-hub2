@@ -1,3 +1,17 @@
+2026-05-15  Resources: reframe hero as a conventional blog landing
+- Hero kicker chip swaps "Library" → "Blog" so it matches
+  the new H1 and reads like a standard branded-blog hero.
+- H1 simplified to "The Quidget Blog." — drops the
+  editorial "What we know about running telehealth" phrasing
+  in favor of the boring-on-purpose pattern that brand blogs
+  use (Stripe/Vercel/Linear-style "The X Blog" hero).
+- Sub trimmed to a one-line content descriptor: "Guides,
+  articles, and updates on telemedicine compliance, GFEs,
+  GLP-1, and the day-to-day of running a telehealth
+  practice." Drops the "written by the team that builds the
+  plugin" tag — the About section below the calendar already
+  makes that point.
+
 2026-05-15  Resources: trim hero, fix featured-card title contrast, drop byline name
 - Hero kicker on the Resources hub trimmed: drops the
   "weekly through Q3 2026" cadence claim and shows just
