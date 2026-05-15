@@ -1,3 +1,17 @@
+2026-05-15  GFE article: fix mid-article CTA text rendering dark on purple
+- The "Quidget runs the full GFE workflow…" mid-article
+  CTA aside lives inside .art-content, and the article
+  scope's .art-content h3 / .art-content p rules (0,1,1)
+  were beating the .midcta-title / .midcta-body color
+  declarations (0,1,0), so the white-on-indigo CTA copy
+  was inheriting the dark article-text color instead.
+- Bumped the midcta text selectors to .art-content
+  .midcta-title and .art-content .midcta-body (0,2,0) so
+  they win on specificity and the CTA renders white-on-
+  indigo as designed. Also pinned margin-top:0 on the
+  title so .art-content h3's 48px top margin doesn't push
+  it down inside the card.
+
 2026-05-15  Resources: remove editorial calendar, retitle hero "Insights from Quidget"
 - Dropped the entire "On the editorial calendar" section
   (Next-6-of-19 planned articles, drops-weekly-through-Q3,
