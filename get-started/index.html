@@ -921,16 +921,16 @@ function IntakeScreen({ onComplete }) {
                 <div style={{ padding: "24px 24px 20px", background: "linear-gradient(135deg, rgba(77,61,113,.06) 0%, rgba(77,61,113,.1) 100%)" }}>
                   <div style={{ fontSize: 17, fontWeight: 700, color: C.text, marginBottom: 6 }}>Let's get you set up</div>
                   <p style={{ fontSize: 14, color: C.textMuted, margin: 0, lineHeight: 1.6 }}>
-                    Create a free Qualiphy account — no signup fees, no monthly charges. The registration process walks you through everything. Once you're done, come back here and continue.
+                    Book a quick demo with our team — we'll walk you through Qualiphy, answer your questions, and help you decide if it's the right fit. Prefer to dive in? You can create a free account instead.
                   </p>
                 </div>
                 <div style={{ padding: "20px 24px", background: "#fff", display: "flex", flexDirection: "column", gap: 10 }}>
-                  <a href="https://app.qualiphy.me/signup" target="_blank" rel="noopener" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "14px 22px", borderRadius: 10, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+                  <button onClick={() => setShowCalendly(true)} style={{ display: showCalendly ? "none" : "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "14px 22px", borderRadius: 10, background: C.accent, color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 600, border: "none", cursor: "pointer", width: "100%", transition: "background .15s" }}>
+                      Book a Demo
+                    </button>
+                  <a href="https://app.qualiphy.me/signup" target="_blank" rel="noopener" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px 22px", borderRadius: 10, background: C.bgMuted, color: C.textMuted, fontFamily: "inherit", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
                     Create Account ↗
                   </a>
-                  <button onClick={() => setShowCalendly(true)} style={{ display: showCalendly ? "none" : "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px 22px", borderRadius: 10, background: C.bgMuted, color: C.textMuted, fontFamily: "inherit", fontSize: 14, fontWeight: 600, border: "none", cursor: "pointer", width: "100%", transition: "background .15s" }}>
-                      Not sure yet? Book a demo
-                    </button>
                     {showCalendly && (
                       <div style={{ borderRadius: 10, overflow: "hidden", border: "1px solid " + C.border, background: "#fff" }}>
                         <iframe src="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo?embed_type=Inline&hide_gdpr_banner=1" style={{ width: "100%", height: 680, border: "none", display: "block" }} />

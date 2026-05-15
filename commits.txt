@@ -1,3 +1,16 @@
+2026-05-15  Get Started: lead the no-account gate with Book a Demo, demote Create Account
+- On the "Let's get you set up" gate (shown when the user
+  answers "no" to having a Qualiphy account), Book a Demo is
+  now the primary CTA: full accent fill, top of the stack,
+  same 14/22 padding the previous Create Account button used.
+- Create Account drops to the secondary muted style (smaller
+  padding, muted bg, muted text) and sits below the demo
+  button, with the "↗" affordance kept so the external-link
+  intent is still obvious.
+- Rewrote the subheading to lead with the demo pitch and
+  frame Create Account as the "dive in" alternative, so the
+  copy hierarchy matches the new button hierarchy.
+
 2026-05-14  Help: embed API-key walkthrough video on the Finding-API-Key article
 - Added a second video-embed constant (API_KEY_VIDEO_EMBED) at
   the top of the help-center article catalog, pointing at the
