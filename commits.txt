@@ -823,3 +823,9 @@
   occasional Quidget update and may check in if it looks like setup
   stalled." Honest about the purpose (re-engagement + product updates)
   without sounding salesy.
+
+2026-05-18  Get Started email step: punchier hint copy
+- Hint now: "Stay up to date with any Qualiphy or Quidget-specific
+  updates and news!" — drops the "optional" framing (skip link
+  already makes that clear) and the support-fallback line, keeps it
+  positive and brief.
