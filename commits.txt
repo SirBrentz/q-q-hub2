@@ -835,3 +835,17 @@
   API key" video) with GqOiQ_xUCfU. Both the inline embed iframe on
   the hasApiKey gate and the "Watch the 30-sec walkthrough" link now
   point at the new clip.
+
+2026-05-18  Email capture: dedupe submissions on the Apps Script side
+- doPost now lowercases + trims the incoming email and walks column B
+  of the sheet via emailExists_(); if there's a hit, returns
+  { ok: true, duplicate: true } instead of appending. Same email
+  submitted from a different browser / cleared cache / new device is
+  caught.
+- No page-side changes; the no-cors POST still sees a 2xx and the
+  user advances normally. The "duplicate: true" flag is for the
+  response body — we don't read it client-side (no-cors), but it's
+  useful when hitting the /exec URL directly during testing.
+- Brent still needs to re-deploy: Apps Script -> Deploy -> Manage
+  deployments -> pencil -> Version: New version -> Deploy. The
+  /exec URL stays the same.

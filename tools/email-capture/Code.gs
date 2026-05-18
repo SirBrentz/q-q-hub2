@@ -65,9 +65,16 @@ function doPost(e) {
     var data = {};
     try { data = JSON.parse(raw); } catch (_) { data = {}; }
 
-    var email = String(data.email || "").trim();
+    var email = String(data.email || "").trim().toLowerCase();
     if (!email || email.indexOf("@") === -1) {
       return jsonOut_({ ok: false, error: "invalid_email" });
+    }
+
+    var sh = getSheet_();
+
+    // Dedup: if this email already appears in column B, return early without appending.
+    if (emailExists_(sh, email)) {
+      return jsonOut_({ ok: true, duplicate: true });
     }
 
     var utms = data.utms || {};
@@ -87,11 +94,21 @@ function doPost(e) {
       String(data.userAgent || ""),
     ];
 
-    getSheet_().appendRow(row);
+    sh.appendRow(row);
     return jsonOut_({ ok: true });
   } catch (err) {
     return jsonOut_({ ok: false, error: String(err) });
   }
+}
+
+function emailExists_(sh, email) {
+  var lastRow = sh.getLastRow();
+  if (lastRow < 2) return false; // only headers, or empty
+  var values = sh.getRange(2, 2, lastRow - 1, 1).getValues(); // column B (Email), data rows
+  for (var i = 0; i < values.length; i++) {
+    if (String(values[i][0] || "").trim().toLowerCase() === email) return true;
+  }
+  return false;
 }
 
 function doGet() {
