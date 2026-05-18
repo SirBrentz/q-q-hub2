@@ -829,3 +829,9 @@
   updates and news!" — drops the "optional" framing (skip link
   already makes that clear) and the support-fallback line, keeps it
   positive and brief.
+
+2026-05-18  Get Started: swap API-key walkthrough video to new YouTube URL
+- Replaced both references to la8ZF-nYigo (the old "How to find your
+  API key" video) with GqOiQ_xUCfU. Both the inline embed iframe on
+  the hasApiKey gate and the "Watch the 30-sec walkthrough" link now
+  point at the new clip.
