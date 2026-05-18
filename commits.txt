@@ -811,3 +811,8 @@
   old 1HcYD8… sheet (owned by someone else) to Brent's own
   1JEiCE9-6OPjevSXtgDFe-C671mwyjyRlWCwot5QgEkg sheet. Updated the
   deploy-link in the leading comment to match.
+
+2026-05-18  Email capture: wire live /exec URL into GSHEET_ENDPOINT
+- Replaced the REPLACE_ME placeholder with the deployed Apps Script
+  Web App URL (deploy id AKfycby7k7YsJyv-…). Email capture now
+  actually writes rows to the marketing sheet.
