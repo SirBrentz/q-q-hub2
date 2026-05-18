@@ -264,6 +264,11 @@ const C = {
   blue: "#2563eb", blueLight: "#dbeafe",
 };
 
+// Google Apps Script Web App endpoint that appends email captures to the marketing sheet.
+// Deploy the script in ./email-capture/Code.gs and paste the /exec URL below.
+const GSHEET_ENDPOINT = "https://script.google.com/macros/s/REPLACE_ME/exec";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 /* ═══════════════════════════════════════════════════════════════════════════
    QUALIFYING QUESTIONS
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -277,6 +282,12 @@ const QUESTIONS = [
       { value: "no", label: "No, I need to set one up" },
     ],
     blocking: ["no"],
+  },
+  {
+    id: "email",
+    type: "email",
+    q: "Where should we send your setup guide?",
+    hint: "We'll email you a copy of your custom setup plan plus the occasional Quidget update. No spam.",
   },
   {
     id: "hasMedDirector",
@@ -789,12 +800,22 @@ function IntakeScreen({ onComplete }) {
   const [showCalendly, setShowCalendly] = useState(false);
   const [confirmedVal, setConfirmedVal] = useState(null);
   const [showExpert, setShowExpert] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
 
   const q = QUESTIONS[currentQ];
   const allDone = Object.keys(answers).length === QUESTIONS.length;
 
   // Clear confirmed state on question change
   useEffect(() => { setConfirmedVal(null); }, [currentQ]);
+
+  // Rehydrate email field when navigating back to the email step
+  useEffect(() => {
+    if (QUESTIONS[currentQ] && QUESTIONS[currentQ].type === "email") {
+      setEmailInput(answers.email || "");
+      setEmailTouched(false);
+    }
+  }, [currentQ]);
 
   // ─── TRACKING OBSERVERS ───
   // Track intake start once
@@ -858,7 +879,8 @@ function IntakeScreen({ onComplete }) {
     const b = q.blocking;
     if (b && (Array.isArray(b) ? b.includes(val) : b === val)) return;
     if (currentQ < QUESTIONS.length - 1) {
-      const skip = (q.id === "hasAccount" && val === "yes") ? 2 : 1;
+      // From email step, skip auto-filled hasMedDirector when account already exists
+      const skip = (q.id === "email" && newAnswers.hasAccount === "yes") ? 2 : 1;
       setTimeout(() => setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)), 350);
     }
   };
@@ -871,17 +893,60 @@ function IntakeScreen({ onComplete }) {
       newAnswers.hasMedDirector = "yes";
     }
     setAnswers(newAnswers);
-    const skip = (q.id === "hasAccount") ? 2 : 1;
-    setTimeout(() => setCurrentQ(prev => Math.min(prev + skip, QUESTIONS.length - 1)), 10);
+    setTimeout(() => setCurrentQ(prev => Math.min(prev + 1, QUESTIONS.length - 1)), 10);
   };
 
   const goBack = () => {
     if (isBlocked) { setAnswers(prev => { const n = { ...prev }; delete n[q.id]; return n; }); return; }
     if (currentQ > 0) {
       // Skip back over hasMedDirector if it was auto-filled because hasAccount=yes
-      const prevQ = (currentQ === 2 && answers.hasAccount === "yes") ? 0 : currentQ - 1;
+      const emailIdx = QUESTIONS.findIndex(x => x.id === "email");
+      const apiIdx = QUESTIONS.findIndex(x => x.id === "hasApiKey");
+      const prevQ = (currentQ === apiIdx && answers.hasAccount === "yes") ? emailIdx : currentQ - 1;
       setCurrentQ(prevQ);
     }
+  };
+
+  const submitEmailToSheet = (email) => {
+    if (!GSHEET_ENDPOINT || GSHEET_ENDPOINT.indexOf("REPLACE_ME") !== -1) return;
+    try {
+      fetch(GSHEET_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          email: email,
+          submittedAt: new Date().toISOString(),
+          page: "get-started",
+          utms: (window._qtrack_utms || {}),
+          geo: (window._qtrack_geo || {}),
+          referrer: document.referrer || "",
+          userAgent: navigator.userAgent || "",
+        }),
+      }).catch(function() {});
+    } catch (err) { /* fail soft */ }
+  };
+
+  const advancePastEmail = (nextAnswers) => {
+    const skip = (nextAnswers.hasAccount === "yes") ? 2 : 1;
+    setCurrentQ(prev => Math.min(prev + skip, QUESTIONS.length - 1));
+  };
+
+  const handleEmailSubmit = () => {
+    const v = emailInput.trim();
+    if (!EMAIL_RE.test(v)) { setEmailTouched(true); return; }
+    submitEmailToSheet(v);
+    if (window.track) window.track("email_captured", { has_email: true });
+    const nextAnswers = { ...answers, email: v };
+    setAnswers(nextAnswers);
+    advancePastEmail(nextAnswers);
+  };
+
+  const handleEmailSkip = () => {
+    if (window.track) window.track("email_skipped");
+    const nextAnswers = { ...answers, email: "" };
+    setAnswers(nextAnswers);
+    advancePastEmail(nextAnswers);
   };
 
   return (
@@ -1033,7 +1098,65 @@ function IntakeScreen({ onComplete }) {
               {!q.hint && <div style={{ height: 14 }} />}
 
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {q.multiSelect ? (
+                {q.type === "email" ? (() => {
+                  const trimmed = emailInput.trim();
+                  const valid = EMAIL_RE.test(trimmed);
+                  const showError = emailTouched && trimmed.length > 0 && !valid;
+                  return (
+                    <>
+                      <input
+                        type="email"
+                        autoComplete="email"
+                        inputMode="email"
+                        autoFocus
+                        placeholder="you@yourpractice.com"
+                        value={emailInput}
+                        onChange={(e) => setEmailInput(e.target.value)}
+                        onBlur={() => setEmailTouched(true)}
+                        onKeyDown={(e) => { if (e.key === "Enter" && valid) handleEmailSubmit(); }}
+                        style={{
+                          width: "100%", boxSizing: "border-box",
+                          padding: "14px 16px", borderRadius: 10,
+                          border: "1.5px solid " + (showError ? "#dc2626" : C.border),
+                          fontSize: 15, fontFamily: "inherit", color: C.text,
+                          background: C.bgWhite, outline: "none", transition: "border-color .15s",
+                        }}
+                      />
+                      {showError && (
+                        <p style={{ fontSize: 12, color: "#dc2626", margin: "2px 2px 0" }}>
+                          Please enter a valid email address.
+                        </p>
+                      )}
+                      <button
+                        onClick={handleEmailSubmit}
+                        disabled={!valid}
+                        style={{
+                          marginTop: 6, padding: "13px 22px", borderRadius: 10,
+                          background: valid ? C.accent : C.bgMuted,
+                          color: valid ? "#fff" : C.textDim,
+                          fontFamily: "inherit", fontSize: 15, fontWeight: 600,
+                          border: "none", cursor: valid ? "pointer" : "default",
+                          width: "100%", transition: "all .15s",
+                        }}
+                      >
+                        Continue →
+                      </button>
+                      <button
+                        onClick={handleEmailSkip}
+                        style={{
+                          marginTop: 4, padding: "6px 0",
+                          background: "transparent", border: "none",
+                          color: C.textDim, fontFamily: "inherit",
+                          fontSize: 12, fontWeight: 500, cursor: "pointer",
+                          textDecoration: "underline", textDecorationColor: "rgba(168,162,158,.4)",
+                          textUnderlineOffset: 3, alignSelf: "center",
+                        }}
+                      >
+                        Skip for now
+                      </button>
+                    </>
+                  );
+                })() : q.multiSelect ? (
                   q.options.map(opt => {
                     const selected = (answers[q.id] || "").split(",").includes(opt.value);
                     return (
@@ -1066,10 +1189,11 @@ function IntakeScreen({ onComplete }) {
               )}
               {allDone ? (
                 <Btn onClick={() => onComplete(answers)}>Show my setup guide →</Btn>
-              ) : q.multiSelect && answers[q.id] ? (
-                <Btn variant="secondary" onClick={() => { const skip = (currentQ === 0 && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
+              ) : q.type === "email" ? null
+              : q.multiSelect && answers[q.id] ? (
+                <Btn variant="secondary" onClick={() => { const skip = (q.id === "email" && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
               ) : currentQ < QUESTIONS.length - 1 && answers[q.id] ? (
-                <Btn variant="secondary" onClick={() => { const skip = (currentQ === 0 && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
+                <Btn variant="secondary" onClick={() => { const skip = (q.id === "email" && answers.hasAccount === "yes") ? 2 : 1; setCurrentQ(Math.min(currentQ + skip, QUESTIONS.length - 1)); }} small>Next →</Btn>
               ) : null}
             </div>
 
@@ -1149,6 +1273,7 @@ function GuideScreen({ answers, onRestart }) {
       has_woo: answers.hasWoo || '',
       has_subscriptions: answers.hasSubscriptions || '',
       has_products: answers.hasProducts || '',
+      provided_email: !!(answers.email && answers.email.length > 0),
       question_times: window._qtrack_questionTimes || {},
     });
   }, []);

@@ -775,3 +775,33 @@
   re-fetching, so it's a hard reset rather than a re-fetch on top of
   the old cache.
 - Updated the refresh note copy from "every 24 hours" -> "every hour".
+
+2026-05-18  Get Started: capture email mid-flow + push to Google Sheet
+- Added a required-but-skippable email capture step between Q1
+  (hasAccount) and the rest of the qualifying questions. Continue
+  button is disabled until the value passes /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  a small underlined "Skip for now" link sits below it, deliberately
+  smaller and muted (textDim, 12px, no button chrome) so it reads as
+  the secondary path.
+- New question entry has type:"email" so the renderer slots in a real
+  <input type="email"> + Continue + Skip block in place of the option
+  buttons. Enter submits when valid; field rehydrates from answers.email
+  if the user navigates back to it.
+- Auto-advance and back-nav updated for the new index layout: from the
+  email step we still skip past auto-filled hasMedDirector when
+  hasAccount=yes (skip 2). Back from hasApiKey lands on the email step
+  in the same case. passGate just advances by 1 now since gates only
+  fire before the email step.
+- On valid Continue, the page fires a no-cors POST to
+  GSHEET_ENDPOINT (placeholder for now — see tools/email-capture/Code.gs)
+  with { email, submittedAt, page, utms, geo, referrer, userAgent }.
+  Fail-soft: the user still advances if the POST errors. Two new track
+  events: email_captured and email_skipped. intake_completed now
+  carries provided_email so we can correlate captures with finishers.
+- tools/email-capture/Code.gs: Apps Script Web App that appends to
+  the marketing sheet (spreadsheet id pinned to 1HcYD8…). Includes
+  ensureHeaders() to seed the header row on first run and a JSON
+  response for the doGet healthcheck. Deploy steps are documented in
+  the file's leading comment — once deployed, paste the /exec URL
+  into the GSHEET_ENDPOINT constant in get-started/index.html and
+  re-push.
