@@ -816,3 +816,10 @@
 - Replaced the REPLACE_ME placeholder with the deployed Apps Script
   Web App URL (deploy id AKfycby7k7YsJyv-…). Email capture now
   actually writes rows to the marketing sheet.
+
+2026-05-18  Get Started email step: rephrase to honest collection-point copy
+- Old copy implied we'd email them their setup guide, which we don't.
+- New copy: "What's your email?" with hint "Optional. We'll send the
+  occasional Quidget update and may check in if it looks like setup
+  stalled." Honest about the purpose (re-engagement + product updates)
+  without sounding salesy.
