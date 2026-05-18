@@ -5,7 +5,7 @@
  *
  * DEPLOY STEPS (one-time):
  *   1. Open the target sheet:
- *        https://docs.google.com/spreadsheets/d/1HcYD8_pBLOorUS3na849T4i2qBTvg4zZ30Cjv5lGlnE/edit
+ *        https://docs.google.com/spreadsheets/d/1JEiCE9-6OPjevSXtgDFe-C671mwyjyRlWCwot5QgEkg/edit
  *   2. Extensions -> Apps Script. Replace the default Code.gs with this file's contents.
  *   3. Save. Then Run -> select function "ensureHeaders" once to seed the header row
  *      (you'll be asked to authorize; click "Advanced" -> "Go to <project> (unsafe)"
@@ -25,7 +25,7 @@
  * The page POSTs JSON as text/plain (no-cors), so we read e.postData.contents.
  */
 
-var SPREADSHEET_ID = "1HcYD8_pBLOorUS3na849T4i2qBTvg4zZ30Cjv5lGlnE";
+var SPREADSHEET_ID = "1JEiCE9-6OPjevSXtgDFe-C671mwyjyRlWCwot5QgEkg";
 var SHEET_NAME = "Emails";
 
 var HEADERS = [

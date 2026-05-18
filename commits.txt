@@ -805,3 +805,9 @@
   the file's leading comment — once deployed, paste the /exec URL
   into the GSHEET_ENDPOINT constant in get-started/index.html and
   re-push.
+
+2026-05-18  Email capture: point Apps Script at the correct sheet
+- Swapped SPREADSHEET_ID in tools/email-capture/Code.gs from the
+  old 1HcYD8… sheet (owned by someone else) to Brent's own
+  1JEiCE9-6OPjevSXtgDFe-C671mwyjyRlWCwot5QgEkg sheet. Updated the
+  deploy-link in the leading comment to match.
