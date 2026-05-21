@@ -1,3 +1,18 @@
+2026-05-20  Get Started: fix 3 broken API docs deep links to use hash anchors
+- The three deep links in step 3 (Exam Invite Endpoint,
+  Webhook Events, Partner Pharmacies) pointed to
+  /docs/api/exam-invite, /docs/api/exam-webhook, and
+  /docs/api/partner-pharmacy-list on api-docs.qualiphy.me.
+  Those paths don't exist — api-docs.qualiphy.me is the
+  q-api repo (single-page site with hash anchors), not a
+  Docusaurus multi-page site, so all three were 404.
+- Replaced with the real hash anchors that exist on the
+  page: #ep-exam-invite, #ep-exam-webhook, and
+  #ep-pharmacy-list. Users now land on the right section.
+- Base "View API Docs" / "Full API Documentation" / "API
+  DOCS:" links (already pointing at the api-docs.qualiphy.me
+  root) were correct and untouched.
+
 2026-05-15  Articles: scrub fabricated specifics + reframe 48-states claim per Compliance 101
 - Reviewed both live articles against the Compliance 101
   reference doc (Reference documents/Compliance 101 (1).pdf
