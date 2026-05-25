@@ -1,3 +1,47 @@
+2026-05-25  Resources: publish article 03 (Install Quidget on WP+WC) + add Articles footer link site-wide
+- New long-form guide at /resources/guides/install-quidget
+  -plugin-wordpress-woocommerce/ — built from SEO content
+  research brief 13 (BOFU, primary KW "quidget plugin
+  install"). 1,450 words / 8 min, 8 H2 sections (6 install
+  steps + troubleshooting + FAQ) + 8-question FAQ + 4-card
+  related grid. Sprint 1 ship #1 per the SEO doc cadence.
+- Article structure: prerequisites (WP 5.0+, WC 5.0+, PHP
+  7.4+, SSL), download URL, upload+activate, API key
+  paste, exam catalog mapping, [quidget_consult] shortcode
+  placement (product/cart/checkout), end-to-end sandbox
+  test, top-5 troubleshooting list, FAQ.
+- Three SEO schema blocks: Article, HowTo (6 steps with
+  individual deep-link URLs), and FAQPage. HowTo is the
+  big SERP-feature play here — Google loves HowTo schema
+  for install/setup content.
+- Visuals match the existing two-article template
+  (GFE pillar + Add-Telemedicine): same TOC sidebar,
+  same reading-progress bar, same .midcta CTA card,
+  same .related-card 4-grid, same dark .footer.
+- New .req-grid (4-up prereqs), .code (terminal-style
+  code block for download URL + shortcode), .steps (dark
+  6-pip overview banner) components added inline. All
+  responsive at 1080px (2-col) and 760px (1-col).
+- Zero em dashes per the published-content style rule.
+- Resources hub (/resources/) updated: count bumped from
+  2 → 3 articles (hero kicker + All/Guides chips). New
+  install guide promoted to Latest featured card (No. 03,
+  "Install in 30 min" cover). Previous featured (No. 02
+  Add Telemedicine) demoted into the archive grid
+  alongside the GFE pillar (No. 01). "More articles"
+  count: 01 piece → 02 pieces.
+- Articles link added to the footer Resources/Library
+  column on every page (11 files: index, changelog,
+  overview, weight-loss, help, thank-you, treatments,
+  resources/, and both existing article pages). Link
+  points to /resources/. Per Brent's direction this
+  is in addition to existing footer items; Changelog
+  stays where it is (it was never in the top nav, only
+  in the Product footer column, so no nav change needed).
+- sitemap.xml: install-guide URL added with 2026-05-25
+  lastmod and 0.7 priority; /resources/ hub lastmod
+  bumped to 2026-05-25.
+
 2026-05-20  Get Started: fix 3 broken API docs deep links to use hash anchors
 - The three deep links in step 3 (Exam Invite Endpoint,
   Webhook Events, Partner Pharmacies) pointed to
