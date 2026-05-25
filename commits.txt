@@ -1,3 +1,39 @@
+2026-05-25  Resources hub: swap gradient covers for real photos on all 3 article cards
+- Added /assets/articles/ folder with 3 iStock photos
+  chosen from the Qualiphy/Media library after analyzing
+  all 12 candidates against article topic:
+    - install-quidget.jpg (iStock-1633792345): woman
+      smiling at her laptop. Self-serve setup energy,
+      matches "30-minute install" promise.
+    - what-is-a-gfe.jpg (iStock-2174026510): clinician +
+      patient handshake in an exam room. The handshake
+      is the visual definition of the provider-patient
+      relationship a GFE establishes.
+    - add-telemedicine.jpg (iStock-1988037194): patient
+      on a laptop video call with a nurse from home.
+      Cleanest "telemedicine in the home" frame in the set.
+- Featured card (No. 03 Install): .feat-cover swapped
+  from indigo gradient + stylized cover-art text to a
+  full-bleed <img> with a top+bottom dark vignette
+  overlay (.feat-cover-shade) so the "Quidget Library /
+  No. 03" header strip and "Install · BOFU / 1,450 words"
+  foot strip stay readable. Stylized "Install in 30 min"
+  text removed (image is the visual now).
+- Archive cards (No. 02 + No. 01): each card now leads
+  with a 180px-tall cover photo. Text content moved
+  inside an .archive-card-body padded container so the
+  image bleeds edge-to-edge against the card's rounded
+  corners. Hover state scales the image 1.04x to match
+  the existing card lift.
+- Per-image object-position tuned so faces stay in
+  frame at the cover crop: install 55%/30%, GFE 50%/30%,
+  telemedicine 50%/40%.
+- Fallback: .feat-cover keeps var(--indigo-deep) bg in
+  case the photo fails to load; .archive-card-cover
+  keeps a lavender-mist tint.
+
+2026-05-25  Articles: fix .steps-title / .workflow-title rendering in black
+
 2026-05-25  Articles: bump in-block primary text to white for legibility on indigo gradient
 - After yesterday's swap from var(--ink) to the indigo
   gradient on .steps / .workflow / .code, the existing
