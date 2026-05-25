@@ -1,3 +1,27 @@
+2026-05-25  Articles: bump in-block primary text to white for legibility on indigo gradient
+- After yesterday's swap from var(--ink) to the indigo
+  gradient on .steps / .workflow / .code, the existing
+  translucent text colors became low-contrast. The medium
+  indigo background needs higher-opacity text than the
+  near-black it replaced.
+- Step / workflow body descriptions (.steps-pip-d,
+  .wf-step-d) bumped from rgba(255,255,255,.65) to solid
+  #fff across all 3 articles.
+- Block kicker labels (.steps-l, .workflow-l, .code-label)
+  retinted from translucent lavender to translucent white
+  (.85 for the kickers, .7 for the .code label) so they
+  read as muted-secondary rather than fading out.
+- Numbered pip circles (.steps-pip-n, .wf-step-n) swapped
+  their lavender border + lavender text to white border +
+  white text. They still sit on a var(--indigo-deep)
+  background inside the larger gradient, so the contrast
+  ramp pip < container is preserved.
+- .code <code> element (the download URL / shortcode
+  primary content) changed from var(--lavender) to #fff
+  so it reads as the focal text on the block.
+- Titles (.steps-title, .workflow-title, .steps-pip-t,
+  .wf-step-t) were already #fff — left untouched.
+
 2026-05-25  Resources: revert featured cover + swap in-article ink blocks to indigo gradient
 - Revert: /resources/ .feat-cover restored to the original
   dark indigo / indigo-deep / #2B2042 gradient with white
