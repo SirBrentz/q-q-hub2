@@ -1,3 +1,24 @@
+2026-05-25  Resources: revert featured cover + swap in-article ink blocks to indigo gradient
+- Revert: /resources/ .feat-cover restored to the original
+  dark indigo / indigo-deep / #2B2042 gradient with white
+  text, lavender-on-translucent chip, lavender→white
+  cover-art em, and white-tinted dotted grid overlay. The
+  previous lighten-pass was the wrong target; Caitlin was
+  pointing at in-article visuals, not the hero card.
+- In-article visuals across all 3 article pages now use
+  the normal indigo gradient instead of near-black ink:
+  - install-quidget...: .code, .steps, .steps-pip-n
+  - what-is-a-good-faith-exam: .workflow, .wf-step-n
+  - add-telemedicine...: .workflow, .wf-step-n
+  Containers (.code, .steps, .workflow) get the same
+  indigo→indigo-deep 135deg gradient as the .midcta
+  CTA card so they read as one family. Numbered pip
+  circles (.steps-pip-n, .wf-step-n) drop from ink to
+  --indigo-deep so they still pop against the gradient.
+- Footer, hamburger bars, and copy-link toast keep
+  var(--ink) because those are legitimate near-black
+  uses and match the marketing site.
+
 2026-05-25  Resources: lighten featured card + reword From-the-editor (Caitlin feedback)
 - /resources/ featured-card cover (.feat-cover) swapped
   from the dark indigo / indigo-deep gradient to a light
