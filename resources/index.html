@@ -242,10 +242,10 @@ strong{font-weight:600;color:var(--text)}
 .feat-cover{
   position:relative;
   background:
-    radial-gradient(80% 60% at 20% 15%, rgba(206,200,254,.4), transparent 70%),
-    radial-gradient(70% 60% at 80% 90%, rgba(159,146,191,.3), transparent 70%),
-    linear-gradient(135deg, var(--indigo) 0%, var(--indigo-deep) 70%, #2B2042 100%);
-  color:#fff;
+    radial-gradient(80% 60% at 20% 15%, rgba(206,200,254,.55), transparent 70%),
+    radial-gradient(70% 60% at 80% 90%, rgba(159,146,191,.32), transparent 70%),
+    linear-gradient(135deg, var(--lavender-mist) 0%, var(--lavender-soft) 70%, #DCD4F0 100%);
+  color:var(--ink);
   padding:48px 44px;
   display:flex;flex-direction:column;justify-content:space-between;
   min-height:440px;
@@ -254,8 +254,8 @@ strong{font-weight:600;color:var(--text)}
 .feat-cover::before{
   content:'';position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+    linear-gradient(rgba(77,61,113,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(77,61,113,.06) 1px,transparent 1px);
   background-size:36px 36px;
   mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black,transparent 90%);
   -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black,transparent 90%);
@@ -265,31 +265,31 @@ strong{font-weight:600;color:var(--text)}
 .feat-cover-top{
   display:flex;align-items:center;justify-content:space-between;
   font-family:var(--font-m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.65);
+  color:var(--text-mid);
 }
 .feat-cover-mark{display:flex;align-items:center;gap:8px}
-.feat-cover-mark svg{color:var(--lavender)}
+.feat-cover-mark svg{color:var(--indigo)}
 .feat-cover-art{
   font-family:var(--font-d);font-weight:800;
   font-size:clamp(2.6rem,5vw,3.8rem);
   line-height:.95;letter-spacing:-.045em;
-  color:#fff;
+  color:var(--ink);
 }
 .feat-cover-art em{
   font-style:normal;font-weight:500;
-  background:linear-gradient(135deg,var(--lavender),#fff);
+  background:linear-gradient(135deg,var(--indigo),var(--violet) 70%,#7B6BA8);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .feat-cover-foot{
   display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--font-m);font-size:11px;color:rgba(255,255,255,.6);
+  font-family:var(--font-m);font-size:11px;color:var(--text-lt);
   letter-spacing:.06em;
 }
 .feat-cover-chip{
   font-family:var(--font-m);font-size:10px;font-weight:600;
-  background:rgba(206,200,254,.16);color:var(--lavender);
+  background:#fff;color:var(--indigo);
   padding:5px 11px;border-radius:100px;letter-spacing:.1em;text-transform:uppercase;
-  border:1px solid rgba(206,200,254,.22);
+  border:1px solid rgba(77,61,113,.18);
 }
 
 .feat-body{
@@ -699,7 +699,7 @@ strong{font-weight:600;color:var(--text)}
     <div class="about-inner">
       <span class="about-kicker">From the editor</span>
       <h2 id="about-h">Written by the people who actually run the GFEs and build the integrations.</h2>
-      <p>Quidget is a Qualiphy product. Qualiphy is <strong>LegitScript Certified</strong> and operates compliant Good Faith Exams across 48 states. The people writing here are the same people running the GFEs, building the plugin, and answering the support tickets — so what you read is the working knowledge, not the marketing version of it.</p>
+      <p>A <strong>LegitScript-certified</strong> telehealth platform operating compliant Good Faith Exams across 48+ states. Everything shared here comes directly from the team behind the operations: the same people running the GFEs, building the technology, and supporting clinics every day. This is practical, real-world expertise built from experience, not recycled marketing content.</p>
       <p>We publish when there's something worth saying.</p>
     </div>
   </div>

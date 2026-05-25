@@ -1,3 +1,25 @@
+2026-05-25  Resources: lighten featured card + reword From-the-editor (Caitlin feedback)
+- /resources/ featured-card cover (.feat-cover) swapped
+  from the dark indigo / indigo-deep gradient to a light
+  lavender-mist / lavender-soft gradient with a third
+  #DCD4F0 stop. Text colors flipped from white to ink
+  for the headline and to text-mid / text-lt for the
+  meta strips so everything stays readable on the new
+  pale background.
+- Cover-art em now gradient indigo → violet → soft purple
+  (previously lavender → white). Cover chip swapped from
+  translucent-lavender-on-dark to white-on-lavender with
+  an indigo border. Dotted-grid overlay re-tinted to a
+  faint indigo at 6% alpha so it reads against the new
+  light background.
+- About-section copy updated per Caitlin: opens with the
+  "LegitScript-certified telehealth platform operating
+  compliant Good Faith Exams across 48+ states" framing
+  and the "practical, real-world expertise built from
+  experience, not recycled marketing content" close.
+  Note the 48 → 48+ change is intentional (Caitlin's
+  wording) and softens future network expansion.
+
 2026-05-25  Resources: publish article 03 (Install Quidget on WP+WC) + add Articles footer link site-wide
 - New long-form guide at /resources/guides/install-quidget
   -plugin-wordpress-woocommerce/ — built from SEO content
