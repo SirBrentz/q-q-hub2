@@ -1070,8 +1070,8 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
-  <!-- Email Campaigns (conditional, only shown when any email clicks exist) -->
-  <div class="panel section-gap" id="emailPanel" style="display:none">
+  <!-- Email Campaigns — always visible (empty state until first email click) -->
+  <div class="panel section-gap" id="emailPanel">
     <div class="panel-header">
       <div class="panel-title">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1299,14 +1299,13 @@ function render() {
 
 /* ---- EMAIL CAMPAIGNS ---- */
 function renderEmailCampaigns(rows) {
-  const panel = $('emailPanel');
   const tbl = $('emailCampaignsTable');
   const emailRows = rows.filter(r => r.emailClick);
   if (!emailRows.length) {
-    panel.style.display = 'none';
+    $('emailPanelMeta').textContent = 'no email-tagged clicks in range yet — paste a utm_source=email link in your next outreach send';
+    tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="empty-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>send a tagged link to see clicks here</div></td></tr></tbody>`;
     return;
   }
-  panel.style.display = '';
   // Aggregate per campaign
   const campaigns = {};
   emailRows.forEach(r => {
