@@ -62,6 +62,15 @@
   "name": "Install the Quidget Plugin on WordPress + WooCommerce",
   "description": "Install and configure the Quidget telehealth plugin on a WordPress site running WooCommerce. Six steps, roughly 30 minutes end to end.",
   "totalTime": "PT30M",
+  "video": {
+    "@type": "VideoObject",
+    "name": "How to Install the Quidget Plugin on WordPress + WooCommerce",
+    "description": "Full step-by-step walkthrough of installing and configuring the Quidget telehealth plugin on a WordPress site running WooCommerce, including download, activation, API key setup, exam catalog mapping, embed placement, and a sample end-to-end test order.",
+    "thumbnailUrl": "https://i.ytimg.com/vi/We4sKXkuvl4/maxresdefault.jpg",
+    "contentUrl": "https://youtu.be/We4sKXkuvl4",
+    "embedUrl": "https://www.youtube.com/embed/We4sKXkuvl4",
+    "uploadDate": "2026-05-26"
+  },
   "supply": [
     {"@type":"HowToSupply","name":"WordPress 5.0 or newer"},
     {"@type":"HowToSupply","name":"WooCommerce 5.0 or newer"},
@@ -408,6 +417,42 @@ ul,ol{list-style:none}
 .req-name{font-family:var(--font-h);font-weight:600;font-size:13.5px;color:var(--ink);line-height:1.2}
 .req-note{font-family:var(--font-b);font-size:13px;line-height:1.5;color:var(--text-mid);margin-top:4px}
 
+/* Video walkthrough block (top of article) */
+.video-embed{
+  margin:0 0 48px;
+  background:linear-gradient(135deg,var(--indigo) 0%,var(--indigo-deep) 100%);
+  border-radius:18px;
+  padding:22px 22px 24px;
+  position:relative;overflow:hidden;
+}
+.video-embed-l{
+  font-family:var(--font-m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.art-content .video-embed-title{
+  font-family:var(--font-d);font-weight:700;
+  font-size:1.35rem;line-height:1.2;letter-spacing:-.02em;
+  color:#fff;margin-top:0;margin-bottom:16px;text-wrap:balance;
+}
+.video-frame{
+  position:relative;width:100%;
+  aspect-ratio:16/9;
+  border-radius:12px;overflow:hidden;
+  background:var(--ink);
+  box-shadow:0 16px 40px -12px rgba(20,18,22,.4);
+}
+.video-frame iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;display:block;
+}
+.art-content .video-embed-note{
+  font-family:var(--font-b);font-size:13.5px;line-height:1.55;
+  color:rgba(255,255,255,.82);
+  margin:14px 0 0;
+}
+
 /* Code block */
 .code{
   margin:24px 0;padding:18px 22px;
@@ -707,6 +752,18 @@ ul,ol{list-style:none}
 
       <!-- Article body -->
       <article class="art-content">
+
+        <aside class="video-embed" aria-labelledby="video-h">
+          <div class="video-embed-l">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            Video walkthrough
+          </div>
+          <h3 class="video-embed-title" id="video-h">Prefer to watch? The full Quidget install in one take.</h3>
+          <div class="video-frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/We4sKXkuvl4" title="How to install the Quidget plugin on WordPress + WooCommerce" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="video-embed-note">Same six steps as the written guide below. Watch first, then follow along, or skip straight to the prerequisites.</p>
+        </aside>
 
         <h2 id="s1" data-num="01">Before you start</h2>
         <p class="first-para"><strong>Quidget is a WordPress plugin that turns WooCommerce into a telehealth checkout.</strong> A patient adds a prescription product to their cart, completes the medical intake inline, gets matched to a state-licensed provider, completes a synchronous Good Faith Exam over video, and the signed exam record returns to the WooCommerce order before fulfillment. The install path below is what we walk every self-serve clinic through. According to Qualiphy, clinics with a working WordPress and WooCommerce stack typically finish under 30 minutes.</p>

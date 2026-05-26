@@ -58,6 +58,20 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "How to Install the Quidget Plugin on WordPress + WooCommerce",
+  "description": "Full step-by-step walkthrough of installing the Quidget telehealth widget on a WordPress site running WooCommerce. Covers download, activation, API key setup, exam catalog mapping, embed placement, and a sample end-to-end test order. Roughly 30 minutes end to end.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/We4sKXkuvl4/maxresdefault.jpg",
+  "contentUrl": "https://youtu.be/We4sKXkuvl4",
+  "embedUrl": "https://www.youtube.com/embed/We4sKXkuvl4",
+  "uploadDate": "2026-05-26",
+  "publisher": {"@type":"Organization","name":"Qualiphy","url":"https://qualiphy.me/","logo":{"@type":"ImageObject","url":"https://quidget.qualiphy.me/favicon-512.png"}}
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
     {"@type":"Question","name":"Do I need to know how to code to add telemedicine to my medspa website?","acceptedAnswer":{"@type":"Answer","text":"No. A modern telemedicine widget installs the same way any other plugin or embed does — you copy a script tag or activate a plugin and configure it through a settings panel. Quidget specifically is a WordPress plugin: install, enter your API key, and the booking flow is live on your site."}},
@@ -359,6 +373,44 @@ ul,ol{list-style:none}
   margin:48px 0;
   max-width:560px;
 }
+
+/* Video walkthrough block */
+.video-embed{
+  margin:0 0 48px;
+  background:linear-gradient(135deg,var(--indigo) 0%,var(--indigo-deep) 100%);
+  border-radius:18px;
+  padding:22px 22px 24px;
+  position:relative;overflow:hidden;
+}
+.video-embed-l{
+  font-family:var(--font-m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.art-content .video-embed-title{
+  font-family:var(--font-d);font-weight:700;
+  font-size:1.35rem;line-height:1.2;letter-spacing:-.02em;
+  color:#fff;margin-top:0;margin-bottom:16px;text-wrap:balance;
+}
+.video-frame{
+  position:relative;width:100%;
+  aspect-ratio:16/9;
+  border-radius:12px;overflow:hidden;
+  background:var(--ink);
+  box-shadow:0 16px 40px -12px rgba(20,18,22,.4);
+}
+.video-frame iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;display:block;
+}
+.art-content .video-embed-note{
+  font-family:var(--font-b);font-size:13.5px;line-height:1.55;
+  color:rgba(255,255,255,.82);
+  margin:14px 0 0;
+}
+.video-embed-note a{color:var(--lavender);border-bottom:1px solid rgba(206,200,254,.4)}
+.video-embed-note a:hover{color:#fff;border-bottom-color:#fff}
 
 /* Inline callout */
 .callout{
@@ -713,6 +765,18 @@ ul,ol{list-style:none}
 
       <!-- Article body -->
       <article class="art-content">
+
+        <aside class="video-embed" aria-labelledby="video-h">
+          <div class="video-embed-l">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            See it in action
+          </div>
+          <h3 class="video-embed-title" id="video-h">Watch a clinic add telemedicine to a WordPress site in 30 minutes.</h3>
+          <div class="video-frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/We4sKXkuvl4" title="How to install the Quidget plugin on WordPress + WooCommerce" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="video-embed-note">This is the full Quidget install: the widget approach below, end to end. For the written, step-by-step version, see <a href="../install-quidget-plugin-wordpress-woocommerce/">our install guide</a>.</p>
+        </aside>
 
         <h2 id="s1" data-num="01">Why medspas are adding telemedicine in 2026</h2>
         <p class="first-para">In 2026, <strong>a medspa website without a telehealth layer is a medspa website that can't legally sell most of what's on its menu.</strong> Botox, GLP-1s, peptides, IV cocktails with prescription additives, hormone therapy, ED meds, Rx hair-loss protocols — every one of those requires a Good Faith Exam by a licensed provider before fulfillment, and patients buying online have come to expect that exam to happen on the same site they checked out on. Bouncing them to a separate scheduling tool, a phone call, or an in-person visit kills the conversion and creates a paper trail that doesn't exist where regulators expect to find it.</p>

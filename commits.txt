@@ -1,3 +1,31 @@
+2026-05-26  Articles: embed Quidget install video walkthrough (Install + Add-Telemedicine)
+- New /resources/guides/install-quidget-plugin-wordpress-woocommerce/
+  gets a top-of-body video embed pointing at the full
+  install walkthrough on YouTube (We4sKXkuvl4). Placed
+  before §01 so visitors can pick "watch" vs "read"
+  immediately after the article header.
+- /resources/guides/add-telemedicine-to-medspa-website/
+  gets the same video as a top-of-body CTA, framed as
+  "see approach #3 (the widget) in action" with a link
+  to the written install guide. Keeps the GFE article
+  (#01) video-free since it's a conceptual/regulatory
+  piece where a plugin install would feel off-topic.
+- Embed uses youtube-nocookie.com, loading="lazy",
+  strict-origin referrer, and aspect-ratio:16/9 so it
+  scales cleanly on mobile.
+- Visual block reuses the indigo gradient established
+  by .midcta / .steps (matches the in-article visual
+  family). New CSS: .video-embed, .video-embed-l,
+  .video-embed-title, .video-frame, .video-embed-note
+  with white-text overrides via .art-content selector
+  to win specificity against .art-content h3.
+- Install article: VideoObject added inline on the
+  HowTo schema as the "video" property (Google's
+  preferred HowTo+video pattern).
+- Add-Telemedicine article: standalone VideoObject
+  JSON-LD block before the existing FAQPage schema.
+  Same uploadDate (2026-05-26) on both for consistency.
+
 2026-05-25  Resources hub: swap gradient covers for real photos on all 3 article cards
 - Added /assets/articles/ folder with 3 iStock photos
   chosen from the Qualiphy/Media library after analyzing
