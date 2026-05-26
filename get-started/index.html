@@ -131,6 +131,7 @@ window.QTRACK_CONFIG = {
     utm_source: params.get('utm_source') || '',
     utm_medium: params.get('utm_medium') || '',
     utm_campaign: params.get('utm_campaign') || '',
+    utm_content: params.get('utm_content') || '',
   };
 
   // ─── Location capture (tries multiple services, falls back gracefully) ───
@@ -209,10 +210,23 @@ window.QTRACK_CONFIG = {
   };
 
   // Fire page load with UTMs
-  if (document.readyState !== 'loading') {
+  function _firePageLoad() {
     window.track('page_loaded', { utms: window._qtrack_utms });
+    // ─── Email-link attribution ───
+    // Fires once per session if the URL was tagged with ?utm_source=email.
+    // Carries campaign + content so the dashboard can break clicks down by
+    // campaign and (optionally) by button.
+    if ((window._qtrack_utms.utm_source || '').toLowerCase() === 'email') {
+      window.track('email_click', {
+        campaign: window._qtrack_utms.utm_campaign,
+        content:  window._qtrack_utms.utm_content,
+      });
+    }
+  }
+  if (document.readyState !== 'loading') {
+    _firePageLoad();
   } else {
-    document.addEventListener('DOMContentLoaded', function() { window.track('page_loaded', { utms: window._qtrack_utms }); });
+    document.addEventListener('DOMContentLoaded', _firePageLoad);
   }
 
   // Fire page unload with abandonment data and question times

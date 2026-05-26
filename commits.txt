@@ -1,3 +1,38 @@
+2026-05-26  Tracking: add email-link click attribution (apps-script + get-started + dashboard)
+- apps-script/Code.gs: TOTAL_COLS 36 -> 39 with three
+  new columns (Email Click, Email Campaign, Email
+  Content). The existing migration block auto-adds them
+  to the live sheet on the next event POST, so no manual
+  schema work is needed. Any session arriving with
+  utm_source=email auto-flags row[36]=Yes and backfills
+  the campaign / content fields. A new email_click event
+  is also handled explicitly in the switch for first-touch
+  fidelity.
+- Weekly digest gets an Email Campaigns section listing
+  clicks, intakes, demos, downloads, and the per-button
+  utm_content breakdown when more than one button is used.
+  Only renders when emailClicks > 0 so quiet weeks stay
+  uncluttered.
+- get-started/index.html: utm_content is now captured into
+  _qtrack_utms (alongside source/medium/campaign), and the
+  page_load handler fires a discrete email_click event
+  when utm_source=email. The track() POST always sends
+  utm_content in the utms object, so the apps script can
+  read it without a per-event branch.
+- dashboard/index.html: normalizeSession reads the three
+  new sheet columns. New Email Campaigns panel shows
+  click count, intake count, demo count, downloads, and
+  conversion % per campaign; hidden when no email clicks
+  exist. CSV export gains the three columns. Recent-
+  sessions table flags email-sourced rows with a new
+  purple "email" pill (with the campaign name in the
+  hover title).
+- IMPORTANT: requires the user to re-deploy the apps
+  script Web App version so the new code is live. Once
+  redeployed, the next email_click event written to the
+  sheet auto-adds the three columns via the existing
+  migration block.
+
 2026-05-26  Articles: embed Quidget install video walkthrough (Install + Add-Telemedicine)
 - New /resources/guides/install-quidget-plugin-wordpress-woocommerce/
   gets a top-of-body video embed pointing at the full

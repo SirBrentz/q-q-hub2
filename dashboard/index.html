@@ -391,6 +391,7 @@ a:hover{text-decoration:underline}
 .pill-orange{background:rgba(255,152,48,.12);color:var(--orange)}
 .pill-red{background:rgba(224,47,68,.12);color:var(--red)}
 .pill-blue{background:rgba(87,148,242,.12);color:var(--blue)}
+.pill-purple{background:rgba(159,146,191,.18);color:#9F92BF}
 .pill-dim{background:rgba(139,144,154,.1);color:var(--text-dim)}
 
 /* ============ BREAKDOWN (horizontal bars) ============ */
@@ -1069,6 +1070,18 @@ a:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- Email Campaigns (conditional, only shown when any email clicks exist) -->
+  <div class="panel section-gap" id="emailPanel" style="display:none">
+    <div class="panel-header">
+      <div class="panel-title">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email Campaigns
+      </div>
+      <div class="panel-meta" id="emailPanelMeta">utm_source=email · click → conversion</div>
+    </div>
+    <table class="tbl" id="emailCampaignsTable"></table>
+  </div>
+
   <!-- Source × completion quality matrix -->
   <div class="panel section-gap">
     <div class="panel-header">
@@ -1240,6 +1253,10 @@ function normalizeSession(s) {
     duration: Number(s['Duration (sec)']) || 0,
     totalEvents: Number(s['Total Events']) || 0,
     variant: s['Variant'] || '',
+    // ── Email-link attribution
+    emailClick: s['Email Click'] === 'Yes',
+    emailCampaign: s['Email Campaign'] || '',
+    emailContent: s['Email Content'] || '',
   };
 }
 
@@ -1272,11 +1289,62 @@ function render() {
   renderDropoff(rows);
   renderBreakdowns(rows);
   renderDeviceCompletion(rows);
+  renderEmailCampaigns(rows);
   renderSourceMatrix(rows);
   renderHourHeatmap(rows);
   renderABExperiments(rows);
   renderSessionsTable(rows);
   renderMeta(rows);
+}
+
+/* ---- EMAIL CAMPAIGNS ---- */
+function renderEmailCampaigns(rows) {
+  const panel = $('emailPanel');
+  const tbl = $('emailCampaignsTable');
+  const emailRows = rows.filter(r => r.emailClick);
+  if (!emailRows.length) {
+    panel.style.display = 'none';
+    return;
+  }
+  panel.style.display = '';
+  // Aggregate per campaign
+  const campaigns = {};
+  emailRows.forEach(r => {
+    const c = r.emailCampaign || '(no campaign)';
+    if (!campaigns[c]) campaigns[c] = { clicks: 0, intakes: 0, demos: 0, downloads: 0, scheduled: 0 };
+    campaigns[c].clicks++;
+    if (r.intakeCompleted) campaigns[c].intakes++;
+    if (r.bookedDemo) campaigns[c].demos++;
+    if (r.downloadedPlugin) campaigns[c].downloads++;
+    if (r.demoScheduled) campaigns[c].scheduled++;
+  });
+  const ordered = Object.entries(campaigns).sort((a, b) => b[1].clicks - a[1].clicks);
+  $('emailPanelMeta').textContent = emailRows.length + ' click' + (emailRows.length === 1 ? '' : 's') + ' · ' + ordered.length + ' campaign' + (ordered.length === 1 ? '' : 's');
+
+  tbl.innerHTML = `
+    <thead><tr>
+      <th>Campaign</th>
+      <th class="num">Clicks</th>
+      <th class="num">Intakes</th>
+      <th class="num">Demos</th>
+      <th class="num">DL</th>
+      <th class="num">Conv %</th>
+    </tr></thead>
+    <tbody>
+      ${ordered.map(([k, c]) => {
+        const conv = c.clicks > 0 ? Math.round((c.intakes / c.clicks) * 100) : 0;
+        const demoConv = c.clicks > 0 ? Math.round((c.demos / c.clicks) * 100) : 0;
+        return `<tr>
+          <td>${escapeHtml(k)}</td>
+          <td class="num"><strong>${c.clicks}</strong></td>
+          <td class="num">${c.intakes}</td>
+          <td class="num">${c.demos}${demoConv ? ` <span style="color:var(--text-dim);font-size:11px">(${demoConv}%)</span>` : ''}</td>
+          <td class="num">${c.downloads}</td>
+          <td class="num"><strong style="color:var(--accent,#4D3D71)">${conv}%</strong></td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  `;
 }
 
 function renderMeta(rows) {
@@ -1635,6 +1703,7 @@ function renderSessionsTable(rows) {
         else statusParts.push('<span class="pill pill-dim">landed</span>');
         if (r.bookedDemo) statusParts.push('<span class="pill pill-blue">demo</span>');
         if (r.downloadedPlugin) statusParts.push('<span class="pill pill-blue">dl</span>');
+        if (r.emailClick) statusParts.push('<span class="pill pill-purple" title="from email link' + (r.emailCampaign ? ' · ' + r.emailCampaign : '') + '">email</span>');
         return `<tr>
           <td class="mono" style="color:var(--text-dim)">${when}</td>
           <td>${escapeHtml(loc)}</td>
@@ -2275,6 +2344,7 @@ function exportCSV() {
     'Furthest Question','Intake Completed',
     'Furthest Guide Step','Downloaded Plugin','Guide Completed',
     'Expert Panel Expanded','Skip-Ahead Download',
+    'Email Click','Email Campaign','Email Content',
     'Abandoned At','Question Times','Duration (sec)','Total Events','Variant',
   ];
 
@@ -2307,6 +2377,9 @@ function exportCSV() {
       r.guideCompleted ? 'Yes' : '',
       r.expertPanelExpanded ? 'Yes' : '',
       r.skipAheadDownload ? 'Yes' : '',
+      r.emailClick ? 'Yes' : '',
+      r.emailCampaign,
+      r.emailContent,
       r.abandonedAt, r.questionTimes,
       r.duration, r.totalEvents, r.variant,
     ].map(esc).join(','));

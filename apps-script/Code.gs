@@ -8,8 +8,8 @@ var DIGEST_RECIPIENTS = ["brent@qualiphy.me"];
 // Leave empty ("") to disable.
 var SLACK_WEBHOOK_URL = "";
 
-// Total columns in the Sessions sheet (34 → 36 with skip-ahead tracking)
-var TOTAL_COLS = 36;
+// Total columns in the Sessions sheet (36 → 39 with email-link click tracking)
+var TOTAL_COLS = 39;
 
 // Column headers — single source of truth for migration + new-sheet setup
 var HEADERS = [
@@ -47,8 +47,11 @@ var HEADERS = [
   "Duration (sec)",        // 31 AF
   "Total Events",          // 32 AG
   "Variant",               // 33 AH
-  "Expert Panel Expanded", // 34 AI  ← NEW
-  "Skip-Ahead Download"    // 35 AJ  ← NEW
+  "Expert Panel Expanded", // 34 AI
+  "Skip-Ahead Download",   // 35 AJ
+  "Email Click",           // 36 AK  ← NEW — "Yes" when session came from a tagged email link
+  "Email Campaign",        // 37 AL  ← NEW — utm_campaign value, e.g. "2026-05-26-cold-outreach"
+  "Email Content"          // 38 AM  ← NEW — utm_content value (button id, e.g. "primary-cta")
 ];
 
 function doPost(e) {
@@ -112,7 +115,8 @@ function doPost(e) {
           "", "",
           now, elapsed, 1,
           payload.variant || "",
-          "", "" // NEW: Expert Panel Expanded, Skip-Ahead Download
+          "", "",       // Expert Panel Expanded, Skip-Ahead Download
+          "", "", ""    // NEW: Email Click, Email Campaign, Email Content
         ]);
         rowIdx = sheet.getLastRow();
       }
@@ -137,6 +141,16 @@ function doPost(e) {
 
       // Backfill variant if not set
       if (payload.variant && !row[33]) row[33] = payload.variant;
+
+      // ─── Email-link attribution (auto-flag) ───
+      // Any session arriving with utm_source=email is treated as an email click,
+      // regardless of which event we're processing. utm_content carries the
+      // button id so we can distinguish multiple CTAs in the same email.
+      if ((utms.utm_source || "").toLowerCase() === "email") {
+        if (!row[36]) row[36] = "Yes";
+        if (utms.utm_campaign && !row[37]) row[37] = utms.utm_campaign;
+        if (utms.utm_content && !row[38]) row[38] = utms.utm_content;
+      }
 
       switch (evt) {
         case "location_resolved":
@@ -227,6 +241,16 @@ function doPost(e) {
         // on the first slide. Lets us compute expand → download conversion.
         case "expert_panel_expanded":
           row[34] = "Yes";
+          break;
+
+        // NEW: explicit email-link click. Fired by the get-started page when
+        // it loads with ?utm_source=email. The auto-flag block above also sets
+        // row[36] for any event in such sessions, so this event mostly serves
+        // to give us a distinct first-touch timestamp in the events log.
+        case "email_click":
+          row[36] = "Yes";
+          if (d.campaign && !row[37]) row[37] = d.campaign;
+          if (d.content && !row[38]) row[38] = d.content;
           break;
 
         case "page_unloaded":
@@ -391,6 +415,9 @@ function sendWeeklyDigest() {
   var intakeCompleted = 0, guideCompleted = 0, downloadedPlugin = 0;
   var bookedDemo = 0, demoScheduled = 0, apiQuickstart = 0;
   var skipAheadExpanded = 0, skipAheadDownloaded = 0; // NEW
+  var emailClicks = 0;                                 // NEW
+  var emailCampaigns = {};                             // NEW: { campaign: {clicks, intakes, demos} }
+  var emailContents = {};                              // NEW: { utm_content: clicks }
   var examTypes = {}, gates = {}, devices = {}, utmSources = {};
   var states = {}, cities = {};
   var totalDuration = 0, durationCount = 0;
@@ -405,6 +432,19 @@ function sendWeeklyDigest() {
     if (r[21]) apiQuickstart++;
     if (r[34] === "Yes") skipAheadExpanded++;   // NEW
     if (r[35] === "Yes") skipAheadDownloaded++; // NEW
+
+    // ── Email-link attribution
+    if (r[36] === "Yes") {
+      emailClicks++;
+      var camp = (r[37] || "(no campaign)").toString();
+      if (!emailCampaigns[camp]) emailCampaigns[camp] = { clicks: 0, intakes: 0, demos: 0, downloads: 0 };
+      emailCampaigns[camp].clicks++;
+      if (r[23] === "Yes") emailCampaigns[camp].intakes++;
+      if (r[19] === "Yes") emailCampaigns[camp].demos++;
+      if (r[25] === "Yes") emailCampaigns[camp].downloads++;
+      var content = (r[38] || "").toString();
+      if (content) emailContents[content] = (emailContents[content] || 0) + 1;
+    }
 
     var et = r[15] ? r[15].toString() : "";
     if (et) et.split(",").forEach(function(t) { t = t.trim(); if (t) examTypes[t] = (examTypes[t] || 0) + 1; });
@@ -452,6 +492,52 @@ function sendWeeklyDigest() {
     + mRow("Used API Quickstart", apiQuickstart)
     + mRow("Avg. Session Duration", avgMin + "m " + avgSec + "s")
     + '</table>';
+
+  // NEW: Email Campaigns section — only shown if any email clicks happened this week
+  if (emailClicks > 0) {
+    html += '<h2 style="font-size:16px;color:#4D3D71;margin:0 0 12px">Email Campaigns</h2>'
+      + '<p style="font-size:12px;color:#888;margin:0 0 10px;line-height:1.5">'
+      + 'Sessions arriving via tagged email links (utm_source=email). Conversion rate = intake completed / clicks.'
+      + '</p>'
+      + '<table style="width:100%;border-collapse:collapse;margin-bottom:16px">'
+      + mRow("Total Email Clicks", emailClicks)
+      + '</table>';
+
+    var campKeys = Object.keys(emailCampaigns).sort(function(a, b) {
+      return emailCampaigns[b].clicks - emailCampaigns[a].clicks;
+    });
+    if (campKeys.length) {
+      html += '<table style="width:100%;border-collapse:collapse;margin-bottom:16px">'
+        + '<tr><th style="text-align:left;padding:6px 12px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em">Campaign</th>'
+        + '<th style="text-align:right;padding:6px 12px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em">Clicks</th>'
+        + '<th style="text-align:right;padding:6px 12px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em">Intakes</th>'
+        + '<th style="text-align:right;padding:6px 12px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em">Demos</th>'
+        + '<th style="text-align:right;padding:6px 12px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em">Conv %</th></tr>';
+      campKeys.forEach(function(k) {
+        var c = emailCampaigns[k];
+        var conv = c.clicks > 0 ? Math.round((c.intakes / c.clicks) * 100) : 0;
+        html += '<tr>'
+          + '<td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:14px;color:#444">' + k + '</td>'
+          + '<td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:14px;font-weight:700;color:#1B1B1B;text-align:right">' + c.clicks + '</td>'
+          + '<td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:14px;color:#1B1B1B;text-align:right">' + c.intakes + '</td>'
+          + '<td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:14px;color:#1B1B1B;text-align:right">' + c.demos + '</td>'
+          + '<td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:14px;font-weight:700;color:#4D3D71;text-align:right">' + conv + '%</td>'
+          + '</tr>';
+      });
+      html += '</table>';
+    }
+
+    if (Object.keys(emailContents).length > 1) {
+      html += '<p style="font-size:12px;color:#888;margin:6px 0 8px">Buttons clicked (utm_content):</p>'
+        + '<table style="width:100%;border-collapse:collapse;margin-bottom:24px">';
+      Object.keys(emailContents).sort(function(a, b) { return emailContents[b] - emailContents[a]; }).forEach(function(k) {
+        html += mRow(k, emailContents[k]);
+      });
+      html += '</table>';
+    } else {
+      html += '<div style="margin-bottom:24px"></div>';
+    }
+  }
 
   // NEW: Skip-Ahead Path section — only shown if any expansion happened this week
   if (skipAheadExpanded > 0 || skipAheadDownloaded > 0) {
