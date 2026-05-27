@@ -335,8 +335,9 @@ strong{font-weight:600;color:var(--text)}
 .hv-pbtn{margin-top:10px;background:var(--indigo);color:#fff;text-align:center;padding:9px;border-radius:8px;font-family:var(--font-h);font-size:11px;font-weight:600}
 
 .hv-float{position:absolute;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(77,61,113,.12);font-family:var(--font-m);font-size:11px;animation:float 4s ease-in-out infinite}
-.hv-float-1{top:10px;right:-10px;z-index:3;animation-delay:0s}
-.hv-float-2{bottom:70px;left:-20px;z-index:3;animation-delay:-2s}
+/* Floats live BELOW the now-dominant video card so neither gets covered. */
+.hv-float-1{bottom:40px;right:-10px;z-index:3;animation-delay:0s}
+.hv-float-2{bottom:130px;left:-20px;z-index:3;animation-delay:-2s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hv-float-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--emerald-bg);color:var(--emerald)}
 .hv-float-2 .hv-float-icon{background:var(--lavender-soft);color:var(--indigo)}
@@ -362,6 +363,48 @@ strong{font-weight:600;color:var(--text)}
 .video-modal-close{position:absolute;top:-44px;right:-4px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .2s}
 .video-modal-close:hover{transform:scale(1.08)}
 @media (max-width:600px){.video-modal-close{top:-40px;right:0}}
+
+/* ============ TRUST BAND ============ */
+.trust{
+  padding:64px 0 56px;
+  background:linear-gradient(180deg,var(--paper) 0%,var(--surface) 100%);
+  border-top:1px solid var(--border-lt);
+  text-align:center;
+}
+.trust-label{
+  font-family:var(--font-m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-lt);margin-bottom:28px;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.trust-label::before,.trust-label::after{
+  content:'';width:36px;height:1px;background:var(--border-mid);display:inline-block;
+}
+.trust-badges{
+  display:flex;justify-content:center;align-items:stretch;
+  gap:24px;flex-wrap:wrap;
+}
+.trust-badges .hero-reviews,
+.trust-badges .hero-ls{
+  padding:18px 26px;border-radius:16px;
+  box-shadow:0 6px 28px rgba(77,61,113,.08);
+  border-color:var(--border);
+  cursor:default;
+}
+.trust-badges .hero-reviews:hover{
+  box-shadow:0 12px 36px rgba(77,61,113,.14);
+  transform:translateY(-2px);
+}
+.trust-badges .hero-reviews-text strong,
+.trust-badges .hero-ls-text strong{font-size:14.5px}
+.trust-badges .hero-reviews-text,
+.trust-badges .hero-ls-text{font-size:13.5px;line-height:1.35}
+.trust-badges .hero-reviews-g{width:32px;height:32px}
+.trust-badges .hero-ls-badge{width:52px}
+@media (max-width:600px){
+  .trust{padding:48px 0 40px}
+  .trust-badges{gap:14px}
+  .trust-badges .hero-reviews,.trust-badges .hero-ls{padding:14px 18px}
+}
 
 /* ============ MARQUEE ============ */
 .marquee{padding:48px 0;border-top:1px solid var(--border-lt);border-bottom:1px solid var(--border-lt);background:rgba(248,246,251,.5);overflow:hidden}
@@ -1041,16 +1084,6 @@ body.sticky-cta-active{padding-bottom:72px}
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>From $27.99 all-in per visit</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Quick Setup</div>
         </div>
-        <div class="hero-badges">
-          <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
-            <svg class="hero-reviews-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
-            <div class="hero-reviews-text"><strong>Trusted by thousands</strong><span class="hero-reviews-stars">★★★★★</span> <span style="color:var(--text-lt)">5.0</span></div>
-          </a>
-          <div class="hero-ls" aria-label="LegitScript Certified">
-            <img src="assets/legitscript-certified.png" alt="LegitScript Certified" class="hero-ls-badge" loading="lazy" width="42" height="46">
-            <div class="hero-ls-text"><strong>LegitScript Certified<span class="hero-ls-chip">Verified</span></strong>Healthcare merchant compliant</div>
-          </div>
-        </div>
       </div>
 
       <!-- Visual -->
@@ -1075,6 +1108,23 @@ body.sticky-cta-active{padding-bottom:72px}
             </div>
           </div>
         </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAND ============ -->
+<section class="trust" aria-label="Compliance and reviews">
+  <div class="wrap">
+    <div class="trust-label">Verified for healthcare</div>
+    <div class="trust-badges">
+      <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
+        <svg class="hero-reviews-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+        <div class="hero-reviews-text"><strong>Trusted by thousands</strong><span class="hero-reviews-stars">★★★★★</span> <span style="color:var(--text-lt)">5.0</span></div>
+      </a>
+      <div class="hero-ls" aria-label="LegitScript Certified">
+        <img src="assets/legitscript-certified.png" alt="LegitScript Certified" class="hero-ls-badge" loading="lazy" width="42" height="46">
+        <div class="hero-ls-text"><strong>LegitScript Certified<span class="hero-ls-chip">Verified</span></strong>Healthcare merchant compliant</div>
       </div>
     </div>
   </div>
