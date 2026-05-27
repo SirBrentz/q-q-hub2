@@ -1254,8 +1254,13 @@ function normalizeSession(s) {
     totalEvents: Number(s['Total Events']) || 0,
     variant: s['Variant'] || '',
     // ── Email-link attribution
-    emailClick: s['Email Click'] === 'Yes',
-    emailCampaign: s['Email Campaign'] || '',
+    // Prefer the explicit columns (set once the Apps Script is redeployed
+    // with v2 code), but fall back to utm_source/utm_campaign so the panel
+    // still populates against the existing schema. That way the dashboard
+    // shows email clicks immediately and doesn't gate on the redeploy.
+    emailClick: s['Email Click'] === 'Yes'
+                || (s['UTM Source'] || '').toString().toLowerCase() === 'email',
+    emailCampaign: s['Email Campaign'] || s['UTM Campaign'] || '',
     emailContent: s['Email Content'] || '',
   };
 }

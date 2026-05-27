@@ -343,7 +343,7 @@ strong{font-weight:600;color:var(--text)}
 .hv-float-l{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.04em}
 .hv-float-v{font-size:12px;color:var(--ink);font-weight:700;font-family:var(--font-h)}
 
-.hv-video-card{position:absolute;top:230px;left:-30px;width:300px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px;box-shadow:0 20px 50px rgba(77,61,113,.2);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s}
+.hv-video-card{position:absolute;top:60px;left:0;right:60px;background:#fff;border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:0 30px 70px rgba(77,61,113,.22),0 10px 30px rgba(77,61,113,.08);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s;transform:rotate(-1.5deg)}
 .hv-video-card:hover{box-shadow:0 24px 60px rgba(77,61,113,.26)}
 .hv-video-head{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 8px}
 .hv-video-title{font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--ink)}
@@ -1023,17 +1023,12 @@ body.sticky-cta-active{padding-bottom:72px}
   <div class="wrap">
     <div class="hero-inner">
       <div>
-        <div class="hero-kicker">
-          <span class="hero-kicker-chip" id="versionChip">v1.1.0</span>
-          <span class="hero-kicker-dot"></span>
-          <span>Now live on clinic stores nationwide</span>
-        </div>
         <h1 id="hero-h">
           <span class="line">Your store.</span>
           <span class="line">Your brand.</span>
           <span class="line line-rot">Your <em class="rotator" id="heroRotator"><span class="rotator-sizer" aria-hidden="true">weight loss line.</span><span class="rotator-word">online med spa.</span></em></span>
         </h1>
-        <p class="hero-sub">Quidget turns your WordPress store into a full e-commerce telehealth platform. Patients experience the entire process end-to-end for <strong>GLP-1s, peptides, ED meds, hair loss, urgent care, IV therapy</strong> and more. Instant video consultations, white-labeled to your clinic, with a top-tier pharmacy network behind every order.</p>
+        <p class="hero-sub">Your WordPress store, now a full telehealth experience. Instant video consultations for <strong>GLP-1s, peptides, ED meds, hair loss, urgent care, and IV therapy</strong>. White-labeled to your clinic, with a top-tier pharmacy network behind every order.</p>
         <div class="hero-actions">
           <a href="get-started/" class="btn btn-primary btn-lg">Get Started →</a>
           <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-outline btn-lg btn-play">
@@ -1061,34 +1056,6 @@ body.sticky-cta-active{padding-bottom:72px}
 
       <!-- Visual -->
       <div class="hero-visual">
-        <div class="hv-desktop">
-          <div class="hv-top"><span></span><span></span><span></span>
-            <div class="hv-url">yourclinic.com/wp-admin/admin.php?page=quidget</div>
-          </div>
-          <div class="hv-body">
-            <div class="hv-sidebar">
-              <div class="hv-brand"><svg width="14" height="14" viewBox="0 0 800 800" fill="currentColor" aria-hidden="true"><circle cx="420.1" cy="40.1" r="40.1"/><circle cx="207.9" cy="40.1" r="40.1"/><path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/></svg>Quidget</div>
-              <div class="hv-item active"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 15v-3h2v3H4zm4 0V5h2v10H8zm4 0V8h2v7h-2z"/></svg>Dashboard</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 3h16v2H2V3zm0 4h16v2H2V7zm0 4h12v2H2v-2zm0 4h16v2H2v-2z"/></svg>Consultations</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3.5l.5-1h17l.5 1v1l-.5 1H15v10.5l-.5.5h-9l-.5-.5V5.5H1.5L1 4.5v-1zm5 2V15h8V5.5H6z"/></svg>Fulfillment</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M18 16V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h13c.55 0 1-.45 1-1z"/></svg>Settings</div>
-            </div>
-            <div class="hv-main">
-              <div class="hv-mtitle"><span class="hv-mtitle-t">Today's orders</span><span class="hv-chip">LIVE</span></div>
-              <div class="hv-stats">
-                <div class="hv-stat"><div class="hv-stat-l">Approved</div><div class="hv-stat-v">42</div></div>
-                <div class="hv-stat"><div class="hv-stat-l">In queue</div><div class="hv-stat-v">3</div></div>
-                <div class="hv-stat"><div class="hv-stat-l">Fulfilled</div><div class="hv-stat-v">38</div></div>
-              </div>
-              <div class="hv-table">
-                <div class="hv-row"><span class="hv-row-n">Sarah M.</span><span class="hv-row-s ok">Approved</span><span class="hv-row-a">$27.99</span></div>
-                <div class="hv-row"><span class="hv-row-n">Michael R.</span><span class="hv-row-s ok">Approved</span><span class="hv-row-a">$27.99</span></div>
-                <div class="hv-row"><span class="hv-row-n">Jennifer L.</span><span class="hv-row-s pending">In queue</span><span class="hv-row-a">...</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="hv-phone">
           <div class="hv-screen">
             <div class="hv-notch"></div>

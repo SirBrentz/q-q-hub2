@@ -1,3 +1,32 @@
+2026-05-27  Hero: drop version chip + now-live badge + dashboard mockup, promote video card
+- Removed the .hero-kicker block entirely (v1.1.0 chip
+  + green dot + "Now live on clinic stores nationwide"
+  copy). H1 now leads the hero column.
+- Removed the .hv-desktop browser/admin mockup from the
+  hero visual. Kept the phone mockup + the two floating
+  signal badges (Consultation Approved, Fulfillment
+  Tracking synced) as accent elements.
+- Promoted .hv-video-card to the hero's primary visual:
+  pulled it to top:60px left:0 right:60px, bumped padding
+  + border-radius, doubled the shadow, added a -1.5deg
+  tilt to keep it visually playful now that it's the
+  dominant element. The card still links to YouTube
+  We4sKXkuvl4 and opens the modal.
+- Trimmed hero-sub from 60 words / 3 sentences to 35
+  words / 3 sentences: leads with "Your WordPress store,
+  now a full telehealth experience," keeps the full
+  vertical list (GLP-1s / peptides / ED / hair loss /
+  urgent care / IV), keeps the white-label + pharmacy
+  network closer.
+
+2026-05-27  Dashboard: derive emailClick from UTM source as fallback
+- normalizeSession now sets emailClick=true if either
+  Email Click=Yes OR UTM Source=email. Same fallback for
+  emailCampaign (uses UTM Campaign when Email Campaign
+  column is empty). Means the Email Campaigns panel
+  populates immediately against the existing sheet
+  schema, without gating on the apps-script redeploy.
+
 2026-05-26  Tracking: add email-link click attribution (apps-script + get-started + dashboard)
 - apps-script/Code.gs: TOTAL_COLS 36 -> 39 with three
   new columns (Email Click, Email Campaign, Email
