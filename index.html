@@ -271,7 +271,7 @@ strong{font-weight:600;color:var(--text)}
 .hero-ls-chip{display:inline-block;font-family:var(--font-m);font-size:9.5px;font-weight:700;color:#0B1B2B;background:#7ED957;padding:2px 7px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;vertical-align:1px;margin-left:4px}
 
 /* Hero visual, device mockups */
-.hero-visual{position:relative;height:540px;animation:fadeUp .8s var(--ease) .15s both}
+.hero-visual{position:relative;height:460px;animation:fadeUp .8s var(--ease) .15s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .hv-desktop{
   position:absolute;top:30px;left:0;right:70px;
@@ -338,16 +338,16 @@ strong{font-weight:600;color:var(--text)}
 
 .hv-float{position:absolute;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(77,61,113,.12);font-family:var(--font-m);font-size:11px;animation:float 4s ease-in-out infinite}
 /* Float-1 sits at the upper-right corner, barely overlaying the video card
-   (z-index above the video). Float-2 lives below the video on the left. */
-.hv-float-1{top:10px;right:-15px;z-index:5;animation-delay:0s}
-.hv-float-2{bottom:50px;left:-20px;z-index:3;animation-delay:-2s}
+   (z-index above the video). Float-2 was removed; the video card + this
+   single accent badge are intentionally the only elements now. */
+.hv-float-1{top:5px;right:-15px;z-index:5;animation-delay:0s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hv-float-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--emerald-bg);color:var(--emerald)}
 .hv-float-2 .hv-float-icon{background:var(--lavender-soft);color:var(--indigo)}
 .hv-float-l{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.04em}
 .hv-float-v{font-size:12px;color:var(--ink);font-weight:700;font-family:var(--font-h)}
 
-.hv-video-card{position:absolute;top:50px;left:-20px;right:-20px;background:#fff;border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 40px 90px rgba(77,61,113,.26),0 14px 36px rgba(77,61,113,.1);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s;transform:rotate(-1.5deg)}
+.hv-video-card{position:absolute;top:40px;left:-20px;right:-20px;background:#fff;border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 40px 90px rgba(77,61,113,.26),0 14px 36px rgba(77,61,113,.1);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s;transform:rotate(-1.5deg)}
 .hv-video-card:hover{box-shadow:0 24px 60px rgba(77,61,113,.26)}
 .hv-video-head{display:flex;align-items:center;justify-content:space-between;margin:4px 6px 12px}
 .hv-video-title{font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--ink)}
@@ -1095,11 +1095,6 @@ body.sticky-cta-active{padding-bottom:72px}
           <div class="hv-float-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div>
           <div><div class="hv-float-l">Consultation</div><div class="hv-float-v">Approved</div></div>
         </div>
-        <div class="hv-float hv-float-2">
-          <div class="hv-float-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-          <div><div class="hv-float-l">Fulfillment</div><div class="hv-float-v">Tracking synced</div></div>
-        </div>
-
         <a class="hv-video-card" href="https://www.youtube.com/watch?v=We4sKXkuvl4" data-video-modal="We4sKXkuvl4" aria-label="Watch the Quidget product walkthrough">
           <div class="hv-video-head">
             <span class="hv-video-title">Quick Plugin Walkthrough</span>
