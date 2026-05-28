@@ -1,3 +1,15 @@
+2026-05-28  Install guide: reframe mid-article CTA as sales demo, not live onboarding
+- The Step 5 midcta in install-quidget-plugin-wordpress-
+  woocommerce was promising "Book a 15-minute onboarding
+  call. We will map your catalog with you, live." That
+  overstated what we actually offer; the most we can do
+  is a sales demo, not a live catalog-mapping session.
+- Eyebrow: "Want a walkthrough before you install?"
+- Title: "Book a demo with our sales team."
+- Body softened to position the call as a product
+  walkthrough + setup Q&A, not white-glove configuration.
+- CTA button: "Book a demo ->" (Calendly URL unchanged).
+
 2026-05-28  Hero: swap sub text + mirror all hero edits onto weight-loss page
 - index.html hero-sub now reads "Setup your own
   telehealth brand today." (was "...in 60 minutes.").
