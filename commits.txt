@@ -1,3 +1,31 @@
+2026-05-28  Hero: swap sub text + mirror all hero edits onto weight-loss page
+- index.html hero-sub now reads "Setup your own
+  telehealth brand today." (was "...in 60 minutes.").
+- weight-loss/index.html got the same hero refresh that
+  index.html received yesterday: removed .hero-kicker
+  (GLP-1 chip + tagline), .hv-desktop dashboard mockup,
+  .hv-phone, and the .hv-float-2 Pharmacy Shipped badge.
+- weight-loss hero-sub trimmed to "Launch your own GLP-1
+  weight loss program today." with the same thin
+  styling (19px / text-mid / 62ch max).
+- Trust items: 4 -> 3 (Semaglutide & Tirzepatide /
+  Monthly subscriptions / Quick Setup).
+- .hv-video-card promoted to primary visual on
+  weight-loss with the same sizing/tilt/shadow as
+  index. .hv-float-1 repositioned to peek over the
+  upper-right corner of the video card.
+- Added a .trust band section between hero and marquee
+  on weight-loss containing the Google Reviews link
+  + LegitScript Certified badge (linked to its public
+  verification page). Both badges use pointer cursor
+  + hover lift.
+- Sized-up content pass: H1 clamp 2.7-4.5rem, btn-lg
+  18/34, trust items 14.5px / 16px icons, video title
+  15px, .hero padding 140/100 -> 120/80, .hero-visual
+  600 -> 500.
+- Added missing .hero-ls base styles on weight-loss
+  needed for the new trust band.
+
 2026-05-27  Hero: drop version chip + now-live badge + dashboard mockup, promote video card
 - Removed the .hero-kicker block entirely (v1.1.0 chip
   + green dot + "Now live on clinic stores nationwide"
