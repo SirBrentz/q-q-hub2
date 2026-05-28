@@ -132,7 +132,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 ul,ol{list-style:none}
 h1,h2{font-family:var(--font-d);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--ink)}
 h3,h4{font-family:var(--font-h);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--ink)}
-h1{font-size:clamp(2.4rem,4.8vw,3.9rem);font-weight:800;letter-spacing:-.035em}
+h1{font-size:clamp(2.7rem,5.4vw,4.5rem);font-weight:800;letter-spacing:-.035em}
 h2{font-size:clamp(1.85rem,3.6vw,2.75rem);letter-spacing:-.03em}
 h3{font-size:1.2rem;font-weight:700}
 p{color:var(--text-mid);max-width:62ch}
@@ -161,7 +161,7 @@ strong{font-weight:600;color:var(--text)}
 .btn-primary{background:var(--indigo);color:#fff;box-shadow:0 1px 3px rgba(77,61,113,.3),inset 0 1px 0 rgba(255,255,255,.12)}
 .btn-primary:hover{background:var(--indigo-hover);transform:translateY(-1px);box-shadow:0 10px 28px rgba(77,61,113,.3)}
 .btn-sm{padding:9px 16px;font-size:13px}
-.btn-lg{padding:15px 28px;font-size:15px;border-radius:12px}
+.btn-lg{padding:18px 34px;font-size:16px;border-radius:12px}
 .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border-mid)}
 .btn-outline:hover{border-color:var(--indigo);color:var(--indigo);background:#fff}
 .btn-white{background:#fff;color:var(--ink);box-shadow:0 2px 12px rgba(0,0,0,.08)}
@@ -200,7 +200,7 @@ strong{font-weight:600;color:var(--text)}
 .mobile-menu-actions .btn{flex:1}
 
 /* ============ HERO ============ */
-.hero{position:relative;padding:140px 0 100px;overflow:hidden}
+.hero{position:relative;padding:120px 0 80px;overflow:hidden}
 .hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
 .hero-bg::before{
   content:'';position:absolute;inset:0;
@@ -246,10 +246,11 @@ strong{font-weight:600;color:var(--text)}
 .hero h1 .rotator-word.out{animation:rotatorOut .38s var(--ease) forwards}
 @keyframes rotatorIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes rotatorOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-14px)}}
-.hero-sub{font-size:18px;line-height:1.6;color:var(--text-mid);margin-bottom:32px;max-width:540px}
-.hero-actions{display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap}
-.hero-trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-bottom:28px}
-.hero-trust-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mid);font-weight:500}
+.hero-sub{font-size:19px;line-height:1.6;color:var(--text-mid);margin-bottom:36px;max-width:62ch}
+.hero-actions{display:flex;gap:14px;margin-bottom:36px;flex-wrap:wrap}
+.hero-trust{display:flex;flex-wrap:wrap;gap:12px 26px;margin-bottom:28px}
+.hero-trust-item{display:flex;align-items:center;gap:8px;font-size:14.5px;color:var(--text-mid);font-weight:500}
+.hero-trust-item svg{width:16px;height:16px;color:var(--emerald);flex-shrink:0}
 .hero-trust-item svg{color:var(--emerald);flex-shrink:0}
 .hero-reviews{display:inline-flex;align-items:center;gap:14px;padding:12px 18px;background:#fff;border:1px solid var(--border);border-radius:14px;text-decoration:none;transition:all .25s;box-shadow:0 1px 2px rgba(77,61,113,.04)}
 .hero-reviews:hover{box-shadow:0 8px 24px rgba(77,61,113,.1);transform:translateY(-1px)}
@@ -257,9 +258,15 @@ strong{font-weight:600;color:var(--text)}
 .hero-reviews-text{font-size:13px;color:var(--text-mid);line-height:1.3}
 .hero-reviews-text strong{display:block;color:var(--ink);font-size:13.5px;font-weight:700}
 .hero-reviews-stars{color:#f59e0b;letter-spacing:-1px;font-size:14px}
+.hero-ls{display:inline-flex;align-items:center;gap:12px;padding:8px 18px 8px 10px;background:#fff;border:1px solid var(--border);border-radius:14px;text-decoration:none;transition:all .25s;box-shadow:0 1px 2px rgba(77,61,113,.04)}
+.hero-ls:hover{box-shadow:0 8px 24px rgba(77,61,113,.1);transform:translateY(-1px)}
+.hero-ls-badge{width:42px;height:auto;flex-shrink:0;filter:drop-shadow(0 3px 8px rgba(11,27,43,.18))}
+.hero-ls-text{font-size:13px;color:var(--text-mid);line-height:1.3}
+.hero-ls-text strong{display:block;color:var(--ink);font-size:13.5px;font-weight:700}
+.hero-ls-chip{display:inline-block;font-family:var(--font-m);font-size:9.5px;font-weight:700;color:#0B1B2B;background:#7ED957;padding:2px 7px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;vertical-align:1px;margin-left:4px}
 
 /* Hero visual, device mockups */
-.hero-visual{position:relative;height:600px;animation:fadeUp .8s var(--ease) .15s both}
+.hero-visual{position:relative;height:500px;animation:fadeUp .8s var(--ease) .15s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .hv-desktop{
   position:absolute;top:30px;left:0;right:70px;
@@ -325,18 +332,18 @@ strong{font-weight:600;color:var(--text)}
 .hv-pbtn{margin-top:10px;background:var(--indigo);color:#fff;text-align:center;padding:9px;border-radius:8px;font-family:var(--font-h);font-size:11px;font-weight:600}
 
 .hv-float{position:absolute;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(77,61,113,.12);font-family:var(--font-m);font-size:11px;animation:float 4s ease-in-out infinite}
-.hv-float-1{top:10px;right:-10px;z-index:3;animation-delay:0s}
-.hv-float-2{bottom:70px;left:-20px;z-index:3;animation-delay:-2s}
+/* Float-1 peeks over the upper-right corner of the video card. Float-2 removed. */
+.hv-float-1{top:5px;right:-15px;z-index:5;animation-delay:0s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hv-float-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--emerald-bg);color:var(--emerald)}
 .hv-float-2 .hv-float-icon{background:var(--lavender-soft);color:var(--indigo)}
 .hv-float-l{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.04em}
 .hv-float-v{font-size:12px;color:var(--ink);font-weight:700;font-family:var(--font-h)}
 
-.hv-video-card{position:absolute;top:230px;left:-30px;width:300px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px;box-shadow:0 20px 50px rgba(77,61,113,.2);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s}
+.hv-video-card{position:absolute;top:40px;left:-50px;right:-50px;background:#fff;border:1px solid var(--border);border-radius:24px;padding:26px;box-shadow:0 44px 100px rgba(77,61,113,.28),0 16px 40px rgba(77,61,113,.1);z-index:4;text-decoration:none;color:inherit;animation:float 5s ease-in-out infinite;animation-delay:-1s;transition:transform .25s,box-shadow .25s;transform:rotate(-1.5deg)}
 .hv-video-card:hover{box-shadow:0 24px 60px rgba(77,61,113,.26)}
 .hv-video-head{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 8px}
-.hv-video-title{font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--ink)}
+.hv-video-title{font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--ink)}
 .hv-video-thumb{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#0B1B2B}
 .hv-video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .hv-video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -352,6 +359,49 @@ strong{font-weight:600;color:var(--text)}
 .video-modal-close{position:absolute;top:-44px;right:-4px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .2s}
 .video-modal-close:hover{transform:scale(1.08)}
 @media (max-width:600px){.video-modal-close{top:-40px;right:0}}
+
+/* ============ TRUST BAND ============ */
+.trust{
+  padding:64px 0 56px;
+  background:linear-gradient(180deg,var(--paper) 0%,var(--surface) 100%);
+  border-top:1px solid var(--border-lt);
+  text-align:center;
+}
+.trust-label{
+  font-family:var(--font-m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-lt);margin-bottom:28px;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.trust-label::before,.trust-label::after{
+  content:'';width:36px;height:1px;background:var(--border-mid);display:inline-block;
+}
+.trust-badges{
+  display:flex;justify-content:center;align-items:stretch;
+  gap:24px;flex-wrap:wrap;
+}
+.trust-badges .hero-reviews,
+.trust-badges .hero-ls{
+  padding:18px 26px;border-radius:16px;
+  box-shadow:0 6px 28px rgba(77,61,113,.08);
+  border-color:var(--border);
+  cursor:pointer;
+}
+.trust-badges .hero-reviews:hover,
+.trust-badges .hero-ls:hover{
+  box-shadow:0 12px 36px rgba(77,61,113,.14);
+  transform:translateY(-2px);
+}
+.trust-badges .hero-reviews-text strong,
+.trust-badges .hero-ls-text strong{font-size:14.5px}
+.trust-badges .hero-reviews-text,
+.trust-badges .hero-ls-text{font-size:13.5px;line-height:1.35}
+.trust-badges .hero-reviews-g{width:32px;height:32px}
+.trust-badges .hero-ls-badge{width:52px}
+@media (max-width:600px){
+  .trust{padding:48px 0 40px}
+  .trust-badges{gap:14px}
+  .trust-badges .hero-reviews,.trust-badges .hero-ls{padding:14px 18px}
+}
 
 /* ============ MARQUEE ============ */
 .marquee{padding:48px 0;border-top:1px solid var(--border-lt);border-bottom:1px solid var(--border-lt);background:rgba(248,246,251,.5);overflow:hidden}
@@ -1014,17 +1064,12 @@ body.sticky-cta-active{padding-bottom:72px}
   <div class="wrap">
     <div class="hero-inner">
       <div>
-        <div class="hero-kicker">
-          <span class="hero-kicker-chip">GLP-1</span>
-          <span class="hero-kicker-dot"></span>
-          <span>Weight loss programs, wired into WooCommerce</span>
-        </div>
         <h1 id="hero-h">
           <span class="line">Launch your</span>
           <span class="line line-rot"><em class="rotator" id="heroRotator"><span class="rotator-sizer" aria-hidden="true">medical weight loss clinic.</span><span class="rotator-word">GLP-1 program.</span></em></span>
           <span class="line">From WooCommerce.</span>
         </h1>
-        <p class="hero-sub">Quidget turns your WooCommerce store into a full e-commerce GLP-1 telehealth experience. Patients buy a monthly program, connect <strong>instantly on video with a licensed provider</strong>, and receive <strong>Semaglutide, Tirzepatide, or other peptides</strong> shipped from trusted pharmacy partners - all white-labeled to your clinic.</p>
+        <p class="hero-sub">Launch your own GLP-1 weight loss program today.</p>
         <div class="hero-actions">
           <a href="../get-started/" class="btn btn-primary btn-lg">Get Started →</a>
           <a href="https://calendly.com/d/cxsg-tnc-5sf/qualiphy-quidget-demo" class="btn btn-outline btn-lg btn-play">
@@ -1035,76 +1080,15 @@ body.sticky-cta-active{padding-bottom:72px}
         <div class="hero-trust">
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Semaglutide &amp; Tirzepatide</div>
           <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Monthly subscriptions</div>
-          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Pharmacy fulfillment</div>
-          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>From $27.99 all-in per visit</div>
+          <div class="hero-trust-item"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>Quick Setup</div>
         </div>
-        <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
-          <svg class="hero-reviews-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
-          <div class="hero-reviews-text"><strong>Trusted by thousands of MedSpas and Clinics</strong><span class="hero-reviews-stars">★★★★★</span> <span style="color:var(--text-lt)">5.0</span></div>
-        </a>
       </div>
 
       <!-- Visual -->
       <div class="hero-visual">
-        <div class="hv-desktop">
-          <div class="hv-top"><span></span><span></span><span></span>
-            <div class="hv-url">yourclinic.com/wp-admin/admin.php?page=quidget</div>
-          </div>
-          <div class="hv-body">
-            <div class="hv-sidebar">
-              <div class="hv-brand"><svg width="14" height="14" viewBox="0 0 800 800" fill="currentColor" aria-hidden="true"><circle cx="420.1" cy="40.1" r="40.1"/><circle cx="207.9" cy="40.1" r="40.1"/><path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/></svg>Quidget</div>
-              <div class="hv-item active"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 15v-3h2v3H4zm4 0V5h2v10H8zm4 0V8h2v7h-2z"/></svg>Dashboard</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 3h16v2H2V3zm0 4h16v2H2V7zm0 4h12v2H2v-2zm0 4h16v2H2v-2z"/></svg>Consultations</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M1 3.5l.5-1h17l.5 1v1l-.5 1H15v10.5l-.5.5h-9l-.5-.5V5.5H1.5L1 4.5v-1zm5 2V15h8V5.5H6z"/></svg>Fulfillment</div>
-              <div class="hv-item"><svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M18 16V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h13c.55 0 1-.45 1-1z"/></svg>Settings</div>
-            </div>
-            <div class="hv-main">
-              <div class="hv-mtitle"><span class="hv-mtitle-t">GLP-1 orders today</span><span class="hv-chip">LIVE</span></div>
-              <div class="hv-stats">
-                <div class="hv-stat"><div class="hv-stat-l">Approved</div><div class="hv-stat-v">64</div></div>
-                <div class="hv-stat"><div class="hv-stat-l">In queue</div><div class="hv-stat-v">5</div></div>
-                <div class="hv-stat"><div class="hv-stat-l">Shipped</div><div class="hv-stat-v">51</div></div>
-              </div>
-              <div class="hv-table">
-                <div class="hv-row"><span class="hv-row-n">Sarah M. · Semaglutide</span><span class="hv-row-s ok">Approved</span><span class="hv-row-a">$299</span></div>
-                <div class="hv-row"><span class="hv-row-n">Michael R. · Tirzepatide</span><span class="hv-row-s ok">Approved</span><span class="hv-row-a">$399</span></div>
-                <div class="hv-row"><span class="hv-row-n">Jennifer L. · Semaglutide</span><span class="hv-row-s pending">In queue</span><span class="hv-row-a">...</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="hv-phone">
-          <div class="hv-screen">
-            <div class="hv-notch"></div>
-            <div class="hv-pinner">
-              <div class="hv-pbrand">
-                <div class="hv-pbrand-mark"><svg width="12" height="12" viewBox="0 0 800 800" fill="currentColor" aria-hidden="true"><circle cx="420.1" cy="40.1" r="40.1"/><circle cx="207.9" cy="40.1" r="40.1"/><path d="M88.5,189.1l127.6,221.1c17,29.4,45.2,48.9,77.7,54.5v106.6c0,126.1,79.3,228.6,176.8,228.6,97.5,0,176.8-102.6,176.8-228.6v-127c45.3-9.2,79.4-49.3,79.4-97.3,0-54.8-44.5-99.3-99.3-99.3s-99.3,44.5-99.3,99.3c0,48,34.2,88.1,79.4,97.3v127c0,104.2-61.5,188.9-137.1,188.9-75.6,0-137.1-84.7-137.1-188.9v-106.6c32.5-5.7,60.7-25.1,77.7-54.5l127.6-221.1c20.4-35.3,20.4-77.4,0-112.6-20.4-35.3-56.8-56.3-97.5-56.3v39.7c26.3,0,49.9,13.6,63.1,36.4s13.2,50.1,0,72.9l-127.6,221.1c-13.2,22.8-36.8,36.4-63.1,36.4-26.3,0-49.9-13.6-63.1-36.4l-127.6-221.1c-13.2-22.8-13.2-50.1,0-72.9,13.2-22.8,36.8-36.4,63.1-36.4V20.2c-40.7,0-77.2,21-97.5,56.3-20.4,35.3-20.4,77.4,0,112.6Z"/></svg></div>
-                <span class="hv-pbrand-text">Your Clinic</span>
-              </div>
-              <div class="hv-progress"><span class="done"></span><span class="done"></span><span class="active"></span><span></span></div>
-              <div class="hv-step">Step 3 of 4</div>
-              <div class="hv-ph">Connecting you with your weight loss provider.</div>
-              <p class="hv-pp">A licensed provider is reviewing your intake. Your prescription will be sent as soon as you're cleared.</p>
-              <div class="hv-pcard">
-                <div class="hv-pavatar">DC</div>
-                <div>
-                  <div class="hv-pname">Dr. Chen, MD</div>
-                  <div class="hv-psub">Licensed · online</div>
-                </div>
-              </div>
-              <div class="hv-pbtn">Connecting</div>
-            </div>
-          </div>
-        </div>
-
         <div class="hv-float hv-float-1">
           <div class="hv-float-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div>
           <div><div class="hv-float-l">Rx</div><div class="hv-float-v">Approved</div></div>
-        </div>
-        <div class="hv-float hv-float-2">
-          <div class="hv-float-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-          <div><div class="hv-float-l">Pharmacy</div><div class="hv-float-v">Shipped</div></div>
         </div>
 
         <a class="hv-video-card" href="https://www.youtube.com/watch?v=We4sKXkuvl4" data-video-modal="We4sKXkuvl4" aria-label="Watch the Quidget product walkthrough">
@@ -1119,6 +1103,23 @@ body.sticky-cta-active{padding-bottom:72px}
           </div>
         </a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAND ============ -->
+<section class="trust" aria-label="Compliance and reviews">
+  <div class="wrap">
+    <div class="trust-label">Verified for healthcare</div>
+    <div class="trust-badges">
+      <a href="https://g.page/r/CSe4fwK2ryAqEAE/review" class="hero-reviews" target="_blank" rel="noopener" aria-label="Read Qualiphy Google reviews">
+        <svg class="hero-reviews-g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+        <div class="hero-reviews-text"><strong>Trusted by thousands</strong><span class="hero-reviews-stars">★★★★★</span> <span style="color:var(--text-lt)">5.0</span></div>
+      </a>
+      <a href="https://www.legitscript.com/websites/?checker_keywords=qualiphy.me" class="hero-ls" target="_blank" rel="noopener" aria-label="Verify Qualiphy on LegitScript">
+        <img src="../assets/legitscript-certified.png" alt="LegitScript Certified" class="hero-ls-badge" loading="lazy" width="42" height="46">
+        <div class="hero-ls-text"><strong>LegitScript Certified<span class="hero-ls-chip">Verified</span></strong>Healthcare merchant compliant</div>
+      </a>
     </div>
   </div>
 </section>
